@@ -1,0 +1,21 @@
+!!! XML utf-8
+!!!
+%html
+  %head
+    %title Refixative
+  %body
+    != yield
+    %hr
+    %p
+      query at
+      = Time.now.getutc.strftime('%F %T')
+      (UTC)
+    %p
+      Refixative -- REFLEC BEAT colette score tool
+    %p
+      %a{href: url('https://twitter.com/maytheplic')}> @maytheplic
+      \ - May Akizuru
+    %p
+      Available on
+      %a{href: url('https://github.com/mayth/refixative')} github
+
