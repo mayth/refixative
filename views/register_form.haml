@@ -1,0 +1,11 @@
+%h2 Registration Form
+%form{action: '/register', method: 'POST', enctype: 'multipart/form-data'}
+  %p
+    %label{for: 'profile'} Profile:
+    %input{type: 'file', name: 'profile'}
+  %p
+    %label{for: 'music'} Music:
+    %input{type: 'file', name: 'music'}
+  %p
+    %input{type: 'submit', value: 'Upload'}
+
