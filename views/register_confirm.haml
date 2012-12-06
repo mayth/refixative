@@ -1,0 +1,72 @@
+%h2 Registration Confirm
+%p
+  以下の内容で登録します。確認の上[登録]ボタンをクリックしてください。
+%form{action: '/registered', method: 'POST'}
+  %input{type: 'hidden', name: 'prof', value: @prof}
+  %input{type: 'hidden', name: 'song', value: @song}
+  %input{type: 'submit', value: '登録'}
+%h3 プロフィール
+%table
+  %tbody
+    %tr
+      %td ID
+      %td= @prof[:id]
+    %tr
+      %td 通り名
+      %td= @prof[:pseudonym]
+    %tr
+      %td プレイヤー名
+      %td= @prof[:name]
+    %tr
+      %td コメント
+      %td= @prof[:comment]
+    %tr
+      %td チームID
+      %td= @prof[:team][:id]
+    %tr
+      %td チーム名
+      %td= @prof[:team][:name]
+    %tr
+      %td プレー数
+      %td= @prof[:play_count]
+    %tr
+      %td 総スタンプ数
+      %td= @prof[:stamp]
+    %tr
+      %td 総おにぎり数
+      %td= @prof[:onigiri]
+    %tr
+      %td 最終プレー日時
+      %td= @prof[:last_play_date]
+    %tr
+      %td 最終プレー店舗
+      %td= @prof[:last_play_shop]
+
+%h3 楽曲データ
+%table
+  %thead
+    %tr
+      %th{rowspan: 2} 楽曲名
+      %th{colspan: 2} BASIC
+      %th{colspan: 2} MEDIUM
+      %th{colspan: 2} HARD
+    %tr
+      %th AR
+      %th MISS
+      %th AR
+      %th MISS
+      %th AR
+      %th MISS
+  %tbody
+    - @song.each do |item|
+      %tr
+        %td= item[:name]
+        - item[:scores].each do |k, v|
+          - if v[:achieve]
+            %td== #{v[:achieve]}%
+            - if v[:miss] == 0
+              %td FC
+            - else
+              %td= v[:miss]
+          - else
+            %td{colspan:2} NO PLAY
