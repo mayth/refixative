@@ -1,4 +1,8 @@
+# indvidual
 cookie_secret
+db_connect.rb
+
+# other
 *~
 *.swp
 *.gem
