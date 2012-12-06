@@ -2,8 +2,7 @@
 %p
   以下の内容で登録します。確認の上[登録]ボタンをクリックしてください。
 %form{action: '/registered', method: 'POST'}
-  %input{type: 'hidden', name: 'prof', value: @prof}
-  %input{type: 'hidden', name: 'song', value: @song}
+  %input{type: 'hidden', name: 'session', value: @session}
   %input{type: 'submit', value: '登録'}
 %h3 プロフィール
 %table
