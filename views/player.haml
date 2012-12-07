@@ -1,0 +1,38 @@
+%h2 Player Data
+%h3 Profile
+%table
+  %tbody
+    %tr
+      %td ID
+      %td= @prof.id.to_s.rjust(6, '0')
+    %tr
+      %td 通り名
+      %td= @prof.pseudonym
+    %tr
+      %td プレイヤー名
+      %td= @prof.name
+    %tr
+      %td コメント
+      %td= @prof.comment
+    %tr
+      %td チームID
+      %td= @prof.team.id
+    %tr
+      %td チーム名
+      %td= @prof.team.name
+    %tr
+      %td プレー数
+      %td= @prof.play_count
+    %tr
+      %td 総スタンプ数
+      %td= @prof.stamp
+    %tr
+      %td 総おにぎり数
+      %td= @prof.onigiri
+    %tr
+      %td 最終プレー日時
+      %td= @prof.last_play_date
+    %tr
+      %td 最終プレー店舗
+      %td= @prof.last_play_shop
+

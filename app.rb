@@ -61,39 +61,70 @@ post '/registered' do
   registered_at = Time.now
   @prof = v[:prof]
   @song = v[:song]
-  CACHE.delete(params[:session])
+  # CACHE.delete(params[:session])
 
   # Add to DB
-  player = Player.find_or_create(:id => @prof[:id].to_i)
-  team = Team.find_or_create(:id => @prof[:team][:id])
-  team.name = @prof[:team][:name]
-  player.pseudonym = @prof[:pseudonym]
-  player.name = @prof[:name]
-  player.comment = @prof[:comment]
-  player.team = team
-  player.play_count = @prof[:play_count]
-  player.stamp = @prof[:stamp]
-  player.onigiri = @prof[:onigiri]
-  player.last_play_date = @prof[:last_play_date]
-  player.last_play_shop = @prof[:last_play_shop]
+  player = Player.find(:id => @prof[:id].to_i)
+  team = Team.find(:id => @prof[:team][:id])
+  team = Team.new(id: @prof[:team][:id], name: @prof[:team][:name]) unless team
+  if team
+    team.name = @prof[:team][:name]
+  end
+  team.save
+  if player
+    player.pseudonym = @prof[:pseudonym]
+    player.name = @prof[:name]
+    player.comment = @prof[:comment]
+    player.team = team
+    player.play_count = @prof[:play_count]
+    player.stamp = @prof[:stamp]
+    player.onigiri = @prof[:onigiri]
+    player.last_play_date = @prof[:last_play_date]
+    player.last_play_shop = @prof[:last_play_shop]
+  else
+    player = Player.new(
+      id: @prof[:id].to_i,
+      pseudonym: @prof[:pseudonym],
+      name: @prof[:name],
+      comment: @prof[:comment],
+      team: team,
+      play_count: @prof[:play_count],
+      stamp: @prof[:stamp],
+      onigiri: @prof[:onigiri],
+      last_play_date: @prof[:last_play_date],
+      last_play_shop: @prof[:last_play_shop],
+      latest_scoreset_id: 0)
+    player.save
+  end
 
-  scoreset = Scoreset.new
-  scoreset.player = player
-  scoreset.registered_at = registered_at
+  scoreset = Scoreset.new(
+    player: player,
+    registered_at: registered_at)
   scoreset.save
 
   scores = Array.new
   @song.each do |s|
-    music = Music.find(:name => s[:name])
-    halt "Unknown music was found: #{s[:name]}" unless music
+    song_name = s[:name].gsub(/''/, '"').strip
+    music = Music.find(:name => song_name)
+    unless music
+      (1..song_name.size-1).each do |i|
+        puts "trying: #{song_name.slice(0..(song_name.size - i))}"
+        music = Music.find(:name.like(song_name.slice(0..(song_name.size - i)) + '%'))
+        break if music
+      end
+      puts "found music!" if music
+      msg = "Unknown music was found: \"#{song_name}\" - "
+      msg += " It may be \"#{music.name}\"" if music
+      halt msg
+    end
     DIFFICULTY.each do |diff, diff_num|
       if s[:scores][diff][:achieve]
-        score = Score.new
-        score.music = music
-        score.scoreset = scoreset
-        score.difficulty = diff_num
-        score.achieve = s[:scores][diff][:achieve]
-        score.miss = s[:scores][diff][:miss]
+        score = Score.new(
+          music: music,
+          scoreset: scoreset,
+          difficulty: diff_num,
+          achieve: s[:scores][diff][:achieve],
+          miss: s[:scores][diff][:miss])
         score.save
         scores << score
       end
@@ -104,4 +135,12 @@ post '/registered' do
   player.save
 
   haml :registered
+end
+
+get '/player/:id' do
+  player_id = params[:id].to_i
+  p = Player.find(id: player_id)
+  halt 'undefined player' unless p
+  @prof = p
+  haml :player
 end
