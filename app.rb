@@ -5,6 +5,7 @@ require 'securerandom'
 require 'memcache'
 require 'pg'
 require 'sequel'
+require 'cgi/util'
 require_relative 'parser'
 
 DIFFICULTY = {basic: 0 , medium: 1, hard: 2}
@@ -102,7 +103,6 @@ post '/registered' do
     registered_at: registered_at)
   scoreset.save
 
-  scores = Array.new
   @song.each do |s|
     song_name = s[:name].gsub(/''/, '"').strip
     music = Music.find(:name => song_name)
@@ -125,11 +125,12 @@ post '/registered' do
           difficulty: diff_num,
           achieve: s[:scores][diff][:achieve],
           miss: s[:scores][diff][:miss])
+        scoreset.add_score(score)
         score.save
-        scores << score
       end
     end
   end
+  scoreset.save
 
   player.latest_scoreset_id = scoreset.id
   player.save
@@ -139,8 +140,22 @@ end
 
 get '/player/:id' do
   player_id = params[:id].to_i
-  p = Player.find(id: player_id)
-  halt 'undefined player' unless p
-  @prof = p
+  player = Player.find(id: player_id)
+  halt 'undefined player' unless player
+  @prof = player
+  scoreset = Scoreset.find(id: player.latest_scoreset_id)
+  halt 'no scores for this player.' unless scoreset
+  @last_updated_at = scoreset.registered_at
+  scores = scoreset.score
+  musics = Music.dataset.all
+  @song = Hash.new
+  musics.each do |m|
+    @song[m.name] = Hash.new
+  end
+  scores.each do |s|
+    name = s.music.name
+    @song[name][DIFFICULTY.key(s.difficulty)] = 
+      { achieve: s.achieve, miss: s.miss }
+  end
   haml :player
 end

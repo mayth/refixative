@@ -1,4 +1,9 @@
 %h2 Player Data
+
+%dl
+  %dt 最終更新日時
+  %dd= @last_updated_at
+
 %h3 Profile
 %table
   %tbody
@@ -36,3 +41,46 @@
       %td 最終プレー店舗
       %td= @prof.last_play_shop
 
+%table
+  %thead
+    %tr
+      %th{rowspan: 2} 楽曲名
+      %th{colspan: 2} BASIC
+      %th{colspan: 2} MEDIUM
+      %th{colspan: 2} HARD
+    %tr
+      %th AR
+      %th MISS
+      %th AR
+      %th MISS
+      %th AR
+      %th MISS
+  %tbody
+    - @song.each do |name, score|
+      %tr
+        %td= CGI.escapeHTML(name)
+        - if score[:basic]
+          %td== #{score[:basic][:achieve]}%
+          - if score[:basic][:miss] == 0
+            %td FC
+          - else
+            %td= score[:basic][:miss]
+        - else
+          %td{colspan: 2} NO PLAY
+        - if score[:medium]
+          %td== #{score[:medium][:achieve]}%
+          - if score[:medium][:miss] == 0
+            %td FC
+          - else
+            %td= score[:medium][:miss]
+        - else
+          %td{colspan: 2} NO PLAY
+        - if score[:hard]
+          %td== #{score[:hard][:achieve]}%
+          - if score[:hard][:miss] == 0
+            %td FC
+          - else
+            %td= score[:hard][:miss]
+        - else
+          %td{colspan: 2} NO PLAY
+%p== total #{@song.size} songs.
