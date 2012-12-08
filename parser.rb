@@ -18,21 +18,27 @@ module Parser
 
     private
     def _parse_profile(doc)
-      {
+      player = {
         id: doc.at_css('#plofbox dl dd').text.strip,
         pseudonym: doc.at_css('#plofbox2').text.strip.gsub(/^(\S+)(.*)/, '\1'),
         name: doc.at_css('#plofbox2 .plofbox2').text.strip,
         comment: doc.at_css('#right_con_plf2 dl dd').text.strip,
-        team: {
-          name: doc.css('#profileL_box div')[0].at_css('dl dd').text.strip,
-          id: doc.css('#profileR_box div')[0].at_css('dl dd').text.strip.to_i
-        },
         stamp: doc.css('#profileL_box div')[1].at_css('dl dd').text.strip.to_i,
         play_count: doc.css('#profileL_box div')[2].at_css('dl dd').text.strip.to_i,
         last_play_shop: doc.css('#profileL_box div')[3].at_css('dl dd').text.strip,
         onigiri: doc.css('#profileR_box div')[1].at_css('dl dd').text.strip.to_i,
         last_play_date: Time.parse(doc.css('#profileR_box div')[3].at_css('dl dd').text.strip)
       }
+      team = {
+        name: doc.css('#profileL_box div')[0].at_css('dl dd').text.strip,
+        id: doc.css('#profileR_box div')[0].at_css('dl dd').text.strip
+      }
+      p team
+      unless team[:id] == '未設定'
+        team[:id] = team[:id].to_i
+        player[:team] = team
+      end
+      player
     end
 
     def _parse_song(doc)

@@ -12,19 +12,19 @@ require 'sass'
 
 DIFFICULTY = {basic: 0 , medium: 1, hard: 2}
 
+# Setup DBs
+DB = Sequel.connect('postgres://refixative@localhost/refixative')
+CACHE = MemCache.new 'localhost:11211'
+DB.loggers << Logger.new(STDOUT) if development?
+
+# Require Models
+Dir.glob('./models/*.rb').each do |s|
+  require_relative s
+end
+
+CACHE_EXPIRY = 1800 # 30 min.
+
 configure do
-  # Setup DBs
-  DB = Sequel.connect('postgres://refixative@localhost/refixative')
-  CACHE = MemCache.new 'localhost:11211'
-  DB.loggers << Logger.new(STDOUT) if development?
-
-  # Require Models
-  Dir.glob('./models/*.rb').each do |s|
-    require_relative s
-  end
-
-  CACHE_EXPIRY = 1800 # 30 min.
-
   # Set default values for templates
   set :haml, :format => :html5
   set :sass, :style => :expanded
@@ -69,12 +69,13 @@ post '/registered' do
 
   # Add to DB
   player = Player.find(:id => prof[:id].to_i)
-  team = Team.find(:id => prof[:team][:id])
-  team = Team.new(id: prof[:team][:id], name: prof[:team][:name]) unless team
-  if team
-    team.name = prof[:team][:name]
+  team = nil
+  if prof[:team]
+    team = Team.find(:id => prof[:team][:id])
+    team.name = prof[:team][:name] if team
+    team = Team.new(id: prof[:team][:id], name: prof[:team][:name]) unless team
+    team.save
   end
-  team.save
   if player
     player.pseudonym = prof[:pseudonym]
     player.name = prof[:name]

@@ -24,12 +24,17 @@
     %tr
       %td コメント
       %td= @prof.comment
-    %tr
-      %td チームID
-      %td= @prof.team.id
-    %tr
-      %td チーム名
-      %td= @prof.team.name
+    - if @prof.team
+      %tr
+        %td チームID
+        %td= @prof.team.id
+      %tr
+        %td チーム名
+        %td= @prof.team.name
+    - else
+      %tr
+        %td チーム
+        %td 所属なし
     %tr
       %td プレー数
       %td= @prof.play_count
