@@ -1,3 +1,69 @@
+#top_title
+  %h1 Refixative
+  %p REFLEC BEAT colette score tool
+
+%h2 NOTE
 %p
-  Welcome to Refixative
+  現在Refixativeは開発中で、不具合や未完成な部分が山積している状態です。データのリセット等が行われる可能性もあります。あくまでテストとして公開しているという点をご理解ください。
+%p
+  使ってみてバグを見つけた場合や、機能の要望に関してはページ下部に連絡先を記載してありますので、そちらにお願いします。
+%p
+  <strong>現在プロフィールを一部非公開にすることは対応していません。</strong>GATEのページにて非公開に設定している情報でも、Refixativeに登録すると全て公開されます。ご注意ください。
+
+%h2 Refixativeとは
+%p
+  Refixative（りふぃきさちーふ）はREFLEC BEAT coletteのスコアデータを記録・集計するツールです。過去の自分のデータや他の登録しているプレイヤーとのスコア比較が可能（になる予定）です。
+
+%h2 スコア登録
+%p スコアの登録は登録フォームから行います。
+#link_register
+  %p
+    %a{href: url('/register')} 登録フォーム
+
+%h2 使い方
+%h3 登録
+%ol
+  %li
+    %a{href: url('http://p.eagate.573.jp/game/reflec/colette/index.html')} e-AMUSEMENT GATEのcolette公式ページ
+    に移動します。（ログインしていない場合はログインしてください）
+  %li
+    「プロフィール」ページと「楽曲データ」のページを保存します。
+    %br
+    例えばChromeの場合、ページの空白部分で右クリックして「名前をつけて保存」をクリックすると保存できます。
+    %br
+    保存形式は「HTMLのみ」にしてください。「完全」でも動作しますが、画像ファイルなど使わないファイルを余計にダウンロードすることになってしまいます。
+  %li
+    上のリンク先の登録フォームから、保存した２つのHTMLファイルをアップロードします。
+  %li
+    正常に処理されると確認画面に移動します。表示されたプロフィール、楽曲データに間違いや異常がないか確認して、登録してください。
+  %li
+    登録完了ページに移動したら登録作業は終了です。
+%h3 データ閲覧
+%p
+  プレイヤーデータは
+  %em= url('/player/(id)')
+  にアクセスすると表示されます。"(id)"には表示したいユーザーのプレイヤーIDを指定します。
+%p
+  例えば作者のプレイヤーデータは
+  %a{href: url('/player/001714')}= url('/player/001714')
+  です。IDの先頭にある0はあってもなくても構いません。
+
+%h2 今後の予定
+%ul
+  %li 履歴の表示
+  %li 登録時の差分表示
+  %li スコアのソート
+  %li 統計情報表示
+  %li 非公開情報の選択
+%h3 現在把握している不具合
+%ul
+  %li スコアソートがおかしい
+
+%h2 その他
+%p
+  バグ報告、意見等はTwitterで受け付けています。<a href='https://twitter.com/maytheplic'>@maytheplic</a>にどうぞ。
+%p
+  このプログラムのソースコードは<a href='https://github.com'>GitHub</a>上で、MITライセンスのもと公開されています。
+  %br
+  <a href='https://github.com/mayth/refixative'>mayth/refixative</a>
 
