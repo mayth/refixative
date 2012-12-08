@@ -3,13 +3,13 @@
   $(document).ready(function() {
     $("#score_data").tablesorter();
   });
-%h2 Player Data
+%h1 プレイヤーデータ
 
 %dl
   %dt 最終更新日時
   %dd= @last_updated_at
 
-%h3 Profile
+%h2 プロフィール
 %table
   %tbody
     %tr
@@ -46,6 +46,7 @@
       %td 最終プレー店舗
       %td= @prof.last_play_shop
 
+%h2 楽曲データ
 %table#score_data
   %thead
     %tr
@@ -109,4 +110,4 @@
           %td= score[:hard][:rank]
         - else
           %td.noplay{colspan: 3} NO PLAY
-%p== total #{@song.size} songs.
+%p== 計 #{@song.size} 曲
