@@ -1,10 +1,10 @@
-%h2 Registration Confirm
+%h1 登録の確認
 %p
   以下の内容で登録します。確認の上[登録]ボタンをクリックしてください。
 %form{action: '/registered', method: 'POST'}
   %input{type: 'hidden', name: 'session', value: @session}
   %input{type: 'submit', value: '登録'}
-%h3 プロフィール
+%h2 プロフィール
 %table
   %tbody
     %tr
@@ -41,7 +41,7 @@
       %td 最終プレー店舗
       %td= @prof[:last_play_shop]
 
-%h3 楽曲データ
+%h2 楽曲データ
 %table
   %thead
     %tr
@@ -68,4 +68,4 @@
             - else
               %td= v[:miss]
           - else
-            %td{colspan:2} NO PLAY
+            %td.noplay{colspan:2} NO PLAY
