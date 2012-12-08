@@ -63,40 +63,40 @@ post '/registered' do
   halt 'profile is not sent.' unless v[:prof]
   halt 'music data is not sent.' unless v[:song]
   registered_at = Time.now
-  @prof = v[:prof]
-  @song = v[:song]
+  prof = v[:prof]
+  song = v[:song]
   # CACHE.delete(params[:session])
 
   # Add to DB
-  player = Player.find(:id => @prof[:id].to_i)
-  team = Team.find(:id => @prof[:team][:id])
-  team = Team.new(id: @prof[:team][:id], name: @prof[:team][:name]) unless team
+  player = Player.find(:id => prof[:id].to_i)
+  team = Team.find(:id => prof[:team][:id])
+  team = Team.new(id: prof[:team][:id], name: prof[:team][:name]) unless team
   if team
-    team.name = @prof[:team][:name]
+    team.name = prof[:team][:name]
   end
   team.save
   if player
-    player.pseudonym = @prof[:pseudonym]
-    player.name = @prof[:name]
-    player.comment = @prof[:comment]
+    player.pseudonym = prof[:pseudonym]
+    player.name = prof[:name]
+    player.comment = prof[:comment]
     player.team = team
-    player.play_count = @prof[:play_count]
-    player.stamp = @prof[:stamp]
-    player.onigiri = @prof[:onigiri]
-    player.last_play_date = @prof[:last_play_date]
-    player.last_play_shop = @prof[:last_play_shop]
+    player.play_count = prof[:play_count]
+    player.stamp = prof[:stamp]
+    player.onigiri = prof[:onigiri]
+    player.last_play_date = prof[:last_play_date]
+    player.last_play_shop = prof[:last_play_shop]
   else
     player = Player.new(
-      id: @prof[:id].to_i,
-      pseudonym: @prof[:pseudonym],
-      name: @prof[:name],
-      comment: @prof[:comment],
+      id: prof[:id].to_i,
+      pseudonym: prof[:pseudonym],
+      name: prof[:name],
+      comment: prof[:comment],
       team: team,
-      play_count: @prof[:play_count],
-      stamp: @prof[:stamp],
-      onigiri: @prof[:onigiri],
-      last_play_date: @prof[:last_play_date],
-      last_play_shop: @prof[:last_play_shop],
+      play_count: prof[:play_count],
+      stamp: prof[:stamp],
+      onigiri: prof[:onigiri],
+      last_play_date: prof[:last_play_date],
+      last_play_shop: prof[:last_play_shop],
       latest_scoreset_id: 0)
     player.save
   end
@@ -106,7 +106,7 @@ post '/registered' do
     registered_at: registered_at)
   scoreset.save
 
-  @song.each do |s|
+  song.each do |s|
     song_name = s[:name].gsub(/''/, '"').strip
     music = Music.find(:name => song_name)
     unless music
@@ -137,6 +137,8 @@ post '/registered' do
 
   player.latest_scoreset_id = scoreset.id
   player.save
+
+  @player_id = prof[:id]
 
   haml :registered
 end
