@@ -7,6 +7,8 @@ require 'pg'
 require 'sequel'
 require 'cgi/util'
 require_relative 'parser'
+require 'haml'
+require 'sass'
 
 DIFFICULTY = {basic: 0 , medium: 1, hard: 2}
 
@@ -29,7 +31,7 @@ configure do
 end
 
 # Routings
-get '/style' do
+get '/style.css' do
   content_type 'text/css', charset: 'utf-8'
   sass :style
 end
@@ -154,8 +156,21 @@ get '/player/:id' do
   end
   scores.each do |s|
     name = s.music.name
+    if s.achieve < 50.0
+      rank = 'C'
+    elsif s.achieve < 70.0
+      rank = 'B'
+    elsif s.achieve < 80.0
+      rank = 'A'
+    elsif s.achieve < 90.0
+      rank = 'AA'
+    elsif s.achieve < 95.0
+      rank = 'AAA'
+    else
+      rank = 'AAA+'
+    end
     @song[name][DIFFICULTY.key(s.difficulty)] = 
-      { achieve: s.achieve, miss: s.miss }
+      { achieve: s.achieve, miss: s.miss, rank: rank }
   end
   haml :player
 end
