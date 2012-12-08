@@ -47,7 +47,22 @@
       %td= @prof[:last_play_shop]
 
 %h2 楽曲データ
+%h3 凡例
 %table
+  %tbody
+    %tr
+      %td.updated{style: 'width: 2em'}
+      %td 前回登録スコアより更新
+    %tr
+      %td.new_play{style: 'width: 2em'}
+      %td 新規（前回登録時スコアなし）
+%p 更新の判定はARとミスカウントそれぞれに行われます。
+%h3 データ
+%table#score_data
+  %colgroup.music_name{span: 1}
+  %colgroup.basic{span: 2}
+  %colgroup.medium{span: 2}
+  %colgroup.hard{span: 2}
   %thead
     %tr
       %th{rowspan: 2} 楽曲名
@@ -56,21 +71,39 @@
       %th{colspan: 2} HARD
     %tr
       %th AR
-      %th MISS
+      %th.miss_header MISS
       %th AR
-      %th MISS
+      %th.miss_header MISS
       %th AR
-      %th MISS
+      %th.miss_header MISS
   %tbody
     - @song.each do |item|
       %tr
         %td= item[:name]
         - item[:scores].each do |k, v|
           - if v[:achieve]
-            %td== #{v[:achieve]}%
-            - if v[:miss] == 0
-              %td FC
-            - else
-              %td= v[:miss]
+            - case v[:is_achieve_updated]
+            - when :true
+              %td.updated== #{v[:achieve]}%
+            - when :false
+              %td== #{v[:achieve]}%
+            - when :new_play
+              %td.new_play== #{v[:achieve]}%
+            - case v[:is_miss_updated]
+            - when :true
+              - if v[:miss] == 0
+                %td.updated FC
+              - else
+                %td.updated= v[:miss]
+            - when :false
+              - if v[:miss] == 0
+                %td FC
+              - else
+                %td= v[:miss]
+            - when :new_play
+              - if v[:miss] == 0
+                %td.new_play FC
+              - else
+                %td.new_play= v[:miss]
           - else
             %td.noplay{colspan:2} NO PLAY

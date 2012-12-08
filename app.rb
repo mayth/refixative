@@ -31,6 +31,14 @@ configure do
   set :revision, `git show --format='%h' -s` + `git diff --quiet HEAD || echo '+'`
 end
 
+helpers do
+  def latest_scores(player)
+    scoreset = Scoreset.find(id: player.latest_scoreset_id)
+    raise 'no scores for this player.' unless scoreset
+    scoreset.score
+  end
+end
+
 # Routings
 get '/style.css' do
   content_type 'text/css', charset: 'utf-8'
@@ -52,7 +60,35 @@ post '/register' do
   @prof = parser.parse_profile(params[:profile][:tempfile].read)
   @song = parser.parse_song(params[:music][:tempfile].read)
   @session = SecureRandom.uuid
+
+  # Get old data
+  old_prof = Player.find(id: @prof[:id])
+  if old_prof
+    # Check updates
+    old_scores = latest_scores(old_prof)
+    musics = Music.dataset.all
+    scores = Hash.new
+    musics.each {|m| scores[m.name] = Hash.new}
+    @song.each do |s|
+      old_music = old_scores.select {|v| v.music.name == s[:name]}
+      s[:scores].select {|k, v| v[:achieve]}.each do |difficulty, score|
+        old_score = old_music.find {|x| x.difficulty == DIFFICULTY[difficulty]}
+        if old_score
+          # Check update
+          score[:is_achieve_updated] = (old_score.achieve < score[:achieve]).to_s.to_sym
+          score[:is_miss_updated] = (old_score.miss < score[:miss]).to_s.to_sym
+        else
+          # new played
+          score[:is_achieve_updated] = :new_play
+          score[:is_miss_updated] = :new_play
+        end
+      end
+    end
+  end
+  p @song
+
   CACHE.add(@session, {prof: @prof, song: @song}, CACHE_EXPIRY)
+
   haml :register_confirm
 end
 

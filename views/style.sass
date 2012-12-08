@@ -1,18 +1,32 @@
 body
-  width: 80%
+  width: 85%
   margin: auto
 
+$top_padding: 15px
+#top_container
+  background: #ffead6
+  padding: $top_padding
+  border-radius: 20px
+
+h1
+  background: #c1c1ff
+  border-radius: 0 25px 25px 0 / 0 50% 50% 0
+  width: 80%
+  margin-left: -$top_padding
+
 h2
-  background: #ffffff
+  background: #ffd6ff
   border-radius: 0 20px 20px 0 / 0 50% 50% 0
   width: 50%
-  padding-left: 10px
+  padding-left: 5px
+  margin-left: -$top_padding
 
 h3
-  background: #88f
+  background: #ffc1e0
   border-radius: 0 15px 15px 0 / 0 50% 50% 0
   width: 40%
   padding-left: 10px
+  margin-left: -$top_padding
 
 #footer
   width: 50%
@@ -21,15 +35,25 @@ h3
   font-size: 75%
   text-align: center
 
-#top_title
-  text-align: center
-  font-size: 130%
-  p
-    font-weight: bold
-
-#link_register
-  font-size: 150%
-  font-weight: bold
+#score_data
+  border-collapse: collapse
+  td
+    padding: 2px 10px
+    text-align: center
+    border: solid thin green
+    border:
+      left: 0
+      right: 0
+  .music_name
+    text-align: left
+  .basic
+    background: #f4fff4
+  .medium
+    background: #fffff4
+  .hard
+    background: #fff4f4
+  .miss_header
+    padding: 0 10px
 
 .noplay
   color: #999
@@ -43,5 +67,24 @@ h3
 
 .miss2
   background: #fee
+
+.updated
+  background: #ffff9e
+
+.new_play
+  background: #ffd6ad
+
+#top_title
+  text-align: center
+  font-size: 130%
+  h1
+    background: transparent
+    width: 100%
+  p
+    font-weight: bold
+
+#link_register
+  font-size: 150%
+  font-weight: bold
 
 @import "winter"
