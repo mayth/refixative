@@ -28,6 +28,7 @@ configure do
   # Set default values for templates
   set :haml, :format => :html5
   set :sass, :style => :expanded
+  set :revision, `git show --format='%h' -s`
 end
 
 # Routings
