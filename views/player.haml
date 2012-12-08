@@ -1,3 +1,8 @@
+%script{src: '/script/jquery.tablesorter.min.js'}
+:javascript
+  $(document).ready(function() {
+    $("#score_data").tablesorter();
+  });
 %h2 Player Data
 
 %dl
@@ -41,46 +46,67 @@
       %td 最終プレー店舗
       %td= @prof.last_play_shop
 
-%table
+%table#score_data
   %thead
     %tr
       %th{rowspan: 2} 楽曲名
-      %th{colspan: 2} BASIC
-      %th{colspan: 2} MEDIUM
-      %th{colspan: 2} HARD
+      %th{colspan: 3} BASIC
+      %th{colspan: 3} MEDIUM
+      %th{colspan: 3} HARD
     %tr
       %th AR
       %th MISS
+      %th RANK
       %th AR
       %th MISS
+      %th RANK
       %th AR
       %th MISS
+      %th RANK
   %tbody
     - @song.each do |name, score|
       %tr
         %td= CGI.escapeHTML(name)
         - if score[:basic]
           %td== #{score[:basic][:achieve]}%
-          - if score[:basic][:miss] == 0
-            %td FC
+          - case score[:basic][:miss]
+          - when 0
+            %td.fullcombo FC
+          - when 1
+            %td.miss1 1
+          - when 2
+            %td.miss2 2
           - else
             %td= score[:basic][:miss]
+          %td= score[:basic][:rank]
         - else
-          %td{colspan: 2} NO PLAY
+          %td.noplay{colspan: 3} NO PLAY
         - if score[:medium]
           %td== #{score[:medium][:achieve]}%
-          - if score[:medium][:miss] == 0
-            %td FC
+          - case score[:medium][:miss]
+          - when 0
+            %td.fullcombo FC
+          - when 1
+            %td.miss1 1
+          - when 2
+            %td.miss2 2
           - else
             %td= score[:medium][:miss]
+          %td= score[:medium][:rank]
         - else
-          %td{colspan: 2} NO PLAY
+          %td.noplay{colspan: 3} NO PLAY
         - if score[:hard]
           %td== #{score[:hard][:achieve]}%
-          - if score[:hard][:miss] == 0
-            %td FC
+          - case score[:hard][:miss]
+          - when 0
+            %td.fullcombo FC
+          - when 1
+            %td.miss1 1
+          - when 2
+            %td.miss2 2
           - else
             %td= score[:hard][:miss]
+          %td= score[:hard][:rank]
         - else
-          %td{colspan: 2} NO PLAY
+          %td.noplay{colspan: 3} NO PLAY
 %p== total #{@song.size} songs.
