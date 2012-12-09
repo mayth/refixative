@@ -116,74 +116,8 @@ post '/registered' do
   # CACHE.delete(params[:session])
 
   # Add to DB
-  player = Player.find(:id => prof[:id].to_i)
-  team = nil
-  if prof[:team]
-    team = Team.find(:id => prof[:team][:id])
-    team.name = prof[:team][:name] if team
-    team = Team.new(id: prof[:team][:id], name: prof[:team][:name]) unless team
-    team.save
-  end
-  if player
-    player.pseudonym = prof[:pseudonym]
-    player.name = prof[:name]
-    player.comment = prof[:comment]
-    player.team = team
-    player.play_count = prof[:play_count]
-    player.stamp = prof[:stamp]
-    player.onigiri = prof[:onigiri]
-    player.last_play_date = prof[:last_play_date]
-    player.last_play_shop = prof[:last_play_shop]
-  else
-    player = Player.new(
-      id: prof[:id].to_i,
-      pseudonym: prof[:pseudonym],
-      name: prof[:name],
-      comment: prof[:comment],
-      team: team,
-      play_count: prof[:play_count],
-      stamp: prof[:stamp],
-      onigiri: prof[:onigiri],
-      last_play_date: prof[:last_play_date],
-      last_play_shop: prof[:last_play_shop],
-      latest_scoreset_id: 0)
-    player.save
-  end
-
-  scoreset = Scoreset.new(
-    player: player,
-    registered_at: registered_at)
-  scoreset.save
-
-  song.each do |s|
-    song_name = s[:name].gsub(/''/, '"').strip
-    music = Music.find(:name => song_name)
-    unless music
-      (1..song_name.size-1).each do |i|
-        puts "trying: #{song_name.slice(0..(song_name.size - i))}"
-        music = Music.find(:name.like(song_name.slice(0..(song_name.size - i)) + '%'))
-        break if music
-      end
-      puts "found music!" if music
-      raise MusicMismatchError.new(song_name, music ? music.name : nil)
-    end
-    DIFFICULTY.each do |diff, diff_num|
-      if s[:scores][diff][:achieve]
-        score = Score.new(
-          music: music,
-          scoreset: scoreset,
-          difficulty: diff_num,
-          achieve: s[:scores][diff][:achieve],
-          miss: s[:scores][diff][:miss])
-        scoreset.add_score(score)
-        score.save
-      end
-    end
-  end
-  scoreset.save
-
-  player.latest_scoreset_id = scoreset.id
-  player.save
+  player = Player.update_or_create(prof)
+  player.create_new_scoreset(song, registered_at)
 
   @player_id = prof[:id]
 
