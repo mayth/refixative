@@ -190,8 +190,9 @@ post '/registered' do
   haml :registered
 end
 
-get %r{/player/([0-9]{1,6})(\.(.+))?} do
-  player_id = params[:captures][0].to_i
+get '/player/:id' do
+  raise NoPlayerError if params[:id] =~ /[^0-9]/
+  player_id = params[:id].to_i
   player = Player.find(id: player_id)
   raise NoPlayerError, player_id.to_s unless player
   @prof = player
@@ -223,7 +224,7 @@ get %r{/player/([0-9]{1,6})(\.(.+))?} do
       { achieve: s.achieve, miss: s.miss, rank: rank }
   end
 
-  format = params[:captures][2] || 'html'
+  format = params[:format] || 'html'
   case format.downcase.to_sym
   when :json
     scores = nil
