@@ -78,6 +78,14 @@
 %p
   バグ報告、意見等はTwitterで受け付けています。<a href='https://twitter.com/maytheplic'>@maytheplic</a>にどうぞ。また、ハッシュタグ<a href="https://twitter.com/search?q=%23Refixative">#Refixative</a>も見ております。
 
+%h3 現在の状態
+%dl
+  %dt 登録プレイヤー数
+  %dd= @player_num
+  %dt スコア登録総数
+  %dd= @scoreset_num
+
+%h2 開発者向けの情報
 %h3 ソースコード
 %p
   このプログラムのソースコードは<a href='https://github.com'>GitHub</a>上で、MITライセンスのもと公開されています。
@@ -85,9 +93,12 @@
 %p.note
   実際に稼働しているバージョンと、GitHubで公開されているバージョンは異なることがあります。（フッターのrev.表示が現在稼働しているバージョンのコミットを表しています）
 
-%h3 現在の状態
-%dl
-  %dt 登録プレイヤー数
-  %dd= @player_num
-  %dt スコア登録総数
-  %dd= @scoreset_num
+%h3 API
+%p
+  APIというほどでもありませんが、プレイヤーページはJSON形式で出力することが可能です。プレイヤーページのURLに'.json'を追加してください。例えば次のようなURLになります:
+  %a{href: url('/player/001714.json')}= url('/player/001714.json')
+%p
+  JSON形式で出力する場合はパラメータとしてfilteredを受け取ります。例えば次のようになります:
+  %a{href: url('/player/001714.json?filtered=true')}= url('/player/001714.json?filtered=true')
+%p
+  <code>filtered=1</code>または<code>filtered=true</code>とすると、スコアデータが存在しない楽曲は出力データから除外されます。<code>filtered=0</code>または<code>filtered=false</code>、およびパラメータを指定しない場合、スコアデータが存在しない曲も全て出力されます。

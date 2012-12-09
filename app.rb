@@ -7,6 +7,7 @@ require 'pg'
 require 'sequel'
 require 'cgi/util'
 require_relative 'parser'
+require 'json'
 require 'haml'
 require 'sass'
 
@@ -182,8 +183,8 @@ post '/registered' do
   haml :registered
 end
 
-get '/player/:id' do
-  player_id = params[:id].to_i
+get %r{/player/([0-9]{1,6})(\.(.+))?} do
+  player_id = params[:captures][0].to_i
   player = Player.find(id: player_id)
   halt 'undefined player' unless player
   @prof = player
@@ -214,5 +215,22 @@ get '/player/:id' do
     @song[name][DIFFICULTY.key(s.difficulty)] = 
       { achieve: s.achieve, miss: s.miss, rank: rank }
   end
-  haml :player
+
+  format = params[:captures][2] || 'html'
+  case format.downcase.to_sym
+  when :json
+    scores = nil
+    filtered = params[:filtered] || 'false'
+    case filtered
+    when 'true', '1'
+      scores = @song.select {|k, v| !v.empty?}
+    when 'false', '0'
+      scores = @song
+    end
+    {profile: @prof.to_hash, scores: scores}.to_json
+  when :html
+    haml :player
+  else
+    haml :player
+  end
 end
