@@ -1,5 +1,7 @@
 cookie_secret
 
+maintenance/
+tmp/
 *~
 *.swp
 *.gem
