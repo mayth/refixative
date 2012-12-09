@@ -117,7 +117,7 @@ post '/registered' do
 
   # Add to DB
   player = Player.update_or_create(prof)
-  player.create_new_scoreset(song, registered_at)
+  player.create_scoreset(song, registered_at)
 
   @player_id = prof[:id]
 

@@ -35,7 +35,7 @@ class Player < Sequel::Model
   end
 
   def create_scoreset(song, registered_at)
-    scoreset = Scoreset.new_scores(self, song)
+    scoreset = Scoreset.new_scores(self, song, registered_at)
     self.latest_scoreset_id = scoreset.id
     self.save
     self
