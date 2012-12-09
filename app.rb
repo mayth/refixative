@@ -254,3 +254,7 @@ error NoPlayerError do
   @id = env['sinatra.error'].message
   haml :player_not_found
 end
+
+not_found do
+  haml :not_found
+end
