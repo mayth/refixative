@@ -1,6 +1,8 @@
 %h1 登録の確認
 %p
   以下の内容で登録します。確認の上[登録]ボタンをクリックしてください。
+%p
+  30分以内に登録が行われない場合は送信された内容が無効になります。その際は再度登録フォームより登録をお願いします。
 %form{action: '/registered', method: 'POST'}
   %input{type: 'hidden', name: 'session', value: @session}
   %input{type: 'submit', value: '登録'}
