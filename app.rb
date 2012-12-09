@@ -46,6 +46,8 @@ get '/style.css' do
 end
 
 get '/' do
+  @player_num = Player.all.size
+  @scoreset_num = Scoreset.all.size
   haml :index
 end
 
