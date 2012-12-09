@@ -25,6 +25,16 @@ end
 
 CACHE_EXPIRY = 1800 # 30 min.
 
+class MusicMismatchError < Exception
+  def initialize(searching_name, found_name = nil)
+    @searching_name = searching_name
+    @found_name = found_name
+  end
+  attr :searching_name, :found_name
+end
+
+class NoPlayerError < Exception; end
+
 configure do
   # Set default values for templates
   set :haml, :format => :html5
@@ -88,7 +98,6 @@ post '/register' do
       end
     end
   end
-  p @song
 
   CACHE.add(@session, {prof: @prof, song: @song}, CACHE_EXPIRY)
 
@@ -156,9 +165,7 @@ post '/registered' do
         break if music
       end
       puts "found music!" if music
-      msg = "Unknown music was found: \"#{song_name}\" - "
-      msg += " It may be \"#{music.name}\"" if music
-      halt msg
+      raise MusicMismatchError.new(song_name, music ? music.name : nil)
     end
     DIFFICULTY.each do |diff, diff_num|
       if s[:scores][diff][:achieve]
@@ -186,7 +193,7 @@ end
 get %r{/player/([0-9]{1,6})(\.(.+))?} do
   player_id = params[:captures][0].to_i
   player = Player.find(id: player_id)
-  halt 'undefined player' unless player
+  raise NoPlayerError, player_id.to_s unless player
   @prof = player
   scoreset = Scoreset.find(id: player.latest_scoreset_id)
   halt 'no scores for this player.' unless scoreset
@@ -233,4 +240,17 @@ get %r{/player/([0-9]{1,6})(\.(.+))?} do
   else
     haml :player
   end
+end
+
+error MusicMismatchError do
+  e = env['sinatra.error']
+  @searching_name = e.searching_name
+  @found_name = e.found_name
+  haml :music_mismatch_error
+end
+
+error NoPlayerError do
+  status 404
+  @id = env['sinatra.error'].message
+  haml :player_not_found
 end
