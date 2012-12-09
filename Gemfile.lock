@@ -5,6 +5,7 @@ GEM
     daemons (1.1.9)
     eventmachine (1.0.0)
     haml (3.1.7)
+    json (1.7.5)
     memcache-client (1.8.5)
     nokogiri (1.5.5)
     pg (0.14.1)
@@ -39,6 +40,7 @@ PLATFORMS
 
 DEPENDENCIES
   haml
+  json
   memcache-client
   nokogiri
   pg
