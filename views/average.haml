@@ -7,24 +7,27 @@
 %dl
   %dt 更新日時
   %dd= updated_at
+%dl
+  %dt 集計対象人数
+  %dl= player_num
 
 %h2 プロフィール
 %table
   %tbody
     %tr
-      %td 集計人数
-      %td= player_num
-    %tr
-      %td プレー数
+      %td プレー数平均
       %td= player_average['play_count']
     %tr
-      %td 総スタンプ数
+      %td 総スタンプ数平均
       %td= player_average['stamp']
     %tr
-      %td 総おにぎり数
+      %td 総おにぎり数平均
       %td= player_average['onigiri']
 
 %h2 楽曲データ
+%p
+  PLAYEDは集計対象となったプレー人数を表します。
+
 %table#score_data
   %colgroup.music_name{span: 1}
   %colgroup.basic{span: 3}
