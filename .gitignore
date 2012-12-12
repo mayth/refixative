@@ -6,6 +6,7 @@ tmp/
 *.swp
 *.gem
 *.rbc
+*.dat
 .sass-cache/
 bundle/
 .bundle
