@@ -47,45 +47,47 @@
       %th MISS
       %th PLAYED
   %tbody
+    - miss_format = '%.1f'
+    - ar_format = '%.2f'
     - score_average.each do |name, score|
       %tr
         %td= CGI.escapeHTML(name)
         - if score['basic']['count'] != 0
-          %td== #{score['basic']['achieve']}%
+          %td== #{format(ar_format, score['basic']['achieve'])}%
           - if score['basic']['miss'] == 0
             %td.fullcombo FC
           - elsif score['basic']['miss'] <= 1.0
-            %td.miss1 1
+            %td.miss1= format(miss_format, score['basic']['miss'])
           - elsif score['basic']['miss'] <= 2.0
-            %td.miss2 2
+            %td.miss2= format(miss_format, score['basic']['miss'])
           - else
-            %td= score['basic']['miss']
+            %td= format(miss_format, score['basic']['miss'])
           %td= score['basic']['count']
         - else
           %td.noplay{colspan: 3} N/A
         - if score['medium']['count'] != 0
-          %td== #{score['medium']['achieve']}%
+          %td== #{format(ar_format, score['medium']['achieve'])}%
           - if score['medium']['miss'] == 0
             %td.fullcombo FC
           - elsif score['medium']['miss'] <= 1.0
-            %td.miss1 1
+            %td.miss1= format(miss_format, score['medium']['miss'])
           - elsif score['medium']['miss'] <= 2.0
-            %td.miss2 2
+            %td.miss2= format(miss_format, score['medium']['miss'])
           - else
-            %td= score['medium']['miss']
+            %td= format(miss_format, score['medium']['miss'])
           %td= score['medium']['count']
         - else
           %td.noplay{colspan: 3} N/A
         - if score['hard']['count'] != 0
-          %td== #{score['hard']['achieve']}%
+          %td== #{format(ar_format, score['hard']['achieve'])}%
           - if score['hard']['miss'] == 0
             %td.fullcombo FC
           - elsif score['hard']['miss'] <= 1.0
-            %td.miss1 1
+            %td.miss1= format(miss_format, score['hard']['miss'])
           - elsif score['hard']['miss'] <= 2.0
-            %td.miss2 2
+            %td.miss2= format(miss_format, score['hard']['miss'])
           - else
-            %td= score['hard']['miss']
+            %td= format(miss_format, score['hard']['miss'])
           %td= score['hard']['count']
         - else
           %td.noplay{colspan: 3} N/A
