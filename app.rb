@@ -14,9 +14,7 @@ require 'sass'
 DIFFICULTY = {basic: 0 , medium: 1, hard: 2}
 
 # Setup DBs
-DB = Sequel.connect('postgres://refixative@localhost/refixative')
-CACHE = MemCache.new 'localhost:11211'
-DB.loggers << Logger.new(STDOUT) if development?
+load './db_setup.rb'
 
 # Require Models
 Dir.glob('./models/*.rb').each do |s|
