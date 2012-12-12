@@ -122,6 +122,13 @@ post '/registered' do
   haml :registered
 end
 
+get '/player/average' do
+  halt 500, 'Average is not available yet. Please try again later.' unless File.exists?('average.dat')
+  obj = JSON.load(IO.read('average.dat'))
+  p obj
+  haml(:average, locals: obj)
+end
+
 get '/player/:id' do
   raise NoPlayerError if params[:id] =~ /[^0-9]/
   player_id = params[:id].to_i
