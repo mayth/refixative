@@ -1,3 +1,4 @@
+require 'logger'
 require 'sinatra'
 require 'pg'
 require 'sequel'
