@@ -124,12 +124,13 @@ end
 
 get '/player/average' do
   halt 500, 'Average is not available yet. Please try again later.' unless File.exists?('average.dat')
-  obj = JSON.load(IO.read('average.dat'))
+  str = IO.read('average.dat')
+  obj = JSON.load(str)
   
   format = (params[:format] || 'html').to_sym
   case format
   when :json
-    obj
+    str
   when :html
     haml(:average, locals: obj)
   else
