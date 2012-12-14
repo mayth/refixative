@@ -53,7 +53,64 @@
       %td= @prof.last_play_shop
 
 %h2 楽曲データ
+%h3 対平均勝敗
+%table#stat_data
+  %colgroup.vs_for{span: 1}
+  %colgroup.basic{span: 2}
+  %colgroup.medium{span: 2}
+  %colgroup.hard{span: 2}
+  %thead
+    %tr
+      %th{rowspan: 2} vs.
+      %th{colspan: 2} BASIC
+      %th{colspan: 2} MEDIUM
+      %th{colspan: 2} HARD
+      %th{colspan: 2} Total
+    %tr
+      %th AR
+      %th MISS
+      %th AR
+      %th MISS
+      %th AR
+      %th MISS
+      %th AR
+      %th MISS
+  %tbody
+    %tr.vs_ave_win
+      %td Win
+      %td= @stat[:basic][:achieve_vs_ave][:win]
+      %td= @stat[:basic][:miss_vs_ave][:win]
+      %td= @stat[:medium][:achieve_vs_ave][:win]
+      %td= @stat[:medium][:miss_vs_ave][:win]
+      %td= @stat[:hard][:achieve_vs_ave][:win]
+      %td= @stat[:hard][:miss_vs_ave][:win]
+      %td= @stat.map {|diff, v| v[:achieve_vs_ave][:win]}.inject(:+)
+      %td= @stat.map {|diff, v| v[:miss_vs_ave][:win]}.inject(:+)
+    %tr.vs_ave_draw
+      %td Draw
+      %td= @stat[:basic][:achieve_vs_ave][:draw]
+      %td= @stat[:basic][:miss_vs_ave][:draw]
+      %td= @stat[:medium][:achieve_vs_ave][:draw]
+      %td= @stat[:medium][:miss_vs_ave][:draw]
+      %td= @stat[:hard][:achieve_vs_ave][:draw]
+      %td= @stat[:hard][:miss_vs_ave][:draw]
+      %td= @stat.map {|diff, v| v[:achieve_vs_ave][:draw]}.inject(:+)
+      %td= @stat.map {|diff, v| v[:miss_vs_ave][:draw]}.inject(:+)
+    %tr.vs_ave_lose
+      %td Lose
+      %td= @stat[:basic][:achieve_vs_ave][:lose]
+      %td= @stat[:basic][:miss_vs_ave][:lose]
+      %td= @stat[:medium][:achieve_vs_ave][:lose]
+      %td= @stat[:medium][:miss_vs_ave][:lose]
+      %td= @stat[:hard][:achieve_vs_ave][:lose]
+      %td= @stat[:hard][:miss_vs_ave][:lose]
+      %td= @stat.map {|diff, v| v[:achieve_vs_ave][:lose]}.inject(:+)
+      %td= @stat.map {|diff, v| v[:miss_vs_ave][:lose]}.inject(:+)
+
+%h3 スコアデータ
 %table#score_data
+  - miss_format = '%.1f'
+  - ar_format = '%+.2f%%'
   %colgroup.music_name{span: 1}
   %colgroup.basic{span: 3}
   %colgroup.medium{span: 3}
@@ -75,49 +132,57 @@
       %th MISS
       %th RANK
   %tbody
-    - @song.each do |name, score|
+    - @song.each do |name, scores|
       %tr
         %td= CGI.escapeHTML(name)
-        - if score[:basic]
-          %td== #{score[:basic][:achieve]}%
-          - case score[:basic][:miss]
-          - when 0
-            %td.fullcombo FC
-          - when 1
-            %td.miss1 1
-          - when 2
-            %td.miss2 2
+        - scores.each do |diff, score|
+          - if score
+            %td
+              %div== #{score[:achieve]}%
+              - if score[:achieve_diff] == 0.0
+                %div.ave_diff= format(ar_format, score[:achieve_diff])
+              - elsif score[:achieve_diff] > 0.0
+                %div.ave_diff.vs_ave_win= format(ar_format, score[:achieve_diff])
+              - else
+                %div.ave_diff.vs_ave_lose= format(ar_format, score[:achieve_diff])
+            - case score[:miss]
+            - when 0
+              %td
+                %div.fullcombo FC
+                - if score[:miss_diff] == 0
+                  %div.ave_diff= format(miss_format, score[:miss_diff])
+                - elsif score[:miss_diff] < 0
+                  %div.ave_diff.vs_ave_win= format(miss_format, score[:miss_diff])
+                - else
+                  %div.ave_diff.vs_ave_lose= format(miss_format, score[:miss_diff])
+            - when 1
+              %td
+                %div.miss1 1
+                - if score[:miss_diff] == 0
+                  %div.ave_diff= format(miss_format, score[:miss_diff])
+                - elsif score[:miss_diff] < 0
+                  %div.ave_diff.vs_ave_win= format(miss_format, score[:miss_diff])
+                - else
+                  %div.ave_diff.vs_ave_lose= format(miss_format, score[:miss_diff])
+            - when 2
+              %td
+                %div.miss2 2
+                - if score[:miss_diff] == 0
+                  %div.ave_diff= format(miss_format, score[:miss_diff])
+                - elsif score[:miss_diff] < 0
+                  %div.ave_diff.vs_ave_win= format(miss_format, score[:miss_diff])
+                - else
+                  %div.ave_diff.vs_ave_lose= format(miss_format, score[:miss_diff])
+            - else
+              %td
+                %div= score[:miss]
+                - if score[:miss_diff] == 0
+                  %div.ave_diff= format(miss_format, score[:miss_diff])
+                - elsif score[:miss_diff] < 0
+                  %div.ave_diff.vs_ave_win= format(miss_format, score[:miss_diff])
+                - else
+                  %div.ave_diff.vs_ave_lose= format(miss_format, score[:miss_diff])
+            %td= score[:rank]
           - else
-            %td= score[:basic][:miss]
-          %td= score[:basic][:rank]
-        - else
-          %td.noplay{colspan: 3} NO PLAY
-        - if score[:medium]
-          %td== #{score[:medium][:achieve]}%
-          - case score[:medium][:miss]
-          - when 0
-            %td.fullcombo FC
-          - when 1
-            %td.miss1 1
-          - when 2
-            %td.miss2 2
-          - else
-            %td= score[:medium][:miss]
-          %td= score[:medium][:rank]
-        - else
-          %td.noplay{colspan: 3} NO PLAY
-        - if score[:hard]
-          %td== #{score[:hard][:achieve]}%
-          - case score[:hard][:miss]
-          - when 0
-            %td.fullcombo FC
-          - when 1
-            %td.miss1 1
-          - when 2
-            %td.miss2 2
-          - else
-            %td= score[:hard][:miss]
-          %td= score[:hard][:rank]
-        - else
-          %td.noplay{colspan: 3} NO PLAY
+            %td.noplay{colspan: 3} NO PLAY
 %p== 計 #{@song.size} 曲

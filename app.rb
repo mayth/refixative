@@ -151,8 +151,18 @@ get '/player/:id' do
   musics = Music.dataset.all
   @song = Hash.new
   musics.each do |m|
-    @song[m.name] = Hash.new
+    @song[m.name] = { basic: nil, medium: nil, hard: nil }
   end
+  @stat = Hash.new
+  DIFFICULTY.each do |diff, n|
+    @stat[diff] = {
+      achieve_vs_ave: { win: 0, lose: 0, draw: 0 },
+      miss_vs_ave: { win: 0, lose: 0, draw: 0 }
+    }
+  end
+
+  average = JSON.load(IO.read('average.dat'))['score_average']
+  # Calculate difference from average, and rank
   scores.each do |s|
     name = s.music.name
     if s.achieve < 50.0
@@ -168,8 +178,27 @@ get '/player/:id' do
     else
       rank = 'AAA+'
     end
-    @song[name][DIFFICULTY.key(s.difficulty)] = 
-      { achieve: s.achieve, miss: s.miss, rank: rank }
+    difficulty_key = DIFFICULTY.key(s.difficulty)
+    ave = average[name][difficulty_key.to_s]
+    ave_avail = ave[:count] != 0
+    tmp = { achieve: s.achieve, miss: s.miss, rank: rank,
+            achieve_diff: ave_avail ? s.achieve - ave['achieve'] : nil,
+            miss_diff: ave_avail ? s.miss - ave['miss'] : nil }
+    @song[name][DIFFICULTY.key(s.difficulty)] = tmp
+    if tmp[:achieve_diff] == 0.0
+      @stat[difficulty_key][:achieve_vs_ave][:draw] += 1
+    elsif tmp[:achieve_diff] > 0.0
+      @stat[difficulty_key][:achieve_vs_ave][:win] += 1
+    else
+      @stat[difficulty_key][:achieve_vs_ave][:lose] += 1
+    end
+    if tmp[:miss_diff] == 0.0
+      @stat[difficulty_key][:miss_vs_ave][:draw] += 1
+    elsif tmp[:miss_diff] < 0.0
+      @stat[difficulty_key][:miss_vs_ave][:win] += 1
+    else
+      @stat[difficulty_key][:miss_vs_ave][:lose] += 1
+    end
   end
 
   format = params[:format] || 'html'
