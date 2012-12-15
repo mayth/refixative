@@ -122,7 +122,7 @@ post '/registered' do
   haml :registered
 end
 
-get '/player/average' do
+get '/player/average.?:format?' do
   halt 500, 'Average is not available yet. Please try again later.' unless File.exists?('average.dat')
   str = IO.read('average.dat')
   obj = JSON.load(str)
@@ -138,9 +138,14 @@ get '/player/average' do
   end
 end
 
-get '/player/:id' do
-  raise NoPlayerError if params[:id] =~ /[^0-9]/
-  player_id = params[:id].to_i
+get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
+  # parse params
+  str_id = params[:captures][0]
+  player_id = str_id.to_i
+  format = (params[:captures][1] || '.html').gsub(/^\./, '').downcase.to_sym
+
+  redirect "/player/average#{format == :html ? '' : '.' + format.to_s}" if player_id == 0
+
   player = Player.find(id: player_id)
   raise NoPlayerError, player_id.to_s unless player
   @prof = player
@@ -201,18 +206,17 @@ get '/player/:id' do
     end
   end
 
-  format = params[:format] || 'html'
-  case format.downcase.to_sym
+  case format
   when :json
     scores = nil
     filtered = params[:filtered] || 'false'
     case filtered
     when 'true', '1'
-      scores = @song.select {|k, v| !v.empty?}
+      scores = @song.reject {|k, v| v.all? {|diff, val| !val}}
     when 'false', '0'
       scores = @song
     end
-    {profile: @prof.to_hash, scores: scores}.to_json
+    {profile: @prof.to_hash, scores: scores, stat: @stat}.to_json
   when :html
     haml :player
   else
