@@ -33,7 +33,6 @@ module Parser
         name: doc.css('#profileL_box div')[0].at_css('dl dd').text.strip,
         id: doc.css('#profileR_box div')[0].at_css('dl dd').text.strip
       }
-      p team
       unless team[:id] == '未設定'
         team[:id] = team[:id].to_i
         player[:team] = team
