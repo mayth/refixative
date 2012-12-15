@@ -62,7 +62,7 @@
 %ul
   %li 履歴の表示
   %li スコアのソート
-  %li 統計情報表示
+  %li 統計情報表示（対平均成績のみ実装済み）
   %li 非公開情報の選択
 %h3 現在把握している不具合
 %p 不具合の報告を受けたものの未確認、再現しない場合は注釈付きでリストに含めています。
@@ -102,10 +102,13 @@
 
 %h3 API
 %p
-  APIというほどでもありませんが、プレイヤーページはJSON形式で出力することが可能です。クエリパラメータとして<code>format=json</code>を追加してください。例えば次のようなURLになります:
-  %a{href: url('/player/001714?format=json')}= url('/player/001714?format=json')
+  APIというほどでもありませんが、プレイヤーページと平均データはJSON形式で出力することが可能です。URLの最後に<code>.json</code>を追加してください。例えば次のようなURLになります:
+  %br
+  %a{href: url('/player/001714.json')}= url('/player/001714.json')
+  %br
+  %a{href: url('/player/average.json')}= url('/player/average.json')
 %p
-  JSON形式で出力する場合はさらにfilteredを受け取ります。例えば次のようになります:
-  %a{href: url('/player/001714?format=json&filtered=true')}= url('/player/001714?format=json&filtered=true')
+  JSON形式で出力する場合はクエリパラメータとしてfilteredを受け取ります。例えば次のようになります:
+  %a{href: url('/player/001714.json?filtered=true')}= url('/player/001714.json?filtered=true')
 %p
-  <code>filtered=1</code>または<code>filtered=true</code>とすると、スコアデータが存在しない楽曲は出力データから除外されます。<code>filtered=0</code>または<code>filtered=false</code>、およびパラメータを指定しない場合、スコアデータが存在しない曲も全て出力されます。
+  <code>filtered=1</code>または<code>filtered=true</code>とすると、全ての難易度のスコアデータが存在しない楽曲は出力データから除外されます。<code>filtered=0</code>または<code>filtered=false</code>、およびパラメータを指定しない場合、スコアデータが存在しない曲も全て出力されます。
