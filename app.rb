@@ -142,7 +142,7 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   # parse params
   str_id = params[:captures][0]
   player_id = str_id.to_i
-  format = (params[:captures][1] || '.html').gsub(/^\./, '').downcase.to_sym
+  format = (params[:captures][1] || params[:format] || '.html').gsub(/^\./, '').downcase.to_sym
 
   redirect "/player/average#{format == :html ? '' : '.' + format.to_s}" if player_id == 0
 

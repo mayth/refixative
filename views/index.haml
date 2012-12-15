@@ -108,7 +108,9 @@
   %br
   %a{href: url('/player/average.json')}= url('/player/average.json')
 %p
-  JSON形式で出力する場合はクエリパラメータとしてfilteredを受け取ります。例えば次のようになります:
+  もしくはクエリパラメータとして<code>format=json</code>を渡してください。
+%p
+  プレイヤーページをJSON形式で出力する場合はクエリパラメータとしてfilteredを受け取ります。例えば次のようになります:
   %a{href: url('/player/001714.json?filtered=true')}= url('/player/001714.json?filtered=true')
 %p
   <code>filtered=1</code>または<code>filtered=true</code>とすると、全ての難易度のスコアデータが存在しない楽曲は出力データから除外されます。<code>filtered=0</code>または<code>filtered=false</code>、およびパラメータを指定しない場合、スコアデータが存在しない曲も全て出力されます。
