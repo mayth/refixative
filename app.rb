@@ -158,16 +158,23 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   musics.each do |m|
     @song[m.name] = { basic: nil, medium: nil, hard: nil }
   end
-  @stat = Hash.new
+  @stat = {
+    difficulties: Hash.new
+  }
   DIFFICULTY.each do |diff, n|
-    @stat[diff] = {
+    @stat[:difficulties][diff] = {
+      played: 0,
       achieve_vs_ave: { win: 0, lose: 0, draw: 0 },
-      miss_vs_ave: { win: 0, lose: 0, draw: 0 }
+      miss_vs_ave: { win: 0, lose: 0, draw: 0 },
+      achieve_total: 0.0,
+      achieve_ave: 0.0,
+      miss_total: 0,
+      miss_ave: 0.0
     }
   end
 
   average = JSON.load(IO.read('average.dat'))['score_average']
-  # Calculate difference from average, and rank
+  # Calculate rank, average, difference from average
   scores.each do |s|
     name = s.music.name
     if s.achieve < 50.0
@@ -184,6 +191,7 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
       rank = 'AAA+'
     end
     difficulty_key = DIFFICULTY.key(s.difficulty)
+    @stat[:difficulties][difficulty_key][:played] += 1
     ave = average[name][difficulty_key.to_s]
     ave_avail = ave[:count] != 0
     tmp = { achieve: s.achieve, miss: s.miss, rank: rank,
@@ -191,20 +199,32 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
             miss_diff: ave_avail ? s.miss - ave['miss'] : nil }
     @song[name][DIFFICULTY.key(s.difficulty)] = tmp
     if tmp[:achieve_diff] == 0.0
-      @stat[difficulty_key][:achieve_vs_ave][:draw] += 1
+      @stat[:difficulties][difficulty_key][:achieve_vs_ave][:draw] += 1
     elsif tmp[:achieve_diff] > 0.0
-      @stat[difficulty_key][:achieve_vs_ave][:win] += 1
+      @stat[:difficulties][difficulty_key][:achieve_vs_ave][:win] += 1
     else
-      @stat[difficulty_key][:achieve_vs_ave][:lose] += 1
+      @stat[:difficulties][difficulty_key][:achieve_vs_ave][:lose] += 1
     end
     if tmp[:miss_diff] == 0.0
-      @stat[difficulty_key][:miss_vs_ave][:draw] += 1
+      @stat[:difficulties][difficulty_key][:miss_vs_ave][:draw] += 1
     elsif tmp[:miss_diff] < 0.0
-      @stat[difficulty_key][:miss_vs_ave][:win] += 1
+      @stat[:difficulties][difficulty_key][:miss_vs_ave][:win] += 1
     else
-      @stat[difficulty_key][:miss_vs_ave][:lose] += 1
+      @stat[:difficulties][difficulty_key][:miss_vs_ave][:lose] += 1
     end
   end
+  DIFFICULTY.each do |diff, n|
+    @stat[:difficulties][diff][:achieve_total] = scores.select {|v| v.difficulty == n }.map {|v| v.achieve}.inject(:+)
+    @stat[:difficulties][diff][:miss_total] = scores.select {|v| v.difficulty == n}.map {|v| v.miss}.inject(:+)
+    @stat[:difficulties][diff][:achieve_ave] = @stat[:difficulties][diff][:achieve_total].to_f / @stat[:difficulties][diff][:played]
+    @stat[:difficulties][diff][:miss_ave] = @stat[:difficulties][diff][:miss_total].to_f / @stat[:difficulties][diff][:played]
+  end
+  @stat[:total_played] = @stat[:difficulties].map {|k, v| v[:played]}.inject(:+)
+  achieve_total = @stat[:difficulties].map {|k, v| v[:achieve_total]}.inject(:+)
+  miss_total = @stat[:difficulties].map {|k, v| v[:miss_total]}.inject(:+)
+  @stat[:achieve_ave] = achieve_total / @stat[:total_played]
+  @stat[:miss_ave] = miss_total / @stat[:total_played]
+  p @stat
 
   case format
   when :json

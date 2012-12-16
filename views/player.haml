@@ -54,7 +54,7 @@
 
 %h2 楽曲データ
 %h3 対平均勝敗
-%table#stat_data
+%table#vs_ave_data
   %colgroup.vs_for{span: 1}
   %colgroup.basic{span: 2}
   %colgroup.medium{span: 2}
@@ -78,34 +78,63 @@
   %tbody
     %tr.vs_ave_win
       %td Win
-      %td= @stat[:basic][:achieve_vs_ave][:win]
-      %td= @stat[:basic][:miss_vs_ave][:win]
-      %td= @stat[:medium][:achieve_vs_ave][:win]
-      %td= @stat[:medium][:miss_vs_ave][:win]
-      %td= @stat[:hard][:achieve_vs_ave][:win]
-      %td= @stat[:hard][:miss_vs_ave][:win]
-      %td= @stat.map {|diff, v| v[:achieve_vs_ave][:win]}.inject(:+)
-      %td= @stat.map {|diff, v| v[:miss_vs_ave][:win]}.inject(:+)
+      %td= @stat[:difficulties][:basic][:achieve_vs_ave][:win]
+      %td= @stat[:difficulties][:basic][:miss_vs_ave][:win]
+      %td= @stat[:difficulties][:medium][:achieve_vs_ave][:win]
+      %td= @stat[:difficulties][:medium][:miss_vs_ave][:win]
+      %td= @stat[:difficulties][:hard][:achieve_vs_ave][:win]
+      %td= @stat[:difficulties][:hard][:miss_vs_ave][:win]
+      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs_ave][:win]}.inject(:+)
+      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs_ave][:win]}.inject(:+)
     %tr.vs_ave_draw
       %td Draw
-      %td= @stat[:basic][:achieve_vs_ave][:draw]
-      %td= @stat[:basic][:miss_vs_ave][:draw]
-      %td= @stat[:medium][:achieve_vs_ave][:draw]
-      %td= @stat[:medium][:miss_vs_ave][:draw]
-      %td= @stat[:hard][:achieve_vs_ave][:draw]
-      %td= @stat[:hard][:miss_vs_ave][:draw]
-      %td= @stat.map {|diff, v| v[:achieve_vs_ave][:draw]}.inject(:+)
-      %td= @stat.map {|diff, v| v[:miss_vs_ave][:draw]}.inject(:+)
+      %td= @stat[:difficulties][:basic][:achieve_vs_ave][:draw]
+      %td= @stat[:difficulties][:basic][:miss_vs_ave][:draw]
+      %td= @stat[:difficulties][:medium][:achieve_vs_ave][:draw]
+      %td= @stat[:difficulties][:medium][:miss_vs_ave][:draw]
+      %td= @stat[:difficulties][:hard][:achieve_vs_ave][:draw]
+      %td= @stat[:difficulties][:hard][:miss_vs_ave][:draw]
+      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs_ave][:draw]}.inject(:+)
+      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs_ave][:draw]}.inject(:+)
     %tr.vs_ave_lose
       %td Lose
-      %td= @stat[:basic][:achieve_vs_ave][:lose]
-      %td= @stat[:basic][:miss_vs_ave][:lose]
-      %td= @stat[:medium][:achieve_vs_ave][:lose]
-      %td= @stat[:medium][:miss_vs_ave][:lose]
-      %td= @stat[:hard][:achieve_vs_ave][:lose]
-      %td= @stat[:hard][:miss_vs_ave][:lose]
-      %td= @stat.map {|diff, v| v[:achieve_vs_ave][:lose]}.inject(:+)
-      %td= @stat.map {|diff, v| v[:miss_vs_ave][:lose]}.inject(:+)
+      %td= @stat[:difficulties][:basic][:achieve_vs_ave][:lose]
+      %td= @stat[:difficulties][:basic][:miss_vs_ave][:lose]
+      %td= @stat[:difficulties][:medium][:achieve_vs_ave][:lose]
+      %td= @stat[:difficulties][:medium][:miss_vs_ave][:lose]
+      %td= @stat[:difficulties][:hard][:achieve_vs_ave][:lose]
+      %td= @stat[:difficulties][:hard][:miss_vs_ave][:lose]
+      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs_ave][:lose]}.inject(:+)
+      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs_ave][:lose]}.inject(:+)
+
+%h3 平均スコア
+%table#ave_data
+  - miss_format = '%.1f'
+  - ar_format = '%.2f%%'
+  %colgroup{span: 1}
+  %colgroup.basic{span: 1}
+  %colgroup.medium{span: 1}
+  %colgroup.hard{span: 1}
+  %thead
+    %tr
+      %th 
+      %th BASIC
+      %th MEDIUM
+      %th HARD
+      %th Total
+  %tbody
+    %tr
+      %td AR
+      %td= format(ar_format, @stat[:difficulties][:basic][:achieve_ave])
+      %td= format(ar_format, @stat[:difficulties][:medium][:achieve_ave])
+      %td= format(ar_format, @stat[:difficulties][:hard][:achieve_ave])
+      %td= format(ar_format, @stat[:achieve_ave])
+    %tr
+      %td MISS
+      %td= format(miss_format, @stat[:difficulties][:basic][:miss_ave])
+      %td= format(miss_format, @stat[:difficulties][:medium][:miss_ave])
+      %td= format(miss_format, @stat[:difficulties][:hard][:miss_ave])
+      %td= format(miss_format, @stat[:miss_ave])
 
 %h3 スコアデータ
 %table#score_data
