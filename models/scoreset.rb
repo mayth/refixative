@@ -20,12 +20,12 @@ class Scoreset < Sequel::Model
         puts "found music!" if music
         raise MusicMismatchError.new(song_name, music ? music.name : nil)
       end
-      DIFFICULTY.each do |diff, diff_num|
+      DIFFICULTY.each do |diff|
         if s[:scores][diff][:achieve]
           score = Score.new(
             music: music,
             scoreset: scoreset,
-            difficulty: diff_num,
+            difficulty: DIFFICULTY.index(diff),
             achieve: s[:scores][diff][:achieve],
             miss: s[:scores][diff][:miss])
           scoreset.add_score(score)
