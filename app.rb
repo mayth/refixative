@@ -11,7 +11,7 @@ require 'json'
 require 'haml'
 require 'sass'
 
-DIFFICULTY = {basic: 0 , medium: 1, hard: 2}
+DIFFICULTY = [:basic, :medium, :hard]
 
 # Setup DBs
 load './db_setup.rb'
@@ -83,7 +83,7 @@ post '/register' do
     @song.each do |s|
       old_music = old_scores.select {|v| v.music.name == s[:name]}
       s[:scores].select {|k, v| v[:achieve]}.each do |difficulty, score|
-        old_score = old_music.find {|x| x.difficulty == DIFFICULTY[difficulty]}
+        old_score = old_music.find {|x| x.difficulty == DIFFICULTY.index(difficulty)}
         if old_score
           # Check update
           score[:is_achieve_updated] = (old_score.achieve < score[:achieve]).to_s.to_sym
@@ -161,7 +161,7 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   @stat = {
     difficulties: Hash.new
   }
-  DIFFICULTY.each do |diff, n|
+  DIFFICULTY.each do |diff|
     @stat[:difficulties][diff] = {
       played: 0,
       achieve_vs_ave: { win: 0, lose: 0, draw: 0 },
@@ -192,14 +192,14 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     else
       rank = 'AAA+'
     end
-    difficulty_key = DIFFICULTY.key(s.difficulty)
+    difficulty_key = DIFFICULTY[s.difficulty]
     @stat[:difficulties][difficulty_key][:played] += 1
     ave = average[name][difficulty_key.to_s]
     ave_avail = ave[:count] != 0
     tmp = { achieve: s.achieve, miss: s.miss, rank: rank,
             achieve_diff: ave_avail ? s.achieve - ave['achieve'] : nil,
             miss_diff: ave_avail ? s.miss - ave['miss'] : nil }
-    @song[name][DIFFICULTY.key(s.difficulty)] = tmp
+    @song[name][DIFFICULTY[s.difficulty]] = tmp
     if tmp[:achieve_diff] == 0.0
       @stat[:difficulties][difficulty_key][:achieve_vs_ave][:draw] += 1
     elsif tmp[:achieve_diff] > 0.0
@@ -215,9 +215,9 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
       @stat[:difficulties][difficulty_key][:miss_vs_ave][:lose] += 1
     end
   end
-  DIFFICULTY.each do |diff, n|
-    @stat[:difficulties][diff][:achieve_total] = scores.select {|v| v.difficulty == n }.map {|v| v.achieve}.inject(:+)
-    @stat[:difficulties][diff][:miss_total] = scores.select {|v| v.difficulty == n}.map {|v| v.miss}.inject(:+)
+  DIFFICULTY.each do |diff|
+    @stat[:difficulties][diff][:achieve_total] = scores.select {|v| v.difficulty == DIFFICULTY.index(diff) }.map {|v| v.achieve}.inject(:+)
+    @stat[:difficulties][diff][:miss_total] = scores.select {|v| v.difficulty == DIFFICULTY.index(diff)}.map {|v| v.miss}.inject(:+)
     @stat[:difficulties][diff][:achieve_ave] = @stat[:difficulties][diff][:achieve_total].to_f / @stat[:difficulties][diff][:played]
     @stat[:difficulties][diff][:achieve_ave_all] = @stat[:difficulties][diff][:achieve_total].to_f / musics.size
     @stat[:difficulties][diff][:miss_ave] = @stat[:difficulties][diff][:miss_total].to_f / @stat[:difficulties][diff][:played]
