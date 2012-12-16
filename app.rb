@@ -188,6 +188,14 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
       miss_ave_all: 0.0
     }
   end
+  @music_stat = {
+    total: musics.size,
+    tunes: musics.size * DIFFICULTY.size,
+    levels: Hash.new
+  }
+  (1..11).each do |level|
+    @music_stat[:levels][level] = Music.dataset.filter(basic_lv: level).or(medium_lv: level).or(hard_lv: level).all.size
+  end
 
   average = JSON.load(IO.read('average.dat'))['score_average']
   # Calculate rank, average, difference from average

@@ -168,7 +168,7 @@
     %tr
       %td Played
       - @stat[:levels].each do |lv, v|
-        %td= v[:played]
+        %td== #{v[:played]} / #{@music_stat[:levels][lv]}
     %tr
       %td AR
       - @stat[:levels].each do |lv, v|
