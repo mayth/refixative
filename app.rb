@@ -216,7 +216,9 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     when 'false', '0'
       scores = @song
     end
-    {profile: @prof.to_hash, scores: scores, stat: @stat}.to_json
+    prof_hash = @prof.to_hash
+    prof_hash.delete(:latest_scoreset_id)
+    {profile: prof_hash, scores: scores, stat: @stat}.to_json
   when :html
     haml :player
   else
