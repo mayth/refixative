@@ -168,8 +168,10 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
       miss_vs_ave: { win: 0, lose: 0, draw: 0 },
       achieve_total: 0.0,
       achieve_ave: 0.0,
+      achieve_ave_all: 0.0,
       miss_total: 0,
-      miss_ave: 0.0
+      miss_ave: 0.0,
+      miss_ave_all: 0.0
     }
   end
 
@@ -217,14 +219,17 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     @stat[:difficulties][diff][:achieve_total] = scores.select {|v| v.difficulty == n }.map {|v| v.achieve}.inject(:+)
     @stat[:difficulties][diff][:miss_total] = scores.select {|v| v.difficulty == n}.map {|v| v.miss}.inject(:+)
     @stat[:difficulties][diff][:achieve_ave] = @stat[:difficulties][diff][:achieve_total].to_f / @stat[:difficulties][diff][:played]
+    @stat[:difficulties][diff][:achieve_ave_all] = @stat[:difficulties][diff][:achieve_total].to_f / musics.size
     @stat[:difficulties][diff][:miss_ave] = @stat[:difficulties][diff][:miss_total].to_f / @stat[:difficulties][diff][:played]
+    @stat[:difficulties][diff][:miss_ave_all] = @stat[:difficulties][diff][:miss_total].to_f / musics.size
   end
   @stat[:total_played] = @stat[:difficulties].map {|k, v| v[:played]}.inject(:+)
   achieve_total = @stat[:difficulties].map {|k, v| v[:achieve_total]}.inject(:+)
   miss_total = @stat[:difficulties].map {|k, v| v[:miss_total]}.inject(:+)
   @stat[:achieve_ave] = achieve_total / @stat[:total_played]
-  @stat[:miss_ave] = miss_total / @stat[:total_played]
-  p @stat
+  @stat[:achieve_ave_all] = achieve_total / musics.size
+  @stat[:miss_ave] = miss_total.to_f / @stat[:total_played]
+  @stat[:miss_ave_all] = miss_total.to_f / musics.size
 
   case format
   when :json

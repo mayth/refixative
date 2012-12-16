@@ -125,16 +125,22 @@
   %tbody
     %tr
       %td AR
-      %td= format(ar_format, @stat[:difficulties][:basic][:achieve_ave])
-      %td= format(ar_format, @stat[:difficulties][:medium][:achieve_ave])
-      %td= format(ar_format, @stat[:difficulties][:hard][:achieve_ave])
-      %td= format(ar_format, @stat[:achieve_ave])
+      - @stat[:difficulties].each do |diff, v|
+        %td
+          .played_only= format(ar_format, v[:achieve_ave])
+          .all_ave== (#{format(ar_format, v[:achieve_ave_all])})
+      %td
+        .played_only= format(ar_format, @stat[:achieve_ave])
+        .all_ave== (#{format(ar_format, @stat[:achieve_ave_all])})
     %tr
       %td MISS
-      %td= format(miss_format, @stat[:difficulties][:basic][:miss_ave])
-      %td= format(miss_format, @stat[:difficulties][:medium][:miss_ave])
-      %td= format(miss_format, @stat[:difficulties][:hard][:miss_ave])
-      %td= format(miss_format, @stat[:miss_ave])
+      - @stat[:difficulties].each do |diff, v|
+        %td
+          .played_only= format(miss_format, v[:miss_ave])
+          .all_ave== (#{format(miss_format, v[:miss_ave_all])})
+      %td
+        .played_only= format(miss_format, @stat[:miss_ave])
+        .all_ave== (#{format(miss_format, @stat[:miss_ave_all])})
 
 %h3 スコアデータ
 %table#score_data
