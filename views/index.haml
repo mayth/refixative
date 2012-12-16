@@ -2,26 +2,31 @@
   %h1 Refixative
   %p REFLEC BEAT colette score tool
 
-%h2 NOTE
-%p
-  現在Refixativeは開発中で、不具合や未完成な部分が山積している状態です。データのリセット等が行われる可能性もあります。あくまでテストとして公開しているという点をご理解ください。
-%p
-  使ってみてバグを見つけた場合や、機能の要望に関してはページ下部に連絡先を記載してありますので、そちらにお願いします。
-%p
-  <strong>現在プロフィールを一部非公開にすることは対応していません。</strong>GATEのページにて非公開に設定している情報でも、Refixativeに登録すると全て公開されます。ご注意ください。
-
-%h2 Refixativeとは
+%h2#about Refixativeとは
 %p
   Refixative（りふぃきさちーふ）はREFLEC BEAT coletteのスコアデータを記録・集計するツールです。過去の自分のデータや他の登録しているプレイヤーとのスコア比較が可能（になる予定）です。
 
-%h2 スコア登録
-%p スコアの登録は登録フォームから行います。
+%h2#registration スコア登録
 #link_register
   %p
-    %a{href: url('/register')} 登録フォーム
+    %a{href: url('/register')} 登録フォームへ
 
-%h2 使い方
-%h3 登録
+%h2#information お知らせ
+#info_static
+  %p
+    Refixativeは現在ベータ版です。不具合や未完成の機能があります。現時点で追加を予定している機能や、対処予定の不具合は<a href="#todo">今後の予定</a>をご覧ください。
+  %p
+    <strong>現在プロフィールを一部非公開にすることは対応していません。</strong>GATEのページにて非公開に設定している情報でも、Refixativeに登録すると全て公開されます。ご注意ください。
+  %p
+    Refixativeに関するお知らせや機能追加等のアナウンスはTwitter上にて<a href="https://twitter.com/search?q=%23Refixative">#Refixative</a>をつけて行っています。不具合の報告や機能要望等もこちらのハッシュタグをご利用ください。
+
+#info_tweets
+  <a class="twitter-timeline" data-dnt=true href="https://twitter.com/search?q=%23Refixative" data-widget-id="280103969865465856">#Refixative に関するツイート</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+%h2#how_to_use 使い方
+%h3#how_to_register 登録
 %p
   Refixativeへのスコア登録は、一旦e-AMUSEMENT GATEのページをダウンロードして頂き、それをこちらにアップロードすることで行われます。
 %p
@@ -42,7 +47,7 @@
     正常に処理されると確認画面に移動します。表示されたプロフィール、楽曲データに間違いや異常がないか確認して、登録してください。
   %li
     登録完了ページに移動したら登録作業は終了です。
-%h3 データ閲覧
+%h3#how_to_show データ閲覧
 %p
   プレイヤーデータは
   %em= url('/player/(id)')
@@ -58,41 +63,43 @@
   %strong
     %a{href: url('/player/average')}= url('/player/average')
 
-%h2 今後の予定
+%h2#todo 今後の予定
 %ul
   %li 履歴の表示
   %li スコアのソート
   %li 統計情報表示（対平均成績のみ実装済み）
   %li 非公開情報の選択
-%h3 現在把握している不具合
+%h3#todo_bugs 現在把握している不具合
 %p 不具合の報告を受けたものの未確認、再現しない場合は注釈付きでリストに含めています。
 %ul
   %li スコアソートがおかしい（一時的に無効化）
   %li 登録時に楽曲が表示されないことがある（現時点で再現せず。調査中）
 
-%h2 その他
-%h3 何かメッセージが出たら
-%h4 Internal Server Error、その他
+%h2#address 連絡先
 %p
-  プログラムに不具合があると考えられます。表示されたメッセージと、メッセージが出た日時と、どんな操作を行ったか（スコアの登録をした、プレイヤーデータの閲覧をした、などでOKです）、環境（OSとブラウザ）を添えて下記連絡先までご連絡ください。
+  バグ報告、意見等はTwitterで受け付けています。<a href='https://twitter.com/maytheplic'>@maytheplic</a>にどうぞ。また、ハッシュタグ<a href="https://twitter.com/search?q=%23Refixative">#Refixative</a>もご利用ください（随時確認しております）。
+
+%h2#other_notes その他
+%h3 注意点
+%p
+  Refixativeは随時更新されます。更新作業に伴い、スコアデータのリセットや、一時的な公開停止が予告なく行われることがあります。
+
+%h3 何かメッセージが出たら
+%p
+  メッセージに操作の案内があれば、まずはそれに従ってください。何も操作の案内がなかったり、英語のメッセージだけが表示されていなかったりした場合、プログラムに不具合があると考えられます。表示されたメッセージと、メッセージが出た日時と、どんな操作を行ったか（スコアの登録をした、プレイヤーデータの閲覧をした、などでOKです）、環境（OSとブラウザ）を添えてご連絡ください。
+
 %h3 動作環境について
 %p
   表示の確認はMac OS X版Google Chrome最新安定版にて行っております。この他、基本的にはHTML5/CSS3に対応していれば問題なく表示出来るものと考えられます。どこかおかしな点がありましたらOSとブラウザを明記の上ご連絡ください。
 
-%h3 連絡先
-%p
-  バグ報告、意見等はTwitterで受け付けています。<a href='https://twitter.com/maytheplic'>@maytheplic</a>にどうぞ。また、ハッシュタグ<a href="https://twitter.com/search?q=%23Refixative">#Refixative</a>も見ております。
-%p
-  またRefixativeに関する最新情報は、上記アカウントからハッシュタグをつけてつぶやきます。新機能の告知やサーバーダウンなどについては全てTwitter上で発信します。普段のつぶやきはあまりにも雑多で、かつ多いのでハッシュタグをチェックすることをオススメします。
-
-%h3 現在の状態
+%h3#stats 現在の状態
 %dl
   %dt 登録プレイヤー数
   %dd= @player_num
   %dt スコア登録総数
   %dd= @scoreset_num
 
-%h2 開発者向けの情報
+%h2#for_developer 開発者向けの情報
 %h3 ソースコード
 %p
   このプログラムのソースコードは<a href='https://github.com'>GitHub</a>上で、MITライセンスのもと公開されています。

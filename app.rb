@@ -37,7 +37,7 @@ configure do
   # Set default values for templates
   set :haml, :format => :html5
   set :sass, :style => :expanded
-  set :revision, `git show --format='%h' -s` + `git diff --quiet HEAD || echo '+'`
+  set :revision, `git show --format='%h' -s`.strip + `git diff --quiet HEAD || echo '+'`.strip
 end
 
 helpers do
