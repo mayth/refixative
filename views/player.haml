@@ -125,6 +125,11 @@
       %th Total
   %tbody
     %tr
+      %td Played
+      - @stat[:difficulties].each do |diff, v|
+        %td= v[:played]
+      %td= @stat[:total_played]
+    %tr
       %td AR
       - @stat[:difficulties].each do |diff, v|
         %td
@@ -160,6 +165,10 @@
       %th 10
       %th 10+
   %tbody
+    %tr
+      %td Played
+      - @stat[:levels].each do |lv, v|
+        %td= v[:played]
     %tr
       %td AR
       - @stat[:levels].each do |lv, v|
