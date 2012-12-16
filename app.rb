@@ -254,9 +254,9 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   achieve_total = @stat[:difficulties].map {|k, v| v[:achieve_total]}.inject(:+)
   miss_total = @stat[:difficulties].map {|k, v| v[:miss_total]}.inject(:+)
   @stat[:achieve_ave] = achieve_total / @stat[:total_played]
-  @stat[:achieve_ave_all] = achieve_total / musics.size
+  @stat[:achieve_ave_all] = achieve_total / (musics.size * DIFFICULTY.size)
   @stat[:miss_ave] = miss_total.to_f / @stat[:total_played]
-  @stat[:miss_ave_all] = miss_total.to_f / musics.size
+  @stat[:miss_ave_all] = miss_total.to_f / (musics.size * DIFFICULTY.size)
 
   case format
   when :json
