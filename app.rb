@@ -159,10 +159,24 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     @song[m.name] = { basic: nil, medium: nil, hard: nil }
   end
   @stat = {
-    difficulties: Hash.new
+    difficulties: Hash.new,
+    levels: Hash.new
   }
   DIFFICULTY.each do |diff|
     @stat[:difficulties][diff] = {
+      played: 0,
+      achieve_vs_ave: { win: 0, lose: 0, draw: 0 },
+      miss_vs_ave: { win: 0, lose: 0, draw: 0 },
+      achieve_total: 0.0,
+      achieve_ave: 0.0,
+      achieve_ave_all: 0.0,
+      miss_total: 0,
+      miss_ave: 0.0,
+      miss_ave_all: 0.0
+    }
+  end
+  (1..11).each do |level|
+    @stat[:levels][level] = {
       played: 0,
       achieve_vs_ave: { win: 0, lose: 0, draw: 0 },
       miss_vs_ave: { win: 0, lose: 0, draw: 0 },
@@ -194,6 +208,8 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     end
     difficulty_key = DIFFICULTY[s.difficulty]
     @stat[:difficulties][difficulty_key][:played] += 1
+    level = s.music.send(difficulty_key.to_s + '_lv')
+    @stat[:levels][level][:played] += 1
     ave = average[name][difficulty_key.to_s]
     ave_avail = ave[:count] != 0
     tmp = { achieve: s.achieve, miss: s.miss, rank: rank,
@@ -222,6 +238,17 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     @stat[:difficulties][diff][:achieve_ave_all] = @stat[:difficulties][diff][:achieve_total].to_f / musics.size
     @stat[:difficulties][diff][:miss_ave] = @stat[:difficulties][diff][:miss_total].to_f / @stat[:difficulties][diff][:played]
     @stat[:difficulties][diff][:miss_ave_all] = @stat[:difficulties][diff][:miss_total].to_f / musics.size
+  end
+  (1..11).each do |level|
+    lv = @stat[:levels][level]
+    lv[:achieve_total] = scores.select {|v| v.music.send(DIFFICULTY[v.difficulty].to_s + '_lv') == level}.map {|v| v.achieve}.inject(:+) || 0.0
+    lv[:miss_total] = scores.select {|v| v.music.send(DIFFICULTY[v.difficulty].to_s + '_lv') == level}.map {|v| v.miss}.inject(:+) || 0.0
+    lv[:achieve_ave] = lv[:achieve_total] / lv[:played].to_f
+    lv[:achieve_ave] = 0.0 if lv[:achieve_ave].nan?
+    lv[:achieve_ave_all] = lv[:achieve_total] / musics.size
+    lv[:miss_ave] = lv[:miss_total].to_f / lv[:played].to_f
+    lv[:miss_ave] = 0.0 if lv[:miss_ave].nan?
+    lv[:miss_ave_all] = lv[:miss_total] / musics.size
   end
   @stat[:total_played] = @stat[:difficulties].map {|k, v| v[:played]}.inject(:+)
   achieve_total = @stat[:difficulties].map {|k, v| v[:achieve_total]}.inject(:+)

@@ -108,7 +108,8 @@
       %td= @stat[:difficulties].map {|diff, v| v[:miss_vs_ave][:lose]}.inject(:+)
 
 %h3 平均スコア
-%table#ave_data
+%h4 難易度別
+%table#diff_ave_data
   - miss_format = '%.1f'
   - ar_format = '%.2f%%'
   %colgroup{span: 1}
@@ -141,6 +142,36 @@
       %td
         .played_only= format(miss_format, @stat[:miss_ave])
         .all_ave== (#{format(miss_format, @stat[:miss_ave_all])})
+
+%h4 レベル別
+%table#level_ave_data
+  %thead
+    %tr
+      %th
+      %th 1
+      %th 2
+      %th 3
+      %th 4
+      %th 5
+      %th 6
+      %th 7
+      %th 8
+      %th 9
+      %th 10
+      %th 10+
+  %tbody
+    %tr
+      %td AR
+      - @stat[:levels].each do |lv, v|
+        %td
+          .played_only= format(ar_format, v[:achieve_ave])
+          .all_ave== (#{format(ar_format, v[:achieve_ave_all])})
+    %tr
+      %td MISS
+      - @stat[:levels].each do |lv, v|
+        %td
+          .played_only= format(miss_format, v[:miss_ave])
+          .all_ave== (#{format(miss_format, v[:miss_ave_all])})
 
 %h3 スコアデータ
 %table#score_data
