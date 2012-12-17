@@ -127,8 +127,8 @@
     %tr
       %td Played
       - @stat[:difficulties].each do |diff, v|
-        %td= v[:played]
-      %td= @stat[:total_played]
+        %td== #{v[:played]} / #{@music_stat[:total_musics]}
+      %td== #{@stat[:total_played]} / #{@music_stat[:total_tunes]}
     %tr
       %td AR
       - @stat[:difficulties].each do |diff, v|

@@ -189,8 +189,8 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     }
   end
   @music_stat = {
-    total: musics.size,
-    tunes: musics.size * DIFFICULTY.size,
+    total_musics: musics.size,
+    total_tunes: musics.size * DIFFICULTY.size,
     levels: Hash.new
   }
   (1..11).each do |level|
