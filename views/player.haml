@@ -133,8 +133,11 @@
       %td AR
       - @stat[:difficulties].each do |diff, v|
         %td
-          .played_only= format(ar_format, v[:achieve_ave])
-          .all_ave== (#{format(ar_format, v[:achieve_ave_all])})
+          - if v[:played] == 0
+            .not_available N/A
+          - else
+            .played_only= format(ar_format, v[:achieve_ave])
+            .all_ave== (#{format(ar_format, v[:achieve_ave_all])})
       %td
         .played_only= format(ar_format, @stat[:achieve_ave])
         .all_ave== (#{format(ar_format, @stat[:achieve_ave_all])})
@@ -142,8 +145,11 @@
       %td MISS
       - @stat[:difficulties].each do |diff, v|
         %td
-          .played_only= format(miss_format, v[:miss_ave])
-          .all_ave== (#{format(miss_format, v[:miss_ave_all])})
+          - if v[:played] == 0
+            .not_available N/A
+          - else
+            .played_only= format(miss_format, v[:miss_ave])
+            .all_ave== (#{format(miss_format, v[:miss_ave_all])})
       %td
         .played_only= format(miss_format, @stat[:miss_ave])
         .all_ave== (#{format(miss_format, @stat[:miss_ave_all])})
@@ -173,14 +179,20 @@
       %td AR
       - @stat[:levels].each do |lv, v|
         %td
-          .played_only= format(ar_format, v[:achieve_ave])
-          .all_ave== (#{format(ar_format, v[:achieve_ave_all])})
+          - if v[:played] == 0
+            .not_available N/A
+          - else
+            .played_only= format(ar_format, v[:achieve_ave])
+            .all_ave== (#{format(ar_format, v[:achieve_ave_all])})
     %tr
       %td MISS
       - @stat[:levels].each do |lv, v|
         %td
-          .played_only= format(miss_format, v[:miss_ave])
-          .all_ave== (#{format(miss_format, v[:miss_ave_all])})
+          - if v[:played] == 0
+            .not_available N/A
+          - else
+            .played_only= format(miss_format, v[:miss_ave])
+            .all_ave== (#{format(miss_format, v[:miss_ave_all])})
 
 %h3 スコアデータ
 %table#score_data
