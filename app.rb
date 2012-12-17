@@ -254,7 +254,7 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     lv[:achieve_ave] = lv[:achieve_total] / lv[:played].to_f
     lv[:achieve_ave_all] = lv[:achieve_total] / @music_stat[:levels][level]
     lv[:miss_ave] = lv[:miss_total].to_f / lv[:played].to_f
-    lv[:miss_ave_all] = lv[:miss_total] / @music_stat[:levels][level]
+    lv[:miss_ave_all] = lv[:miss_total].to_f / @music_stat[:levels][level]
   end
   @stat[:total_played] = @stat[:difficulties].map {|k, v| v[:played]}.inject(:+)
   achieve_total = @stat[:difficulties].map {|k, v| v[:achieve_total]}.inject(:+)
