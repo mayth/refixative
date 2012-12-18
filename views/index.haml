@@ -62,6 +62,19 @@
   %br
   %strong
     %a{href: url('/player/average')}= url('/player/average')
+%h3 チーム
+%h4 一覧
+%p
+  チーム一覧は次のURLから見ることができます:
+  %br
+  %strong
+    %a{href: url('/teams')}= url('/teams')
+%h4 詳細
+%p
+  チームの詳細は
+  %em= url('/team/(id)')
+  で見ることができます。例えばチームID: 1（ウィザウチュナイ）の詳細は次のURLで見られます:
+  %a{href: url('/team/1')}= url('/team/1')
 
 %h2#todo 今後の予定
 %ul
