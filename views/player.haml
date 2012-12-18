@@ -1,4 +1,7 @@
+%script{src: '/script/player_score_sorter.js'}
 %h1== プレイヤー 《#{@prof.name}》
+
+#jstest
 
 %ul
   %li
@@ -15,7 +18,7 @@
   %tbody
     %tr
       %td ID
-      %td= @prof.id.to_s.rjust(6, '0')
+      %td#player_id= @prof.id.to_s.rjust(6, '0')
     %tr
       %td 通り名
       %td= @prof.pseudonym
