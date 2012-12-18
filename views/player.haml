@@ -220,56 +220,36 @@
       %th RANK
   %tbody
     - @song.each do |name, scores|
-      %tr
-        %td= CGI.escapeHTML(name)
+      %tr.player_score
+        %td{rowspan: 2}= CGI.escapeHTML(name)
         - scores.each do |diff, score|
           - if score
-            %td
-              %div== #{score[:achieve]}%
-              - if score[:achieve_diff] == 0.0
-                %div.ave_diff= format(ar_format, score[:achieve_diff])
-              - elsif score[:achieve_diff] > 0.0
-                %div.ave_diff.vs_ave_win= format(ar_format, score[:achieve_diff])
-              - else
-                %div.ave_diff.vs_ave_lose= format(ar_format, score[:achieve_diff])
+            %td== #{score[:achieve]}%
             - case score[:miss]
             - when 0
-              %td
-                %div.fullcombo FC
-                - if score[:miss_diff] == 0
-                  %div.ave_diff= format(miss_format, score[:miss_diff])
-                - elsif score[:miss_diff] < 0
-                  %div.ave_diff.vs_ave_win= format(miss_format, score[:miss_diff])
-                - else
-                  %div.ave_diff.vs_ave_lose= format(miss_format, score[:miss_diff])
+              %td.fullcombo FC
             - when 1
-              %td
-                %div.miss1 1
-                - if score[:miss_diff] == 0
-                  %div.ave_diff= format(miss_format, score[:miss_diff])
-                - elsif score[:miss_diff] < 0
-                  %div.ave_diff.vs_ave_win= format(miss_format, score[:miss_diff])
-                - else
-                  %div.ave_diff.vs_ave_lose= format(miss_format, score[:miss_diff])
+              %td.miss1 1
             - when 2
-              %td
-                %div.miss2 2
-                - if score[:miss_diff] == 0
-                  %div.ave_diff= format(miss_format, score[:miss_diff])
-                - elsif score[:miss_diff] < 0
-                  %div.ave_diff.vs_ave_win= format(miss_format, score[:miss_diff])
-                - else
-                  %div.ave_diff.vs_ave_lose= format(miss_format, score[:miss_diff])
+              %td.miss2 2
             - else
-              %td
-                %div= score[:miss]
-                - if score[:miss_diff] == 0
-                  %div.ave_diff= format(miss_format, score[:miss_diff])
-                - elsif score[:miss_diff] < 0
-                  %div.ave_diff.vs_ave_win= format(miss_format, score[:miss_diff])
-                - else
-                  %div.ave_diff.vs_ave_lose= format(miss_format, score[:miss_diff])
-            %td= score[:rank]
+              %td= score[:miss]
+            %td.rank{rowspan: 2}= score[:rank]
           - else
-            %td.noplay{colspan: 3} NO PLAY
+            %td.noplay{rowspan: 2, colspan: 3} NO PLAY
+      %tr.ave_diff
+        - scores.each do |diff, score|
+          - if score
+            - if score[:achieve_diff] == 0.0
+              %td.ave_diff= format(ar_format, score[:achieve_diff])
+            - elsif score[:achieve_diff] > 0.0
+              %td.ave_diff.vs_ave_win= format(ar_format, score[:achieve_diff])
+            - else
+              %td.ave_diff.vs_ave_lose= format(ar_format, score[:achieve_diff])
+            - if score[:miss_diff] == 0
+              %td.ave_diff= format(miss_format, score[:miss_diff])
+            - elsif score[:miss_diff] < 0
+              %td.ave_diff.vs_ave_win= format(miss_format, score[:miss_diff])
+            - else
+              %td.ave_diff.vs_ave_lose= format(miss_format, score[:miss_diff])
 %p== 計 #{@song.size} 曲

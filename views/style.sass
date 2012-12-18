@@ -3,6 +3,7 @@ body
   margin: auto
 
 $top_padding: 15px
+
 #top_container
   background: #ffead6
   padding: $top_padding
@@ -40,23 +41,36 @@ h3
   font-size: 75%
   text-align: center
 
-#score_data, #vs_ave_data, #diff_ave_data, #level_ave_data
+
+table
   border-collapse: collapse
   td
     padding: 2px 10px
     text-align: center
     border: solid thin green
     border:
-      left: 0
-      right: 0
-  .music_name
-    text-align: left
+      left: none
+      right: none
   .basic
     background: #f4fff4
   .medium
     background: #fffff4
   .hard
     background: #fff4f4
+
+#vs_ave_data, #diff_ave_data, #level_ave_data
+
+#score_data
+  tr.player_score td
+    border:
+      bottom: none
+  tr.ave_diff td
+    border:
+      top: none
+  .rank
+    font-size: 110%
+  .music_name
+    text-align: left
   .miss_header
     padding: 0 10px
 
