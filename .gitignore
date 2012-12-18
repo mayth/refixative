@@ -2,6 +2,7 @@ cookie_secret
 
 maintenance/
 tmp/
+shared/
 *~
 *.swp
 *.gem
