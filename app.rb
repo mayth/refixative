@@ -290,6 +290,19 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   end
 end
 
+get '/teams' do
+  teams = Team.order(:id)
+  @teams = Array.new
+  teams.each do |t|
+    @teams << {
+      id: t.id,
+      name: t.name,
+      members: Player.filter(team_id: t.id).count
+    }
+  end
+  haml :teams
+end
+
 error MusicMismatchError do
   e = env['sinatra.error']
   @searching_name = e.searching_name

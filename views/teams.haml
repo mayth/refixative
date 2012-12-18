@@ -1,0 +1,15 @@
+%h1 チーム
+%p
+  Refixativeに登録しているプレイヤーが所属するチームのみが表示されます。（ID順）
+
+%table
+  %thead
+    %th ID
+    %th チーム名
+    %th メンバー数
+  %tbody
+    - @teams.each do |team|
+      %tr
+        %td= team[:id]
+        %td= team[:name]
+        %td= team[:members]
