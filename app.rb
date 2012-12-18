@@ -242,8 +242,8 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   end
   DIFFICULTY.each do |diff|
     df = @stat[:difficulties][diff]
-    df[:achieve_total] = scores.select {|v| v.difficulty == DIFFICULTY.index(diff) }.map {|v| v.achieve}.inject(:+)
-    df[:miss_total] = scores.select {|v| v.difficulty == DIFFICULTY.index(diff)}.map {|v| v.miss}.inject(:+)
+    df[:achieve_total] = scores.select {|v| v.difficulty == DIFFICULTY.index(diff) }.map {|v| v.achieve}.inject(:+) || 0.0
+    df[:miss_total] = scores.select {|v| v.difficulty == DIFFICULTY.index(diff)}.map {|v| v.miss}.inject(:+) || 0.0
     df[:achieve_ave] = df[:achieve_total].to_f / df[:played].to_f
     df[:achieve_ave] = nil if df[:achieve_ave].nan?
     df[:achieve_ave_all] = df[:achieve_total].to_f / musics.size.to_f
