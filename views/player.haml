@@ -203,30 +203,39 @@
   - miss_format = '%.1f'
   - ar_format = '%+.2f%%'
   %colgroup.music_name{span: 1}
-  %colgroup.basic{span: 3}
-  %colgroup.medium{span: 3}
-  %colgroup.hard{span: 3}
+  %colgroup.basic{span: 4}
+  %colgroup.medium{span: 4}
+  %colgroup.hard{span: 4}
   %thead
     %tr
       %th{rowspan: 2} 楽曲名
-      %th{colspan: 3} BASIC
-      %th{colspan: 3} MEDIUM
-      %th{colspan: 3} HARD
+      %th{colspan: 4} BASIC
+      %th{colspan: 4} MEDIUM
+      %th{colspan: 4} HARD
     %tr
+      %th Lv
       %th AR
       %th MISS
       %th RANK
+      %th Lv
       %th AR
       %th MISS
       %th RANK
+      %th Lv
       %th AR
       %th MISS
       %th RANK
   %tbody
-    - @song.each do |name, scores|
+    - @song.each do |name, song_info|
       %tr.player_score
         %td{rowspan: 2}= CGI.escapeHTML(name)
-        - scores.each do |diff, score|
+        - song_info.each do |diff, diff_info|
+          %td{rowspan: 2}
+            - if diff_info[:lv] == 11
+              10+
+            - else
+              = diff_info[:lv]
+          - score = diff_info[:score]
           - if score
             %td== #{score[:achieve]}%
             - case score[:miss]
@@ -242,7 +251,8 @@
           - else
             %td.noplay{rowspan: 2, colspan: 3} NO PLAY
       %tr.ave_diff
-        - scores.each do |diff, score|
+        - song_info.each do |diff, diff_info|
+          - score = diff_info[:score]
           - if score
             - if score[:achieve_diff] == 0.0
               %td.ave_diff= format(ar_format, score[:achieve_diff])

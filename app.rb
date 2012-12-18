@@ -156,7 +156,11 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   musics = Music.dataset.all
   @song = Hash.new
   musics.each do |m|
-    @song[m.name] = { basic: nil, medium: nil, hard: nil }
+    @song[m.name] = {
+      basic: { lv: m.basic_lv },
+      medium: { lv: m.medium_lv },
+      hard: { lv: m.hard_lv }
+    }
   end
   @stat = {
     difficulties: Hash.new,
@@ -224,7 +228,7 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     tmp = { achieve: s.achieve, miss: s.miss, rank: rank,
             achieve_diff: ave_avail ? s.achieve - ave['achieve'] : nil,
             miss_diff: ave_avail ? s.miss - ave['miss'] : nil }
-    @song[name][DIFFICULTY[s.difficulty]] = tmp
+    @song[name][DIFFICULTY[s.difficulty]][:score] = tmp
     if tmp[:achieve_diff] == 0.0
       stat_df[:achieve_vs_ave][:draw] += 1
     elsif tmp[:achieve_diff] > 0.0
