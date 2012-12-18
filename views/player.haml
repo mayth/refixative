@@ -28,7 +28,11 @@
     - if @prof.team
       %tr
         %td チームID
-        %td= @prof.team.id
+        %td
+          = @prof.team.id
+          (
+          %a{href: url("/team/#{@prof.team.id}")}> チーム詳細
+          )
       %tr
         %td チーム名
         %td= @prof.team.name
