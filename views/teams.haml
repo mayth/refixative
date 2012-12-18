@@ -10,6 +10,7 @@
   %tbody
     - @teams.each do |team|
       %tr
-        %td= team[:id]
+        %td
+          %a{href: url("/team/#{team[:id]}")}= team[:id]
         %td= team[:name]
         %td= team[:members]
