@@ -303,6 +303,13 @@ get '/teams' do
   haml :teams
 end
 
+get '/team/:id' do
+  @team = Team.find(id: params[:id])
+  halt 404 unless @team
+  @members = Player.filter(team_id: @team.id).order(:id)
+  haml :team
+end
+
 error MusicMismatchError do
   e = env['sinatra.error']
   @searching_name = e.searching_name
