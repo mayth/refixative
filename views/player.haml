@@ -3,40 +3,6 @@
 %script{src: '/script/player_score_sorter.js'}
 %h1== プレイヤー 《#{@prof.name}》
 
-%form
-  %button{type: 'button', onclick: 'changeSort();'} Change Difficulty
-  %button{type: 'button', onclick: 'reverseOrder();'} Reverse
-
-%p#current_sort
-%p#current_order
-
-
-%table#jstest
-  %colgroup.music_name{span: 1}
-  %colgroup.basic{span: 4}
-  %colgroup.medium{span: 4}
-  %colgroup.hard{span: 4}
-  %thead
-    %tr
-      %th{rowspan: 2} 楽曲名
-      %th{colspan: 4} BASIC
-      %th{colspan: 4} MEDIUM
-      %th{colspan: 4} HARD
-    %tr
-      %th Lv
-      %th AR
-      %th MISS
-      %th RANK
-      %th Lv
-      %th AR
-      %th MISS
-      %th RANK
-      %th Lv
-      %th AR
-      %th MISS
-      %th RANK
-  %tbody
-
 %ul
   %li
     %a{href: url('/')} トップページに戻る
@@ -236,71 +202,24 @@
             .all_ave== (#{format(miss_format, v[:miss_ave_all])})
 
 %h3 スコアデータ
+
+%p#current_sort
+
 %table#score_data
-  - miss_format = '%.1f'
-  - ar_format = '%+.2f%%'
   %colgroup.music_name{span: 1}
   %colgroup.basic{span: 4}
   %colgroup.medium{span: 4}
   %colgroup.hard{span: 4}
   %thead
     %tr
-      %th{rowspan: 2} 楽曲名
+      %th.sort_header{'data-colname' => 'name', rowspan: 2} 楽曲名
       %th{colspan: 4} BASIC
       %th{colspan: 4} MEDIUM
       %th{colspan: 4} HARD
     %tr
-      %th Lv
-      %th AR
-      %th MISS
-      %th RANK
-      %th Lv
-      %th AR
-      %th MISS
-      %th RANK
-      %th Lv
-      %th AR
-      %th MISS
-      %th RANK
+      - diff = ['basic', 'medium', 'hard']
+      - cols = {'Lv' => 'lv', 'AR' => 'achieve', 'Miss' => 'miss', 'Rank' => 'rank'}
+      - diff.each do |d|
+        - cols.each do |name, sortkey|
+          %th.sort_header{'data-difficulty' => d, 'data-colname' => sortkey}= name
   %tbody
-    - @song.each do |name, song_info|
-      %tr.player_score
-        %td{rowspan: 2}= CGI.escapeHTML(name)
-        - song_info.each do |diff, diff_info|
-          %td{rowspan: 2}
-            - if diff_info[:lv] == 11
-              10+
-            - else
-              = diff_info[:lv]
-          - score = diff_info[:score]
-          - if score
-            %td== #{score[:achieve]}%
-            - case score[:miss]
-            - when 0
-              %td.fullcombo FC
-            - when 1
-              %td.miss1 1
-            - when 2
-              %td.miss2 2
-            - else
-              %td= score[:miss]
-            %td.rank{rowspan: 2}= score[:rank]
-          - else
-            %td.noplay{rowspan: 2, colspan: 3} NO PLAY
-      %tr.ave_diff
-        - song_info.each do |diff, diff_info|
-          - score = diff_info[:score]
-          - if score
-            - if score[:achieve_diff] == 0.0
-              %td.ave_diff= format(ar_format, score[:achieve_diff])
-            - elsif score[:achieve_diff] > 0.0
-              %td.ave_diff.vs_ave_win= format(ar_format, score[:achieve_diff])
-            - else
-              %td.ave_diff.vs_ave_lose= format(ar_format, score[:achieve_diff])
-            - if score[:miss_diff] == 0
-              %td.ave_diff= format(miss_format, score[:miss_diff])
-            - elsif score[:miss_diff] < 0
-              %td.ave_diff.vs_ave_win= format(miss_format, score[:miss_diff])
-            - else
-              %td.ave_diff.vs_ave_lose= format(miss_format, score[:miss_diff])
-%p== 計 #{@song.size} 曲
