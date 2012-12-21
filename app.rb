@@ -284,9 +284,17 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     when 'false', '0'
       scores = @song
     end
+    score_array = Array.new
+    scores.each do |k, v|
+      h = { name: k }
+      v.each do |diff, val|
+        h[diff] = val
+      end
+      score_array << h
+    end
     prof_hash = @prof.to_hash
     prof_hash.delete(:latest_scoreset_id)
-    {profile: prof_hash, scores: scores, stat: @stat}.to_json
+    {profile: prof_hash, scores: score_array, stat: @stat}.to_json
   when :html
     haml :player
   else

@@ -1,7 +1,41 @@
+%script{src: '/script/jshashtable.js'}
+%script{src: '/script/jquery.numberformatter.min.js'}
 %script{src: '/script/player_score_sorter.js'}
 %h1== プレイヤー 《#{@prof.name}》
 
-#jstest
+%form
+  %button{type: 'button', onclick: 'changeSort();'} Change Difficulty
+  %button{type: 'button', onclick: 'reverseOrder();'} Reverse
+
+%p#current_sort
+%p#current_order
+
+
+%table#jstest
+  %colgroup.music_name{span: 1}
+  %colgroup.basic{span: 4}
+  %colgroup.medium{span: 4}
+  %colgroup.hard{span: 4}
+  %thead
+    %tr
+      %th{rowspan: 2} 楽曲名
+      %th{colspan: 4} BASIC
+      %th{colspan: 4} MEDIUM
+      %th{colspan: 4} HARD
+    %tr
+      %th Lv
+      %th AR
+      %th MISS
+      %th RANK
+      %th Lv
+      %th AR
+      %th MISS
+      %th RANK
+      %th Lv
+      %th AR
+      %th MISS
+      %th RANK
+  %tbody
 
 %ul
   %li
