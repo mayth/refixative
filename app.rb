@@ -43,7 +43,7 @@ end
 helpers do
   def latest_scores(player)
     scoreset = Scoreset.find(id: player.latest_scoreset_id)
-    raise 'no scores for this player.' unless scoreset
+    return nil unless scoreset
     scoreset.score
   end
 end
@@ -77,21 +77,23 @@ post '/register' do
   if old_prof
     # Check updates
     old_scores = latest_scores(old_prof)
-    musics = Music.dataset.all
-    scores = Hash.new
-    musics.each {|m| scores[m.name] = Hash.new}
-    @song.each do |s|
-      old_music = old_scores.select {|v| v.music.name == s[:name]}
-      s[:scores].select {|k, v| v[:achieve]}.each do |difficulty, score|
-        old_score = old_music.find {|x| x.difficulty == DIFFICULTY.index(difficulty)}
-        if old_score
-          # Check update
-          score[:is_achieve_updated] = (old_score.achieve < score[:achieve]).to_s.to_sym
-          score[:is_miss_updated] = (old_score.miss < score[:miss]).to_s.to_sym
-        else
-          # new played
-          score[:is_achieve_updated] = :new_play
-          score[:is_miss_updated] = :new_play
+    if old_scores
+      musics = Music.dataset.all
+      scores = Hash.new
+      musics.each {|m| scores[m.name] = Hash.new}
+      @song.each do |s|
+        old_music = old_scores.select {|v| v.music.name == s[:name]}
+        s[:scores].select {|k, v| v[:achieve]}.each do |difficulty, score|
+          old_score = old_music.find {|x| x.difficulty == DIFFICULTY.index(difficulty)}
+          if old_score
+            # Check update
+            score[:is_achieve_updated] = (old_score.achieve < score[:achieve]).to_s.to_sym
+            score[:is_miss_updated] = (old_score.miss < score[:miss]).to_s.to_sym
+          else
+            # new played
+            score[:is_achieve_updated] = :new_play
+            score[:is_miss_updated] = :new_play
+          end
         end
       end
     end
