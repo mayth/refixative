@@ -14,27 +14,27 @@ function buildRow(item) {
       $('<td />').attr('rowspan', 2).text(item[diff]['lv'] == 11 ? '10+' : item[diff]['lv'])
     );
     if (item[diff]['score']) {
-      var s = item[diff]['score'];
+      var s = item[diff].score;
       // Player Score
       ps_row.append(
         // AR column
-        $('<td />').text($.formatNumber(s['achieve'], {format: '0.0'}) + '%'),
+        $('<td />').text($.formatNumber(s.achieve, {format: '0.0'}) + '%'),
         // Miss column
-        $('<td />').text(s['miss']).addClass(s['miss'] == 0 ? 'fullcombo'
-          : (s['miss'] == 1 ? 'miss1'
-            : (s['miss'] == 2 ? 'miss2' : ''))),
+        $('<td />').text(s.miss == 0 ? 'FC' : s.miss).addClass(s.miss == 0 ? 'fullcombo'
+          : (s.miss == 1 ? 'miss1'
+            : (s.miss == 2 ? 'miss2' : ''))),
         // Rank column
-        $('<td />').attr('rowspan', 2).text(s['rank']));
+        $('<td />').attr('rowspan', 2).text(s.rank));
       // vs. Average
       av_row.append(
         // achievement
-        $('<td />').text($.formatNumber(s['achieve_diff'], {format:'-0.00'}) + '%')
-          .addClass(s['achieve_diff'] == 0.0 ? 'vs_ave_draw'
-            : (s['achieve_diff'] < 0 ? 'vs_ave_lose' : 'vs_ave_win')),
+        $('<td />').text($.formatNumber(s.achieve_diff, {format:'-0.00'}) + '%')
+          .addClass(s.achieve_diff == 0.0 ? 'vs_ave_draw'
+            : (s.achieve_diff < 0 ? 'vs_ave_lose' : 'vs_ave_win')),
         // miss
-        $('<td />').text($.formatNumber(s['miss_diff'], {format: '-0.0'}))
-          .addClass(s['miss_diff'] == 0.0 ? 'vs_ave_draw'
-            : (s['miss_diff'] < 0 ? 'vs_ave_win' : 'vs_ave_lose')));
+        $('<td />').text($.formatNumber(s.miss_diff, {format: '-0.0'}))
+          .addClass(s.miss_diff == 0.0 ? 'vs_ave_draw'
+            : (s.miss_diff < 0 ? 'vs_ave_win' : 'vs_ave_lose')));
     } else {
       // No score
       ps_row.append(
@@ -60,22 +60,6 @@ function buildTable(scores) {
 }
 
 /***** UI *****/
-function updateStatusText() {
-  var text = '';
-  switch (sort_mode) {
-    case 'default':
-      text = 'default';
-      break;
-    case 'name':
-      text = (sort_pref.order == 'asc' ? 'ascending' : 'descending') + ' sort by name';
-      break;
-    case 'score':
-      text = (sort_pref.order == 'asc' ? 'ascending' : 'descending')
-        + ' sort by ' + sort_pref.target + ' of ' + sort_pref.difficulty;
-      break;
-  }
-  $('#current_sort').text(text);
-}
 
 /***** score *****/
 function reverseOrder(order) {
@@ -110,22 +94,23 @@ function refreshSort() {
 }
 
 function scoreSort() {
-  if (sort_mode == 'name') {
-    if (sort_pref.order == 'desc') {
-      return function(a, b) {
-        if (a.name < b.name) return 1;
-        if (a.name > b.name) return -1;
-        return 0
+  switch (sort_mode) {
+    case 'name':
+      if (sort_pref.order == 'desc') {
+        return function(a, b) {
+          if (a.name < b.name) return 1;
+          if (a.name > b.name) return -1;
+          return 0
+        }
+      } else {
+        return function(a, b) {
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
+          return 0
+        }
       }
-    } else {
-      return function(a, b) {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0
-      }
-    }
-  } else {
-    if (sort_pref.target == 'lv') {
+      break;
+    case 'lv':
       if (sort_pref.order == 'desc') {
         return function(a,b) {
           var a_val = a[sort_pref.difficulty].lv;
@@ -143,7 +128,8 @@ function scoreSort() {
           return 0;
         }
       }
-    } else {
+      break;
+    case 'score':
       if (sort_pref.order == 'desc') {
         return function(a,b) {
           var a_val = a[sort_pref.difficulty].score[sort_pref.target];
@@ -166,7 +152,90 @@ function scoreSort() {
           return 0;
         }
       }
-    }
+  }
+}
+
+function changeMode(target_col, difficulty) {
+  switch (sort_mode) {
+    case 'default':
+      switch (target_col) {
+        case 'name':
+          sort_mode = 'name';
+          sort_pref.order = 'asc';
+          break;
+        case 'lv':
+          sort_mode = 'lv';
+          sort_pref.order = 'asc';
+          break;
+        default:
+          sort_mode = 'score';
+          sort_pref.difficulty = difficulty;
+          sort_pref.target = target_col;
+          sort_pref.order = 'asc';
+          break;
+      }
+      break;
+    case 'lv':
+      switch (target_col) {
+        case 'name':
+          sort_mode = 'name';
+          sort_pref.order = 'asc';
+          break;
+        case 'lv':
+          if (sort_pref.difficulty == difficulty) {
+            sort_pref.order = reverseOrder(sort_pref.order);
+          } else {
+            sort_pref.order = 'asc';
+            sort_pref.difficulty = d;
+          }
+          break;
+        default:
+          sort_mode = 'score';
+          sort_pref.difficulty = difficulty;
+          sort_pref.target = target_col;
+          sort_pref.order = 'asc';
+          break;
+      }
+      break;
+    case 'name':
+      switch (target_col) {
+        case 'name':
+          sort_pref.order = reverseOrder(sort_pref.order);
+          break;
+        case 'lv':
+          sort_mode = 'lv';
+          sort_pref.difficulty = difficulty;
+          sort_pref.order = 'asc';
+          break;
+        default:
+          sort_mode = 'score';
+          sort_pref.difficulty = d;
+          sort_pref.target = target_col;
+          sort_pref.order = 'asc';
+      }
+      break;
+    case 'score':
+      switch (target_col) {
+        case 'name':
+          sort_mode = 'name';
+          sort_pref.order = 'asc';
+          break;
+        case 'lv':
+          sort_mode = 'lv';
+          sort_pref.difficulty = difficulty;
+          sort_pref.order = 'asc';
+          break;
+        default:
+          if (sort_pref.difficulty == difficulty && sort_pref.target == target_col) {
+            sort_pref.order = reverseOrder(sort_pref.order);
+          } else {
+            sort_pref.difficulty = difficulty;
+            sort_pref.target = target_col;
+            sort_pref.order = 'asc';
+          }
+          break;
+      }
+      break;
   }
 }
 
@@ -177,49 +246,12 @@ $(document).ready(function() {
     function(json) {
       score_data = json['scores'];
       refreshSort();
-      updateStatusText();
     });
   $('.sort_header').click(function(e) {
     var $target = $(e.target);
-    var d = $target.data('difficulty');
-    var target_col = $target.data('colname');
-    switch (sort_mode) {
-      case 'default':
-        if (target_col == 'name') {
-          sort_mode = 'name';
-        } else {
-          sort_mode = 'score';
-          sort_pref.difficulty = d;
-          sort_pref.target = target_col;
-          sort_pref.order = 'asc';
-        }
-        break;
-      case 'name':
-        if (target_col == 'name') {
-          sort_pref.order = reverseOrder(sort_pref.order);
-        } else {
-          sort_mode = 'score';
-          sort_pref.difficulty = d;
-          sort_pref.target = target_col;
-          sort_pref.order = 'asc';
-        }
-        break;
-      case 'score':
-        if (target_col == 'name') {
-          sort_mode = 'name';
-          sort_pref.order = 'asc';
-        } else {
-          if (sort_pref.difficulty == d && sort_pref.target == target_col) {
-            sort_pref.order = reverseOrder(sort_pref.order);
-          } else {
-            sort_pref.difficulty = d;
-            sort_pref.target = target_col;
-            sort_pref.order = 'asc';
-          }
-        }
-        break;
-    }
+    changeMode($target.data('colname'), $target.data('difficulty'));
+    $('#sort_target').removeAttr('id').removeClass('asc desc');
+    $target.attr('id', 'sort_target').addClass(sort_pref.order);
     refreshSort();
-    updateStatusText();
   });
 });

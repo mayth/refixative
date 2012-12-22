@@ -1,3 +1,5 @@
+@charset "utf-8"
+
 body
   width: 85%
   margin: auto
@@ -74,6 +76,10 @@ table
     text-align: left
   .miss_header
     padding: 0 10px
+  .sort_header.asc:after
+    content: " ∧"
+  .sort_header.desc:after
+    content: " ∨"
 
 .noplay
   color: #999
