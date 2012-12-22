@@ -186,7 +186,7 @@ function changeMode(target_col, difficulty) {
             sort_pref.order = reverseOrder(sort_pref.order);
           } else {
             sort_pref.order = 'asc';
-            sort_pref.difficulty = d;
+            sort_pref.difficulty = difficulty;
           }
           break;
         default:
@@ -209,7 +209,7 @@ function changeMode(target_col, difficulty) {
           break;
         default:
           sort_mode = 'score';
-          sort_pref.difficulty = d;
+          sort_pref.difficulty = difficulty;
           sort_pref.target = target_col;
           sort_pref.order = 'asc';
       }
