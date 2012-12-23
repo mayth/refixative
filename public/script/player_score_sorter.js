@@ -61,7 +61,7 @@ function buildTable(scores) {
 
 /***** UI *****/
 
-/***** score *****/
+/***** score sort *****/
 function reverseOrder(order) {
   switch (order) {
     case 'asc':
@@ -238,6 +238,8 @@ function changeMode(target_col, difficulty) {
       break;
   }
 }
+
+/***** filtering *****/
 
 /***** events *****/
 $(document).ready(function() {

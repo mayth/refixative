@@ -202,6 +202,48 @@
             .all_ave== (#{format(miss_format, v[:miss_ave_all])})
 
 %h3 スコアデータ
+%h4 絞り込み
+%form#filter_form
+  %button{type: 'button', name: 'filter_all_reset'} 全絞り込み条件解除（すべて表示）
+  %button{type: 'button', name: 'filter_all_reverse'} 全絞り込み条件反転
+  %div#filter_check
+    %div.music_attr
+      %fieldset
+        %legend 難易度
+        %button{type: 'button', name: 'filter_diff_reset'} 絞り込み解除
+        %button{type: 'button', name: 'filter_diff_reverse'} 反転
+        %br
+        - ['basic', 'medium', 'hard'].each do |d|
+          %input{type: 'checkbox', name: d}= d.upcase
+      %fieldset
+        %legend レベル
+        %button{type: 'button', name: 'filter_level_reset'} 絞り込み解除
+        %button{type: 'button', name: 'filter_level_reverse'} 反転
+        %br
+        - (1..10).each do |lv|
+          %input{type: 'checkbox', name: 'lv_' + lv.to_s}= lv
+        %input{type: 'checkbox', name: 'lv_11'} 10+
+    %div.score_attr
+      %fieldset
+        %legend Rank
+        %button{type: 'button', name: 'filter_rank_reset'} 絞り込み解除
+        %button{type: 'button', name: 'filter_rank_reverse'} 反転
+        %br
+        - %w(c b a aa aaa).each do |rank|
+          %input{type: 'checkbox', name: 'rank_' + rank}= rank.upcase
+        %input{type: 'checkbox', name: 'rank_aaaplus'} AAA+
+      %fieldset
+        %legend ミスカウント
+        %button{type: 'button', name: 'filter_miss_reset'} 絞り込み解除
+        %button{type: 'button', name: 'filter_miss_reverse'} 反転
+        %br
+        %input{type: 'checkbox', name: 'miss_fc'} FC
+        %input{type: 'checkbox', name: 'miss_1'} 1
+        %input{type: 'checkbox', name: 'miss_2'} 2
+        %input{type: 'checkbox', name: 'miss_3'} 3-9
+        %input{type: 'checkbox', name: 'miss_10'} 10-19
+        %input{type: 'checkbox', name: 'miss_20'} 20
+
 %p 各列のヘッダをクリックすると、その列でソートできます。現在ソートしている列をクリックすると、ソート順を切り替えます。
 %table#score_data
   %colgroup.music_name{span: 1}
