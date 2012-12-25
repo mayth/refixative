@@ -93,65 +93,31 @@ function refreshSort() {
   buildTable(scores);
 }
 
+function sort_by(selector, order) {
+  var rev = (order == 'asc') ? -1 : 1;
+  return function(a, b) {
+    var x, y;
+    if (typeof selector === 'undefined') {
+      x = a;
+      y = b;
+    } else {
+      x = selector(a);
+      y = selector(b);
+    }
+    if (x > y) return rev * -1;
+    if (x < y) return rev * 1;
+    return 0;
+  }
+}
+
 function scoreSort() {
   switch (sort_mode) {
     case 'name':
-      if (sort_pref.order == 'desc') {
-        return function(a, b) {
-          if (a.name < b.name) return 1;
-          if (a.name > b.name) return -1;
-          return 0
-        }
-      } else {
-        return function(a, b) {
-          if (a.name < b.name) return -1;
-          if (a.name > b.name) return 1;
-          return 0
-        }
-      }
-      break;
+      return sort_by(function(x) { return x.name; }, sort_pref.order);
     case 'lv':
-      if (sort_pref.order == 'desc') {
-        return function(a,b) {
-          var a_val = a[sort_pref.difficulty].lv;
-          var b_val = b[sort_pref.difficulty].lv;
-          if (a_val < b_val) return 1;
-          if (a_val > b_val) return -1;
-          return 0;
-        }
-      } else {
-        return function(a,b) {
-          var a_val = a[sort_pref.difficulty].lv;
-          var b_val = b[sort_pref.difficulty].lv;
-          if (a_val < b_val) return -1;
-          if (a_val > b_val) return 1;
-          return 0;
-        }
-      }
-      break;
+      return sort_by(function(x) { return x[sort_pref.difficulty].lv; }, sort_pref.order);
     case 'score':
-      if (sort_pref.order == 'desc') {
-        return function(a,b) {
-          var a_val = a[sort_pref.difficulty].score[sort_pref.target];
-          var b_val = b[sort_pref.difficulty].score[sort_pref.target];
-          if (typeof a_val === 'undefined') return 1;
-          if (typeof b_val === 'undefined') return -1;
-          if (a_val < b_val) return 1;
-          if (a_val > b_val) return -1;
-          return 0;
-        }
-      } else {
-        return function(a,b) {
-          var a_val = a[sort_pref.difficulty].score[sort_pref.target];
-          var b_val = b[sort_pref.difficulty].score[sort_pref.target];
-          if (typeof a_val === 'undefined' && typeof b_val === 'undefined') return 0;
-          if (typeof a_val === 'undefined') return -1;
-          if (typeof b_val === 'undefined') return 1;
-          if (a_val < b_val) return -1;
-          if (a_val > b_val) return 1;
-          return 0;
-        }
-      }
+      return sort_by(function(x) { return x[sort_pref.difficulty].score[sort_pref.target]; }, sort_pref.order);
   }
 }
 
