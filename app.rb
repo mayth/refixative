@@ -155,7 +155,7 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   halt 'no scores for this player.' unless scoreset
   @last_updated_at = scoreset.registered_at
   scores = scoreset.score
-  musics = Music.dataset.all
+  musics = Music.order(Sequel.desc(:added_at))
   @song = Hash.new
   musics.each do |m|
     @song[m.name] = {
@@ -195,8 +195,8 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     }
   end
   @music_stat = {
-    total_musics: musics.size,
-    total_tunes: musics.size * DIFFICULTY.size,
+    total_musics: musics.count,
+    total_tunes: musics.count * DIFFICULTY.size,
     levels: Hash.new
   }
   (1..11).each do |level|
@@ -252,10 +252,10 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     df[:miss_total] = scores.select {|v| v.difficulty == DIFFICULTY.index(diff)}.map {|v| v.miss}.inject(:+) || 0.0
     df[:achieve_ave] = df[:achieve_total].to_f / df[:played].to_f
     df[:achieve_ave] = nil if df[:achieve_ave].nan?
-    df[:achieve_ave_all] = df[:achieve_total].to_f / musics.size.to_f
+    df[:achieve_ave_all] = df[:achieve_total].to_f / musics.count.to_f
     df[:miss_ave] = df[:miss_total].to_f / df[:played].to_f
     df[:miss_ave] = nil if df[:miss_ave].nan?
-    df[:miss_ave_all] = df[:miss_total].to_f / musics.size.to_f
+    df[:miss_ave_all] = df[:miss_total].to_f / musics.count.to_f
   end
   (1..11).each do |level|
     lv = @stat[:levels][level]
@@ -272,9 +272,9 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   achieve_total = @stat[:difficulties].map {|k, v| v[:achieve_total]}.inject(:+)
   miss_total = @stat[:difficulties].map {|k, v| v[:miss_total]}.inject(:+)
   @stat[:achieve_ave] = achieve_total / @stat[:total_played]
-  @stat[:achieve_ave_all] = achieve_total / (musics.size * DIFFICULTY.size)
+  @stat[:achieve_ave_all] = achieve_total / (musics.count * DIFFICULTY.size)
   @stat[:miss_ave] = miss_total.to_f / @stat[:total_played]
-  @stat[:miss_ave_all] = miss_total.to_f / (musics.size * DIFFICULTY.size)
+  @stat[:miss_ave_all] = miss_total.to_f / (musics.count * DIFFICULTY.size)
 
   case format
   when :json
