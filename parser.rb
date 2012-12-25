@@ -80,13 +80,24 @@ module Parser
         end
         songs << {
           id: CGI.unescape(row.children[0].at_css('img').attr('src').gsub(/(.+?)img=(.+)$/, '\2')),
-          name: row.children[0].at_css('img').attr('alt'),
+          name: Parser.name_normalize(row.children[0].at_css('img').attr('alt')),
           scores: scores
         }
       end
       songs
     end
   end # end class
+
+  def self.name_normalize(name)
+    name.gsub(/''/, '"')  # double single quote -> double quote
+        .gsub(/　/, ' ')  # full-width space -> half-width space
+        .gsub(/ +/, ' ')  # continuous half-width space -> single half-width space
+        .gsub(/−/, '—')  # full-width hyphen -> full-width dash
+        .gsub(/—+/, '—')  # continuous full-width dash -> single full-width dash
+        .gsub(/[\uff5e]/, "\u301c")  # full-width tilde -> full-width wave dash
+        .gsub(/[\u2012\u2013\u2015\u2212\uff0d]/, "\u2014")  # hyphen and dashes 
+        .strip
+  end
 end # end module
 
 if __FILE__ == $0
