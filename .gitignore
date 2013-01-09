@@ -8,6 +8,8 @@ shared/
 *.gem
 *.rbc
 *.dat
+*.bak
+*.sublime-*
 .sass-cache/
 bundle/
 .bundle
