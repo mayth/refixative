@@ -9,7 +9,6 @@ require 'cgi/util'
 require_relative 'parser'
 require 'json'
 require 'haml'
-require 'sass'
 
 DIFFICULTY = [:basic, :medium, :hard]
 
@@ -36,7 +35,6 @@ class NoPlayerError < Exception; end
 configure do
   # Set default values for templates
   set :haml, :format => :html5
-  set :sass, :style => :expanded
   set :revision, `git show --format='%h' -s`.strip + `git diff --quiet HEAD || echo '+'`.strip
 end
 
@@ -49,11 +47,6 @@ helpers do
 end
 
 # Routings
-get '/style.css' do
-  content_type 'text/css', charset: 'utf-8'
-  sass :style
-end
-
 get '/' do
   @player_num = Player.all.size
   @scoreset_num = Scoreset.all.size
