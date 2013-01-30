@@ -54,7 +54,7 @@ players.each do |player|
   # score sum
   scoreset = Scoreset[id: player[:latest_scoreset_id]]
   unless scoreset
-    logger.warn "Cannot find scoreset:#{player[:latest_scoreset_id]} (player:#{player[:id]}"
+    puts "Cannot find scoreset:#{player[:latest_scoreset_id]} (player:#{player[:id]}"
     next
   end
   scoreset.score.each do |score|
