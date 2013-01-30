@@ -65,13 +65,16 @@ post '/register' do
   @song = parser.parse_song(params[:music][:tempfile].read)
   @session = SecureRandom.uuid
 
+  musics = Music.all
+  @new_musics = @song.reject {|s| musics.any? {|m| m.name == s[:name]}}
+  new_musics = nil if (!new_musics || !new_musics.any?)
+
   # Get old data
   old_prof = Player.find(id: @prof[:id])
   if old_prof
     # Check updates
     old_scores = latest_scores(old_prof)
     if old_scores
-      musics = Music.dataset.all
       scores = Hash.new
       musics.each {|m| scores[m.name] = Hash.new}
       @song.each do |s|
@@ -92,7 +95,7 @@ post '/register' do
     end
   end
 
-  CACHE.add(@session, {prof: @prof, song: @song}, CACHE_EXPIRY)
+  CACHE.add(@session, {prof: @prof, song: @song, new_musics: @new_musics}, CACHE_EXPIRY)
 
   haml :register_confirm
 end
@@ -106,13 +109,19 @@ post '/registered' do
   registered_at = Time.now
   prof = v[:prof]
   song = v[:song]
+  new_musics = v[:new_musics]
   # CACHE.delete(params[:session])
 
   # Add to DB
+  if new_musics
+    Music.add_musics(new_musics)
+  end
   player = Player.update_or_create(prof)
   player.create_scoreset(song, registered_at)
 
   @player_id = prof[:id]
+
+  `bundle exec ruby average_calc.rb` if new_musics
 
   haml :registered
 end

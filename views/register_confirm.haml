@@ -59,6 +59,29 @@
       %td.new_play{style: 'width: 2em'}
       %td 新規（前回登録時スコアなし）
 %p 更新の判定はARとミスカウントそれぞれに行われます。
+- if @new_musics
+  %h3 新規楽曲
+  %p アップロードされたデータから、データベースにない曲が見つかりました。曲名、レベルを確認してください。新しい曲データはこのデータが送信されたときに自動的に登録されます。この楽曲の登録日（楽曲追加日）はこのデータが送信された日付になります。もしこのデータの送信日と楽曲追加日が異なる場合は、データを登録した上で中の人まで連絡してください。
+  %p== 楽曲追加日: #{Time.now.strftime('%Y-%m-%d')}
+  %table#new_musics
+    %thead
+      %tr
+        %th{rowspan: 2} 楽曲名
+        %th{colspan: 3} レベル
+      %tr
+        %th BASIC
+        %th MEDIUM
+        %th HARD
+    %tbody
+      - @new_musics.each do |item|
+        %tr
+          %td= item[:name]
+          - [:basic, :medium, :hard].each do |d|
+            - if item[:scores][d][:lv] == 11
+              %td 10+
+            - else
+              %td= item[:scores][d][:lv]
+
 %h3 データ
 %table#score_data
   %colgroup.music_name{span: 1}
