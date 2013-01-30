@@ -121,7 +121,7 @@ post '/registered' do
 
   @player_id = prof[:id]
 
-  `bundle exec ruby average_calc.rb` if new_musics
+  load 'average_calc.rb' if new_musics
 
   haml :registered
 end
