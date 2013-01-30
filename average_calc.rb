@@ -1,15 +1,6 @@
-require 'logger'
-require 'haml'
-require 'json'
-load './db_setup.rb'
-
-Dir.glob('./models/*.rb').each do |s|
-  require_relative s
-end
-
-DIFFICULTY = [:basic, :medium, :hard]
-
-logger = Logger.new(STDOUT)
+require 'bundler'
+Bundler.require
+require './app.rb'
 
 scores = Hash.new
 score_average = Hash.new
