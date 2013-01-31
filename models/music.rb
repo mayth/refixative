@@ -10,8 +10,8 @@ class Music < Sequel::Model
       Music.new(
         name: m[:name],
         basic_lv: m[:scores][:basic][:lv],
-        medium_lv: m[:scores][:basic][:lv],
-        hard_lv: m[:scores][:basic][:lv],
+        medium_lv: m[:scores][:medium][:lv],
+        hard_lv: m[:scores][:hard][:lv],
         version: ver,
         added_at: time).save
     end
