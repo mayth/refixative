@@ -113,7 +113,7 @@ post '/registered' do
   # CACHE.delete(params[:session])
 
   # Add to DB
-  if new_musics
+  if new_musics && new_musics.any?
     Music.add_musics(new_musics)
   end
   player = Player.update_or_create(prof)
@@ -121,7 +121,7 @@ post '/registered' do
 
   @player_id = prof[:id]
 
-  if new_musics
+  if new_musics && new_musics.any?
     Thread.new { load 'average_calc.rb' }
   end
 
