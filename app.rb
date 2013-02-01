@@ -227,25 +227,27 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     stat_df[:played] += 1
     level = s.music.send(difficulty_key.to_s + '_lv')
     @stat[:levels][level][:played] += 1
-    ave = average[name][difficulty_key.to_s]
-    ave_avail = ave[:count] != 0
+    ave = average[name][difficulty_key.to_s] if average[name]
+    ave_avail = average.has_key?(name) && ave[:count] != 0
     tmp = { achieve: s.achieve, miss: s.miss, rank: rank,
             achieve_diff: ave_avail ? s.achieve - ave['achieve'] : nil,
             miss_diff: ave_avail ? s.miss - ave['miss'] : nil }
     @song[name][DIFFICULTY[s.difficulty]][:score] = tmp
-    if tmp[:achieve_diff] == 0.0
-      stat_df[:achieve_vs_ave][:draw] += 1
-    elsif tmp[:achieve_diff] > 0.0
-      stat_df[:achieve_vs_ave][:win] += 1
-    else
-      stat_df[:achieve_vs_ave][:lose] += 1
-    end
-    if tmp[:miss_diff] == 0.0
-      stat_df[:miss_vs_ave][:draw] += 1
-    elsif tmp[:miss_diff] < 0.0
-      stat_df[:miss_vs_ave][:win] += 1
-    else
-      stat_df[:miss_vs_ave][:lose] += 1
+    if ave_avail
+      if tmp[:achieve_diff] == 0.0
+        stat_df[:achieve_vs_ave][:draw] += 1
+      elsif tmp[:achieve_diff] > 0.0
+        stat_df[:achieve_vs_ave][:win] += 1
+      else
+        stat_df[:achieve_vs_ave][:lose] += 1
+      end
+      if tmp[:miss_diff] == 0.0
+        stat_df[:miss_vs_ave][:draw] += 1
+      elsif tmp[:miss_diff] < 0.0
+        stat_df[:miss_vs_ave][:win] += 1
+      else
+        stat_df[:miss_vs_ave][:lose] += 1
+      end
     end
   end
   DIFFICULTY.each do |diff|
