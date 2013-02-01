@@ -121,7 +121,9 @@ post '/registered' do
 
   @player_id = prof[:id]
 
-  load 'average_calc.rb' if new_musics
+  if new_musics
+    Thread.new { load 'average_calc.rb' }
+  end
 
   haml :registered
 end
