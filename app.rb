@@ -1,3 +1,4 @@
+#coding:utf-8
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'logger'
@@ -54,6 +55,7 @@ get '/' do
 end
 
 get '/register' do
+  @page_title = 'スコア登録'
   haml :register_form
 end
 
@@ -97,6 +99,7 @@ post '/register' do
 
   CACHE.add(@session, {prof: @prof, song: @song, new_musics: @new_musics}, CACHE_EXPIRY)
 
+  @page_title = '登録確認'
   haml :register_confirm
 end
 
@@ -125,6 +128,7 @@ post '/registered' do
     Thread.new { load 'average_calc.rb' }
   end
 
+  @page_title = '登録完了'
   haml :registered
 end
 
@@ -133,6 +137,7 @@ get '/player/average.?:format?' do
   str = IO.read('average.dat')
   obj = JSON.load(str)
   
+  @page_title = '平均データ'
   format = (params[:format] || 'html').to_sym
   case format
   when :json
@@ -282,6 +287,7 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   @stat[:miss_ave] = miss_total.to_f / @stat[:total_played]
   @stat[:miss_ave_all] = miss_total.to_f / (musics.count * DIFFICULTY.size)
 
+  @page_title = "#{@prof.name}のプレイヤーデータ"
   case format
   when :json
     scores = nil
@@ -320,6 +326,7 @@ get '/teams' do
       members: Player.filter(team_id: t.id).count
     }
   end
+  @page_title = 'チーム一覧'
   haml :teams
 end
 
@@ -327,6 +334,7 @@ get '/team/:id' do
   @team = Team.find(id: params[:id])
   halt 404 unless @team
   @members = Player.filter(team_id: @team.id).order(:id)
+  @page_title = "#{@team.name}のチームデータ"
   haml :team
 end
 
@@ -334,15 +342,18 @@ error MusicMismatchError do
   e = env['sinatra.error']
   @searching_name = e.searching_name
   @found_name = e.found_name
+  @page_title = '楽曲が見つかりませんでした'
   haml :music_mismatch_error
 end
 
 error NoPlayerError do
   status 404
   @id = env['sinatra.error'].message
+  @page_title = 'プレイヤーが見つかりませんでした'
   haml :player_not_found
 end
 
 not_found do
+  @page_title = 'ページが見つかりませんでした'
   haml :not_found
 end

@@ -1,7 +1,10 @@
 !!! 5
 %html
   %head
-    %title Refixative
+    - if @page_title && !@page_title.empty?
+      %title== #{@page_title} - Refixative
+    - else
+      %title Refixative
     %link{rel: 'stylesheet', type: 'text/css', href:'/style.css'}
     %script{src: '/script/jquery.js'}
   %body
