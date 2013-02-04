@@ -297,6 +297,8 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
       scores = @song.reject {|k, v| v.all? {|diff, val| !val}}
     when 'false', '0'
       scores = @song
+    else
+      scores = @song
     end
     score_array = Array.new
     scores.each do |k, v|
