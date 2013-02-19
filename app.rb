@@ -86,7 +86,7 @@ post '/register' do
           if old_score
             # Check update
             score[:is_achieve_updated] = (old_score.achieve < score[:achieve]).to_s.to_sym
-            score[:is_miss_updated] = (old_score.miss < score[:miss]).to_s.to_sym
+            score[:is_miss_updated] = (score[:miss] < old_score.miss).to_s.to_sym
           else
             # new played
             score[:is_achieve_updated] = :new_play
