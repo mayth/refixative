@@ -79,8 +79,8 @@ module Parser
           }
         end
         songs << {
-          id: CGI.unescape(row.children[0].at_css('img').attr('src').gsub(/(.+?)img=(.+)$/, '\2')),
-          name: Parser.name_normalize(row.children[0].at_css('img').attr('alt')),
+          id: CGI.unescape(row.at_css('img').attr('src').gsub(/(.+?)img=(.+)$/, '\2')),
+          name: Parser.name_normalize(row.at_css('img').attr('alt')),
           scores: scores
         }
       end
