@@ -168,6 +168,7 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   @song = Hash.new
   musics.each do |m|
     @song[m.name] = {
+      id: m.id,
       basic: { lv: m.basic_lv },
       medium: { lv: m.medium_lv },
       hard: { lv: m.hard_lv }

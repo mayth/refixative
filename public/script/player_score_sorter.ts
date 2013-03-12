@@ -20,6 +20,7 @@ module Refixative
 
   interface Song
   {
+    id: number;
     basic: Tune;
     medium: Tune;
     hard: Tune;
@@ -93,7 +94,9 @@ module Refixative
     private buildRow(item: Song) {
       var ps_row = $('<tr />').addClass('player_score');
       var av_row = $('<tr />').addClass('ave_diff');
-      ps_row.append($('<td />').attr('rowspan', 2).text(item['name']));
+      ps_row.append($('<td />').attr('rowspan', 2).append(
+        $('<a />').attr('href', location.pathname + '/history/' + item['id']).text(item['name'])
+      ));
       ['basic', 'medium', 'hard'].forEach(diff => {
         // Level
         ps_row.append(
