@@ -347,12 +347,16 @@ get /^\/player\/([0-9]{1,6})\/history\/([0-9]+).json$/ do
   dates = []
   record_from = nil
   record_to = nil
-  n = 0
-  Scoreset.filter(player_id: player_id).order(:registered_at).limit(10).each do |scoreset|
-    registered_at = scoreset.registered_at
+  Scoreset.filter(player_id: player_id).order(:registered_at).each do |scoreset|
+    registered_at = scoreset.registered_at.strftime('%m-%d')
     scores = scoreset.score.select{|s| s.music.id == music_id}
     if scores.any?
-      dates << scoreset.registered_at.strftime('%Y-%m-%d')
+      if dates.last == registered_at
+        dates.pop
+        achieve_hist.map{|k, v| v.pop}
+        miss_hist.map{|k, v| v.pop}
+      end
+      dates << registered_at
       added_difficulty = {basic: false, medium: false, hard: false}
       scores.each do |score|
         achieve_hist[DIFFICULTY[score.difficulty]] << score.achieve
@@ -362,6 +366,11 @@ get /^\/player\/([0-9]{1,6})\/history\/([0-9]+).json$/ do
       added_difficulty.select{|k, v| !v}.each do |k, v|
         achieve_hist[k] << 0.0
         miss_hist[k] << -10
+      end
+      if dates.size > 5
+        dates.shift
+        achieve_hist.map{|k, v| v.shift}
+        miss_hist.map{|k, v| v.shift}
       end
     end
   end
