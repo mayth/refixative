@@ -348,7 +348,7 @@ get /^\/player\/([0-9]{1,6})\/history\/([0-9]+).json$/ do
   record_from = nil
   record_to = nil
   n = 0
-  Scoreset.filter(player_id: player_id).order(:registered_at).each do |scoreset|
+  Scoreset.filter(player_id: player_id).order(:registered_at).limit(10).each do |scoreset|
     registered_at = scoreset.registered_at
     scores = scoreset.score.select{|s| s.music.id == music_id}
     if scores.any?
