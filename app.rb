@@ -318,6 +318,59 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   end
 end
 
+get /^\/player\/([0-9]{1,6})\/history\/([0-9]+)(.html)?$/ do
+  @page_title = "Now Loading..."
+  haml :history
+end
+
+get /^\/player\/([0-9]{1,6})\/history\/([0-9]+).json$/ do
+  # parse params
+  str_id = params[:captures][0]
+  player_id = str_id.to_i
+  str_music_id = params[:captures][1]
+  music_id = str_music_id.to_i
+  format = (params[:captures][2] || params[:format] || '.html').gsub(/^\./, '').downcase.to_sym
+
+  player = Player.find(id: player_id)
+  raise NoPlayerError, str_id unless player
+  music = Music.find(id: music_id)
+  halt 'Invalid music ID' unless music
+  result = {
+    player: { id: player.id, name: player.name },
+    music: music.to_hash,
+    record_from: nil,
+    record_to: nil
+  }
+  achieve_hist = {basic: [], medium: [], hard: []}
+  miss_hist = {basic: [], medium: [], hard: []}
+  dates = []
+  record_from = nil
+  record_to = nil
+  n = 0
+  Scoreset.filter(player_id: player_id).order(:registered_at).each do |scoreset|
+    registered_at = scoreset.registered_at
+    scores = scoreset.score.select{|s| s.music.id == music_id}
+    if scores.any?
+      dates << scoreset.registered_at.strftime('%Y-%m-%d')
+      added_difficulty = {basic: false, medium: false, hard: false}
+      scores.each do |score|
+        achieve_hist[DIFFICULTY[score.difficulty]] << score.achieve
+        miss_hist[DIFFICULTY[score.difficulty]] << score.miss
+        added_difficulty[DIFFICULTY[score.difficulty]] = true
+      end
+      added_difficulty.select{|k, v| !v}.each do |k, v|
+        achieve_hist[k] << 0.0
+        miss_hist[k] << -10
+      end
+    end
+  end
+  result[:dates] = dates
+  result[:achieve_hist] = achieve_hist
+  result[:miss_hist] = miss_hist
+  result.to_json
+end
+
+
 get '/teams' do
   teams = Team.order(:id)
   @teams = Array.new

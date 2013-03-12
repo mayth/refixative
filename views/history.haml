@@ -1,0 +1,57 @@
+%script{src: '/script/ccchart.js', charset: 'utf-8'}
+%h1#page_title
+
+%h2 Achievement Rate
+%p#achieve_chart_wait Now Loading...
+%canvas#achieve_chart
+
+%h2 Miss Count
+%p#miss_chart_wait Now Loading...
+%canvas#miss_chart
+
+:javascript
+  $(document).ready(function() {
+    $.getJSON(
+      location.pathname + ".json",
+      function(data) {
+        $('title').text(data["music"]["name"] + "のスコア推移 - 《" + data["player"]["name"] + "》 - Refixative");
+        $('#page_title').text(data["music"]["name"] + "のスコア推移");
+        var achieve_chartdata = {
+          "config": {
+            "type": "line",
+            "useMarker": "css-ring",
+            "useVal": "yes",
+            "maxY": 100.0,
+            "minY": 0.0,
+            "axisXLen": 10,
+            "unit": "%",
+            "colorSet": ["green", "yellow", "red"]
+          },
+          "data": [
+            ["Date"].concat(data["dates"]),
+            ["BASIC"].concat(data["achieve_hist"]["basic"]),
+            ["MEDIUM"].concat(data["achieve_hist"]["medium"]),
+            ["HARD"].concat(data["achieve_hist"]["hard"])
+          ]
+        };
+        var miss_chartdata = {
+          "config": {
+            "type": "line",
+            "useMarker": "arc",
+            "minY": 0,
+            "colorSet": ["green", "yellow", "red"]
+          },
+          "data": [
+            ["Date"].concat(data["dates"]),
+            ["BASIC"].concat(data["miss_hist"]["basic"]),
+            ["MEDIUM"].concat(data["miss_hist"]["medium"]),
+            ["HARD"].concat(data["miss_hist"]["hard"])
+          ]
+        };
+        $('#miss_chart_wait').hide();
+        $('#achieve_chart_wait').hide();
+        ccchart.init('miss_chart', miss_chartdata);
+        ccchart.init('achieve_chart', achieve_chartdata);
+      });
+  });
+
