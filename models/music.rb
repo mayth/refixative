@@ -8,6 +8,7 @@ class Music < Sequel::Model
     raise unless ver
     new_musics.each do |m|
       Music.new(
+        hash_id: m[:id],
         name: m[:name],
         basic_lv: m[:scores][:basic][:lv],
         medium_lv: m[:scores][:medium][:lv],
