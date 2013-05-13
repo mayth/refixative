@@ -64,6 +64,10 @@
   %p アップロードされたデータから、データベースにない曲が見つかりました。曲名、レベルを確認してください。新しい曲データはこのデータが送信されたときに自動的に登録されます。この楽曲の登録日（楽曲追加日）はこのデータが送信された日付になります。もしこのデータの送信日と楽曲追加日が異なる場合は、データを登録した上で中の人まで連絡してください。
   %p== 楽曲追加日: #{Time.now.strftime('%Y-%m-%d')}
   %table#new_musics
+    %colgroup.music_name{span: 1}
+    %colgroup.basic{span: 1}
+    %colgroup.medium{span: 1}
+    %colgroup.hard{span: 1}
     %thead
       %tr
         %th{rowspan: 2} 楽曲名
