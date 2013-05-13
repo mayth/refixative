@@ -72,7 +72,7 @@ module Parser
             end
           end
           scores[DIFFICULTY[i - 1]] = {
-            lv: row.css('td')[i].at_css('.lv').text.strip.to_i,
+            lv: col.at_css('.lv').text.strip.to_i,
             achieve: achieve,
             miss: miss,
             rating: rating
