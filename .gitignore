@@ -3,6 +3,7 @@ cookie_secret
 maintenance/
 tmp/
 shared/
+public/google*
 *~
 *.swp
 *.gem
