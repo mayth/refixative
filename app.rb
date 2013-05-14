@@ -64,12 +64,12 @@ post '/register' do
   halt 'music file is not uploaded.' unless params[:music]
   parser = Parser::Colette.new
   @prof = parser.parse_profile(params[:profile][:tempfile].read)
-  @song = parser.parse_song(params[:music][:tempfile].read)
+  @music = parser.parse_song(params[:music][:tempfile].read)
   @session = SecureRandom.uuid
 
   musics = Music.all
-  @new_musics = @song.reject {|s| musics.any? {|m| m.name == s[:name]}}
-  new_musics = nil if (!new_musics || !new_musics.any?)
+  @new_musics = @music.reject {|up_m| musics.any? {|db_m| db_m.name == up_m[:name]}}
+  @new_musics = nil if (!@new_musics || @new_musics.empty?)
 
   # Get old data
   old_prof = Player.find(id: @prof[:id])
@@ -79,9 +79,9 @@ post '/register' do
     if old_scores
       scores = Hash.new
       musics.each {|m| scores[m.name] = Hash.new}
-      @song.each do |s|
-        old_music = old_scores.select {|v| v.music.name == s[:name]}
-        s[:scores].select {|k, v| v[:achieve]}.each do |difficulty, score|
+      @music.each do |m|
+        old_music = old_scores.select {|v| v.music.name == m[:name]}
+        m[:scores].select {|k, v| v[:achieve]}.each do |difficulty, score|
           old_score = old_music.find {|x| x.difficulty == DIFFICULTY.index(difficulty)}
           if old_score
             # Check update
@@ -97,7 +97,7 @@ post '/register' do
     end
   end
 
-  CACHE.add(@session, {prof: @prof, song: @song, new_musics: @new_musics}, CACHE_EXPIRY)
+  CACHE.add(@session, {prof: @prof, music: @music, new_musics: @new_musics}, CACHE_EXPIRY)
 
   @page_title = '登録確認'
   haml :register_confirm
@@ -108,10 +108,10 @@ post '/registered' do
   v = CACHE.get(params[:session])
   halt 'your sent data is not found. it may be expired or invalid session id is given.' unless v
   halt 'profile is not sent.' unless v[:prof]
-  halt 'music data is not sent.' unless v[:song]
+  halt 'music data is not sent.' unless v[:music]
   registered_at = Time.now
   prof = v[:prof]
-  song = v[:song]
+  music = v[:music]
   new_musics = v[:new_musics]
   # CACHE.delete(params[:session])
 
@@ -120,7 +120,7 @@ post '/registered' do
     Music.add_musics(new_musics)
   end
   player = Player.update_or_create(prof)
-  player.create_scoreset(song, registered_at)
+  player.create_scoreset(music, registered_at)
 
   @player_id = prof[:id]
 
