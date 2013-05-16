@@ -60,8 +60,8 @@ get '/register' do
 end
 
 post '/register' do
-  halt 'profile file is not uploaded.' unless params[:profile]
-  halt 'music file is not uploaded.' unless params[:music]
+  halt 400, 'profile file is not uploaded.' unless params[:profile]
+  halt 400, 'music file is not uploaded.' unless params[:music]
   parser = Parser::Colette.new
   @prof = parser.parse_profile(params[:profile][:tempfile].read)
   @music = parser.parse_song(params[:music][:tempfile].read)
@@ -104,11 +104,11 @@ post '/register' do
 end
 
 post '/registered' do
-  halt 'session id is not given.' unless params[:session]
+  halt 400, 'session id is not given.' unless params[:session]
   v = CACHE.get(params[:session])
-  halt 'your sent data is not found. it may be expired or invalid session id is given.' unless v
-  halt 'profile is not sent.' unless v[:prof]
-  halt 'music data is not sent.' unless v[:music]
+  halt 500, 'your sent data is not found. it may be expired or invalid session id is given.' unless v
+  halt 400, 'profile is not sent.' unless v[:prof]
+  halt 400, 'music data is not sent.' unless v[:music]
   registered_at = Time.now
   prof = v[:prof]
   music = v[:music]
@@ -133,7 +133,7 @@ post '/registered' do
 end
 
 get '/player/average.?:format?' do
-  halt 500, 'Average is not available yet. Please try again later.' unless File.exists?('average.dat')
+  halt 503, 'Average is not available yet. Please try again later.' unless File.exists?('average.dat')
   str = IO.read('average.dat')
   obj = JSON.load(str)
   
@@ -154,6 +154,7 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   str_id = params[:captures][0]
   player_id = str_id.to_i
   format = (params[:captures][1] || params[:format] || '.html').gsub(/^\./, '').downcase.to_sym
+  compare_id = (params[:compare_with] || 0).to_i
 
   redirect "/player/average#{format == :html ? '' : '.' + format.to_s}" if player_id == 0
 
@@ -161,7 +162,7 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   raise NoPlayerError, player_id.to_s unless player
   @prof = player
   scoreset = Scoreset.find(id: player.latest_scoreset_id)
-  halt 'no scores for this player.' unless scoreset
+  halt 404, 'no scores for this player.' unless scoreset
   @last_updated_at = scoreset.registered_at
   scores = scoreset.score
   musics = Music.order(Sequel.desc(:added_at))
@@ -335,7 +336,7 @@ get /^\/player\/([0-9]{1,6})\/history\/([0-9]+).json$/ do
   player = Player.find(id: player_id)
   raise NoPlayerError, str_id unless player
   music = Music.find(id: music_id)
-  halt 'Invalid music ID' unless music
+  halt 404, 'The specified music is not found.' unless music
   result = {
     player: { id: player.id, name: player.name },
     music: music.to_hash,
@@ -404,6 +405,7 @@ get '/team/:id' do
 end
 
 error MusicMismatchError do
+  status 500
   e = env['sinatra.error']
   @searching_name = e.searching_name
   @found_name = e.found_name
