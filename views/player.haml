@@ -90,34 +90,34 @@
   %tbody
     %tr.vs_ave_win
       %td Win
-      %td= @stat[:difficulties][:basic][:achieve_vs_ave][:win]
-      %td= @stat[:difficulties][:basic][:miss_vs_ave][:win]
-      %td= @stat[:difficulties][:medium][:achieve_vs_ave][:win]
-      %td= @stat[:difficulties][:medium][:miss_vs_ave][:win]
-      %td= @stat[:difficulties][:hard][:achieve_vs_ave][:win]
-      %td= @stat[:difficulties][:hard][:miss_vs_ave][:win]
-      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs_ave][:win]}.inject(:+)
-      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs_ave][:win]}.inject(:+)
+      %td= @stat[:difficulties][:basic][:achieve_vs][:win]
+      %td= @stat[:difficulties][:basic][:miss_vs][:win]
+      %td= @stat[:difficulties][:medium][:achieve_vs][:win]
+      %td= @stat[:difficulties][:medium][:miss_vs][:win]
+      %td= @stat[:difficulties][:hard][:achieve_vs][:win]
+      %td= @stat[:difficulties][:hard][:miss_vs][:win]
+      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs][:win]}.inject(:+)
+      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs][:win]}.inject(:+)
     %tr.vs_ave_draw
       %td Draw
-      %td= @stat[:difficulties][:basic][:achieve_vs_ave][:draw]
-      %td= @stat[:difficulties][:basic][:miss_vs_ave][:draw]
-      %td= @stat[:difficulties][:medium][:achieve_vs_ave][:draw]
-      %td= @stat[:difficulties][:medium][:miss_vs_ave][:draw]
-      %td= @stat[:difficulties][:hard][:achieve_vs_ave][:draw]
-      %td= @stat[:difficulties][:hard][:miss_vs_ave][:draw]
-      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs_ave][:draw]}.inject(:+)
-      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs_ave][:draw]}.inject(:+)
+      %td= @stat[:difficulties][:basic][:achieve_vs][:draw]
+      %td= @stat[:difficulties][:basic][:miss_vs][:draw]
+      %td= @stat[:difficulties][:medium][:achieve_vs][:draw]
+      %td= @stat[:difficulties][:medium][:miss_vs][:draw]
+      %td= @stat[:difficulties][:hard][:achieve_vs][:draw]
+      %td= @stat[:difficulties][:hard][:miss_vs][:draw]
+      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs][:draw]}.inject(:+)
+      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs][:draw]}.inject(:+)
     %tr.vs_ave_lose
       %td Lose
-      %td= @stat[:difficulties][:basic][:achieve_vs_ave][:lose]
-      %td= @stat[:difficulties][:basic][:miss_vs_ave][:lose]
-      %td= @stat[:difficulties][:medium][:achieve_vs_ave][:lose]
-      %td= @stat[:difficulties][:medium][:miss_vs_ave][:lose]
-      %td= @stat[:difficulties][:hard][:achieve_vs_ave][:lose]
-      %td= @stat[:difficulties][:hard][:miss_vs_ave][:lose]
-      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs_ave][:lose]}.inject(:+)
-      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs_ave][:lose]}.inject(:+)
+      %td= @stat[:difficulties][:basic][:achieve_vs][:lose]
+      %td= @stat[:difficulties][:basic][:miss_vs][:lose]
+      %td= @stat[:difficulties][:medium][:achieve_vs][:lose]
+      %td= @stat[:difficulties][:medium][:miss_vs][:lose]
+      %td= @stat[:difficulties][:hard][:achieve_vs][:lose]
+      %td= @stat[:difficulties][:hard][:miss_vs][:lose]
+      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs][:lose]}.inject(:+)
+      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs][:lose]}.inject(:+)
 
 %h3 平均スコア
 %h4 難易度別

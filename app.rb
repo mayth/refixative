@@ -195,8 +195,8 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   (1..11).each do |level|
     @stat[:levels][level] = {
       played: 0,
-      achieve_vs_ave: { win: 0, lose: 0, draw: 0 },
-      miss_vs_ave: { win: 0, lose: 0, draw: 0 },
+      achieve_vs: { win: 0, lose: 0, draw: 0 },
+      miss_vs: { win: 0, lose: 0, draw: 0 },
       achieve_total: 0.0,
       achieve_ave: 0.0,
       achieve_ave_all: 0.0,
@@ -244,18 +244,18 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     @song[name][DIFFICULTY[s.difficulty]][:score] = tmp
     if ave_avail
       if tmp[:achieve_diff] == 0.0
-        stat_df[:achieve_vs_ave][:draw] += 1
+        stat_df[:achieve_vs][:draw] += 1
       elsif tmp[:achieve_diff] > 0.0
-        stat_df[:achieve_vs_ave][:win] += 1
+        stat_df[:achieve_vs][:win] += 1
       else
-        stat_df[:achieve_vs_ave][:lose] += 1
+        stat_df[:achieve_vs][:lose] += 1
       end
       if tmp[:miss_diff] == 0.0
-        stat_df[:miss_vs_ave][:draw] += 1
+        stat_df[:miss_vs][:draw] += 1
       elsif tmp[:miss_diff] < 0.0
-        stat_df[:miss_vs_ave][:win] += 1
+        stat_df[:miss_vs][:win] += 1
       else
-        stat_df[:miss_vs_ave][:lose] += 1
+        stat_df[:miss_vs][:lose] += 1
       end
     end
   end
