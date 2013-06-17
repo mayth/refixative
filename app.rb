@@ -182,8 +182,8 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
   DIFFICULTY.each do |diff|
     @stat[:difficulties][diff] = {
       played: 0,
-      achieve_vs_ave: { win: 0, lose: 0, draw: 0 },
-      miss_vs_ave: { win: 0, lose: 0, draw: 0 },
+      achieve_vs: { win: 0, lose: 0, draw: 0 },
+      miss_vs: { win: 0, lose: 0, draw: 0 },
       achieve_total: 0.0,
       achieve_ave: 0.0,
       achieve_ave_all: 0.0,
