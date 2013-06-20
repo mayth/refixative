@@ -23,7 +23,7 @@
   %tbody
     %tr
       %td ID
-      %td#player_id= @prof.id.to_s.rjust(6, '0')
+      %td= @prof.id.to_s.rjust(6, '0')
     %tr
       %td 通り名
       %td= @prof.pseudonym
@@ -211,7 +211,15 @@
 - if @rival.id == 0
   %p 現在平均スコアと比較中です。
 - else
-  %p== 現在 #{@rival.name} (ID: #{@rival.id}) のスコアと比較中です。
+  %p
+    現在
+    %a{href: "/player/#{@rival.id}"}== #{@rival.name} (ID: #{@rival.id})
+    のスコアと比較中です。
+%form{action: request.path_info}
+  %input#compare_with{name: 'compare_with', type: 'text', placeholder: '比較対象ID'}
+  %input#player_id{name: 'player_id', type: 'hidden', value: @prof.id}
+  %input{type: 'submit', value: '比較'}
+
 %table#score_data
   %colgroup.music_name{span: 1}
   %colgroup.basic{span: 4}
