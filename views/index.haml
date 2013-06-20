@@ -19,6 +19,8 @@
     <strong>現在プロフィールを一部非公開にすることは対応していません。</strong>GATEのページにて非公開に設定している情報でも、Refixativeに登録すると全て公開されます。ご注意ください。
   %p
     Refixativeに関するお知らせや機能追加等のアナウンスはTwitter上にて<a href="https://twitter.com/search?q=%23Refixative">#Refixative</a>をつけて行っています。不具合の報告や機能要望等もこちらのハッシュタグをご利用ください。
+  %p
+    他のプレイヤーとのスコア比較機能を実装しました。使い方は<a href="#compare">スコア比較</a>をご覧ください。
 
 #info_tweets
   <a class="twitter-timeline" data-dnt=true href="https://twitter.com/search?q=%23Refixative" data-widget-id="280103969865465856">#Refixative に関するツイート</a>
@@ -56,13 +58,30 @@
   例えば作者のプレイヤーデータは
   %a{href: url('/player/001714')}= url('/player/001714')
   です。IDの先頭にある0はあってもなくても構いません。
-%h3 平均データ
+%p
+  なお、IDに0を指定すると平均データのページに転送されます。
+
+%h4#compare スコア比較
+%p
+  他のプレイヤーとのスコア比較をする場合は、プレイヤーページのスコアデータのすぐ上にあるテキストボックスに比較対象となるプレイヤーのIDを入力して送信してください。指定が無い場合は平均データを元にしたプレイヤーデータと比較します。
+%p
+  特定のプレイヤーとスコア比較をした状態でリンクをしたい場合や、ブックマークを行う場合、URLの最後に"?compare_with=(id)"を追加してください。例えば作者のスコアと、プレイヤーID 012345のプレイヤーと比較をしている状態のURLは次のようになります。
+%p
+  %em= url('/player/001714?compare_with=012345')
+
+%h3#average_data 平均データ
 %p
   平均データは次のURLから見ることができます。
   %br
   %strong
     %a{href: url('/player/average')}= url('/player/average')
-%h3 チーム
+%p
+  なお、プレイヤーデータで比較に用いられる平均データは上記URLから閲覧できる平均データと次の点で異なります。
+%ul
+  %li ARに関しては小数第二位で四捨五入しています。
+  %li ミスカウントに関しては小数第一位で四捨五入しています。
+
+%h3#team_data チーム
 %h4 一覧
 %p
   チーム一覧は次のURLから見ることができます:
