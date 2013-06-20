@@ -1,7 +1,7 @@
 %script{src: '/script/jshashtable.js'}
 %script{src: '/script/jquery.numberformatter.js'}
 %script{src: '/script/player_score_sorter.js'}
-%h1== プレイヤー 《#{@prof.name}》
+%h1== プレイヤー 《#{player.name}》
 
 %ul
   %li
@@ -11,7 +11,7 @@
 
 %dl
   %dt 最終更新日時
-  %dd= @last_updated_at
+  %dd= last_updated_at
   %dt ツイート
   %dd
     %a{:href => 'https://twitter.com/share', :class => 'twitter-share-button', :'data-lang' => 'ja', :'data-count' => 'none', :'data-hashtags' => 'Refixative', :'data-dnt' => 'true'} ツイート
@@ -23,46 +23,46 @@
   %tbody
     %tr
       %td ID
-      %td= @prof.id.to_s.rjust(6, '0')
+      %td= player.id.to_s.rjust(6, '0')
     %tr
       %td 通り名
-      %td= @prof.pseudonym
+      %td= player.pseudonym
     %tr
       %td プレイヤー名
-      %td= @prof.name
+      %td= player.name
     %tr
       %td コメント
-      %td= @prof.comment
-    - if @prof.team
+      %td= player.comment
+    - if player.team
       %tr
         %td チームID
         %td
-          = @prof.team.id
+          = player.team.id
           (
-          %a{href: url("/team/#{@prof.team.id}")}> チーム詳細
+          %a{href: url("/team/#{player.team.id}")}> チーム詳細
           )
       %tr
         %td チーム名
-        %td= @prof.team.name
+        %td= player.team.name
     - else
       %tr
         %td チーム
         %td 所属なし
     %tr
       %td プレー数
-      %td= @prof.play_count
+      %td= player.play_count
     %tr
       %td 総スタンプ数
-      %td= @prof.stamp
+      %td= player.stamp
     %tr
       %td 総おにぎり数
-      %td= @prof.onigiri
+      %td= player.onigiri
     %tr
       %td 最終プレー日時
-      %td= @prof.last_play_date
+      %td= player.last_play_date
     %tr
       %td 最終プレー店舗
-      %td= @prof.last_play_shop
+      %td= player.last_play_shop
 
 %h2 楽曲データ
 %h3 勝敗
@@ -90,34 +90,34 @@
   %tbody
     %tr.vs_ave_win
       %td Win
-      %td= @stat[:difficulties][:basic][:achieve_vs][:win]
-      %td= @stat[:difficulties][:basic][:miss_vs][:win]
-      %td= @stat[:difficulties][:medium][:achieve_vs][:win]
-      %td= @stat[:difficulties][:medium][:miss_vs][:win]
-      %td= @stat[:difficulties][:hard][:achieve_vs][:win]
-      %td= @stat[:difficulties][:hard][:miss_vs][:win]
-      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs][:win]}.inject(:+)
-      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs][:win]}.inject(:+)
+      %td= stat[:difficulties][:basic][:achieve_vs][:win]
+      %td= stat[:difficulties][:basic][:miss_vs][:win]
+      %td= stat[:difficulties][:medium][:achieve_vs][:win]
+      %td= stat[:difficulties][:medium][:miss_vs][:win]
+      %td= stat[:difficulties][:hard][:achieve_vs][:win]
+      %td= stat[:difficulties][:hard][:miss_vs][:win]
+      %td= stat[:difficulties].map {|diff, v| v[:achieve_vs][:win]}.inject(:+)
+      %td= stat[:difficulties].map {|diff, v| v[:miss_vs][:win]}.inject(:+)
     %tr.vs_ave_draw
       %td Draw
-      %td= @stat[:difficulties][:basic][:achieve_vs][:draw]
-      %td= @stat[:difficulties][:basic][:miss_vs][:draw]
-      %td= @stat[:difficulties][:medium][:achieve_vs][:draw]
-      %td= @stat[:difficulties][:medium][:miss_vs][:draw]
-      %td= @stat[:difficulties][:hard][:achieve_vs][:draw]
-      %td= @stat[:difficulties][:hard][:miss_vs][:draw]
-      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs][:draw]}.inject(:+)
-      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs][:draw]}.inject(:+)
+      %td= stat[:difficulties][:basic][:achieve_vs][:draw]
+      %td= stat[:difficulties][:basic][:miss_vs][:draw]
+      %td= stat[:difficulties][:medium][:achieve_vs][:draw]
+      %td= stat[:difficulties][:medium][:miss_vs][:draw]
+      %td= stat[:difficulties][:hard][:achieve_vs][:draw]
+      %td= stat[:difficulties][:hard][:miss_vs][:draw]
+      %td= stat[:difficulties].map {|diff, v| v[:achieve_vs][:draw]}.inject(:+)
+      %td= stat[:difficulties].map {|diff, v| v[:miss_vs][:draw]}.inject(:+)
     %tr.vs_ave_lose
       %td Lose
-      %td= @stat[:difficulties][:basic][:achieve_vs][:lose]
-      %td= @stat[:difficulties][:basic][:miss_vs][:lose]
-      %td= @stat[:difficulties][:medium][:achieve_vs][:lose]
-      %td= @stat[:difficulties][:medium][:miss_vs][:lose]
-      %td= @stat[:difficulties][:hard][:achieve_vs][:lose]
-      %td= @stat[:difficulties][:hard][:miss_vs][:lose]
-      %td= @stat[:difficulties].map {|diff, v| v[:achieve_vs][:lose]}.inject(:+)
-      %td= @stat[:difficulties].map {|diff, v| v[:miss_vs][:lose]}.inject(:+)
+      %td= stat[:difficulties][:basic][:achieve_vs][:lose]
+      %td= stat[:difficulties][:basic][:miss_vs][:lose]
+      %td= stat[:difficulties][:medium][:achieve_vs][:lose]
+      %td= stat[:difficulties][:medium][:miss_vs][:lose]
+      %td= stat[:difficulties][:hard][:achieve_vs][:lose]
+      %td= stat[:difficulties][:hard][:miss_vs][:lose]
+      %td= stat[:difficulties].map {|diff, v| v[:achieve_vs][:lose]}.inject(:+)
+      %td= stat[:difficulties].map {|diff, v| v[:miss_vs][:lose]}.inject(:+)
 
 %h3 平均スコア
 %h4 難易度別
@@ -138,12 +138,12 @@
   %tbody
     %tr
       %td Played
-      - @stat[:difficulties].each do |diff, v|
-        %td== #{v[:played]} / #{@music_stat[:total_musics]}
-      %td== #{@stat[:total_played]} / #{@music_stat[:total_tunes]}
+      - stat[:difficulties].each do |diff, v|
+        %td== #{v[:played]} / #{music_stat[:total_musics]}
+      %td== #{stat[:total_played]} / #{music_stat[:total_tunes]}
     %tr
       %td AR
-      - @stat[:difficulties].each do |diff, v|
+      - stat[:difficulties].each do |diff, v|
         %td
           - if v[:played] == 0
             .not_available N/A
@@ -151,11 +151,11 @@
             .played_only= format(ar_format, v[:achieve_ave])
             .all_ave== (#{format(ar_format, v[:achieve_ave_all])})
       %td
-        .played_only= format(ar_format, @stat[:achieve_ave])
-        .all_ave== (#{format(ar_format, @stat[:achieve_ave_all])})
+        .played_only= format(ar_format, stat[:achieve_ave])
+        .all_ave== (#{format(ar_format, stat[:achieve_ave_all])})
     %tr
       %td MISS
-      - @stat[:difficulties].each do |diff, v|
+      - stat[:difficulties].each do |diff, v|
         %td
           - if v[:played] == 0
             .not_available N/A
@@ -163,8 +163,8 @@
             .played_only= format(miss_format, v[:miss_ave])
             .all_ave== (#{format(miss_format, v[:miss_ave_all])})
       %td
-        .played_only= format(miss_format, @stat[:miss_ave])
-        .all_ave== (#{format(miss_format, @stat[:miss_ave_all])})
+        .played_only= format(miss_format, stat[:miss_ave])
+        .all_ave== (#{format(miss_format, stat[:miss_ave_all])})
 
 %h4 レベル別
 %table#level_ave_data
@@ -185,11 +185,11 @@
   %tbody
     %tr
       %td Played
-      - @stat[:levels].each do |lv, v|
-        %td== #{v[:played]} / #{@music_stat[:levels][lv]}
+      - stat[:levels].each do |lv, v|
+        %td== #{v[:played]} / #{music_stat[:levels][lv]}
     %tr
       %td AR
-      - @stat[:levels].each do |lv, v|
+      - stat[:levels].each do |lv, v|
         %td
           - if v[:played] == 0
             .not_available N/A
@@ -198,7 +198,7 @@
             .all_ave== (#{format(ar_format, v[:achieve_ave_all])})
     %tr
       %td MISS
-      - @stat[:levels].each do |lv, v|
+      - stat[:levels].each do |lv, v|
         %td
           - if v[:played] == 0
             .not_available N/A
@@ -208,16 +208,16 @@
 
 %h3 スコアデータ
 %p 各列のヘッダをクリックすると、その列でソートできます。現在ソートしている列をクリックすると、ソート順を切り替えます。
-- if @rival.id == 0
+- if rival.id == 0
   %p 現在平均スコアと比較中です。
 - else
   %p
     現在
-    %a{href: "/player/#{@rival.id}"}== #{@rival.name} (ID: #{@rival.id})
+    %a{href: "/player/#{rival.id}"}== #{rival.name} (ID: #{rival.id})
     のスコアと比較中です。
 %form{action: request.path_info}
   %input#compare_with{name: 'compare_with', type: 'text', placeholder: '比較対象ID'}
-  %input#player_id{name: 'player_id', type: 'hidden', value: @prof.id}
+  %input#player_id{name: 'player_id', type: 'hidden', value: player.id}
   %input{type: 'submit', value: '比較'}
 
 %table#score_data
