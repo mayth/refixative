@@ -70,11 +70,11 @@ var Refixative;
                     ps_row.append($('<td />').text($.formatNumber(s.achieve, {
                         format: '0.0'
                     }) + '%'), $('<td />').text(s.miss == 0 ? 'FC' : s.miss).addClass(s.miss == 0 ? 'fullcombo' : (s.miss == 1 ? 'miss1' : (s.miss == 2 ? 'miss2' : ''))), $('<td />').attr('rowspan', 2).text(s.rank));
-                    av_row.append($('<td />').text($.formatNumber(s.achieve_diff, {
-                        format: '-0.00'
-                    }) + '%').addClass(s.achieve_diff == 0.0 ? 'vs_ave_draw' : (s.achieve_diff < 0 ? 'vs_ave_lose' : 'vs_ave_win')), $('<td />').text(String($.formatNumber(s.miss_diff, {
+                    av_row.append($('<td />').text(s.achieve_diff == null ? 'N/A' : ($.formatNumber(s.achieve_diff, {
                         format: '-0.0'
-                    }))).addClass(s.miss_diff == 0.0 ? 'vs_ave_draw' : (s.miss_diff < 0 ? 'vs_ave_win' : 'vs_ave_lose')));
+                    }) + '%')).addClass(s.achieve_diff == null ? 'vs_unavailable' : s.achieve_diff == 0.0 ? 'vs_ave_draw' : s.achieve_diff < 0 ? 'vs_ave_lose' : 'vs_ave_win'), $('<td />').text(s.miss_diff == null ? 'N/A' : String($.formatNumber(s.miss_diff, {
+                        format: '-0'
+                    }))).addClass(s.miss_diff == null ? 'vs_unavailable' : s.miss_diff == 0.0 ? 'vs_ave_draw' : s.miss_diff < 0 ? 'vs_ave_win' : 'vs_ave_lose'));
                 } else {
                     ps_row.append($('<td />').attr('rowspan', 2).attr('colspan', 3).addClass('noplay').text('NO PLAY'));
                 }
@@ -293,7 +293,14 @@ var Refixative;
     })();    
     var player_score;
     $(document).ready(function () {
-        $.getJSON('/player/' + $("#player_id").text() + '.json', function (json) {
+        var query = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            query.push(hash[0]);
+            query[hash[0]] = hash[1];
+        }
+        $.getJSON('/player/' + $("#player_id").val() + '.json' + (query['compare_with'] ? '?compare_with=' + query['compare_with'] : ''), function (json) {
             return player_score = new PlayerScore(json['scores'], $('table#score_data tbody'));
         });
         $('.sort_header').click(function (e) {

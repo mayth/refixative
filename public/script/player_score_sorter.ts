@@ -117,13 +117,17 @@ module Refixative
           // vs. Average
           av_row.append(
             // achievement
-            $('<td />').text($.formatNumber(s.achieve_diff, {format: '-0.00'}) + '%')
-              .addClass(s.achieve_diff == 0.0 ? 'vs_ave_draw'
-                : (s.achieve_diff < 0 ? 'vs_ave_lose' : 'vs_ave_win')),
+            $('<td />').text(s.achieve_diff == null ? 'N/A' : ($.formatNumber(s.achieve_diff, {format: '-0.0'}) + '%'))
+            .addClass(s.achieve_diff == null ? 'vs_unavailable'
+                : s.achieve_diff == 0.0 ? 'vs_ave_draw'
+                : s.achieve_diff < 0 ? 'vs_ave_lose'
+                : 'vs_ave_win'),
             // miss
-            $('<td />').text(String($.formatNumber(s.miss_diff, {format: '-0.0'})))
-              .addClass(s.miss_diff == 0.0 ? 'vs_ave_draw'
-                : (s.miss_diff < 0 ? 'vs_ave_win' : 'vs_ave_lose')));
+            $('<td />').text(s.miss_diff == null ? 'N/A' : String($.formatNumber(s.miss_diff, {format: '-0'})))
+              .addClass(s.miss_diff == null ? 'vs_unavailable'
+                : s.miss_diff == 0.0 ? 'vs_ave_draw'
+                : s.miss_diff < 0 ? 'vs_ave_win'
+                : 'vs_ave_lose'));
         } else {
           // No score
           ps_row.append(
@@ -295,11 +299,21 @@ module Refixative
     }
   }
 
+
   var player_score: PlayerScore;
   /***** events *****/
   $(document).ready(() => {
+    // http://jquery-howto.blogspot.jp/2009/09/get-url-parameters-values-with-jquery.html
+    var query = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        query.push(hash[0]);
+        query[hash[0]] = hash[1];
+    }
     /* get player data */
-    $.getJSON('/player/' + $("#player_id").text() + '.json',
+    $.getJSON('/player/' + $("#player_id").val() + '.json' + (query['compare_with'] ? '?compare_with=' + query['compare_with'] : ''),
       json => player_score = new PlayerScore(json['scores'], $('table#score_data tbody')));
     $('.sort_header').click(e => {
       var $target = $(e.target);
