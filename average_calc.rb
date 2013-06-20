@@ -12,26 +12,9 @@ DIFFICULTY = [:basic, :medium, :hard]
 logger = Logger.new(STDOUT)
 
 scores = Hash.new
-score_average = Hash.new
+score_average = Array.new
 Music.all.each do |m|
   scores[m.name] = {
-    basic: {
-      achieve: 0.0,
-      miss: 0,
-      count: 0
-    },
-    medium: {
-      achieve: 0.0,
-      miss: 0,
-      count: 0
-    },
-    hard: {
-      achieve: 0.0,
-      miss: 0,
-      count: 0
-    }
-  }
-  score_average[m.name] = {
     basic: {
       achieve: 0.0,
       miss: 0,
@@ -63,7 +46,7 @@ players.each do |player|
   # score sum
   scoreset = Scoreset[id: player[:latest_scoreset_id]]
   unless scoreset
-    puts "Cannot find scoreset:#{player[:latest_scoreset_id]} (player:#{player[:id]}"
+    puts "Cannot find scoreset:#{player[:latest_scoreset_id]} (player:#{player[:id]})"
     next
   end
   scoreset.score.each do |score|
@@ -82,6 +65,7 @@ player_average = {
 }
 
 scores.each do |name, score|
+  tmp = {name: name, scores: Hash.new}
   score.each do |difficulty, v|
     if v[:count] != 0
       achieve = v[:achieve] / v[:count]
@@ -98,12 +82,30 @@ scores.each do |name, score|
       else
         rank = 'AAA+'
       end
-      score_average[name][difficulty] = 
-       { achieve: v[:achieve] / v[:count], miss: v[:miss].to_f / v[:count], rank: rank, count: v[:count]}
+      tmp[:scores][difficulty] = { achieve: v[:achieve] / v[:count], miss: v[:miss].to_f / v[:count], rank: rank, count: v[:count]}
     else
-      score_average[name][difficulty] = { achieve: 0.0, miss: 0, count: 0 }
+      tmp[:scores][difficulty] = { achieve: 0.0, miss: 0, count: 0 }
     end
   end
+  score_average << tmp
 end
 
-IO.write('average.dat', JSON.generate({ score_average: score_average, player_average: player_average, player_num: player_num, updated_at: Time.now }))
+updated_at = Time.now
+
+player = Player.update_or_create({
+  id: 0,
+  pseudonym: '平均のマイスター',
+  name: 'ＡＶＥＲＡＧＥ',
+  comment: '阿部礼司',
+  team: nil,
+  last_play_date: updated_at,
+  last_play_shop: '仮想空間',
+  latest_scoreset_id: 0
+}.merge(player_average))
+
+IO.write('average.dat', JSON.generate({ score_average: score_average, player_average: player_average, player_num: player_num, updated_at: updated_at }))
+
+score_average.each{|e| e[:scores].reject!{|d, s| s[:count] == 0}}
+ave = score_average.select{|e| e[:scores].any?}
+ave.each{|e| e[:scores].each{|d, v| v[:achieve] = ((v[:achieve] * 10.0).round) / 10.0; v[:miss] = v[:miss].round}}
+player.create_scoreset(ave, updated_at)

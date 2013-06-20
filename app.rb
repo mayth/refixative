@@ -214,7 +214,13 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     @music_stat[:levels][level] = Music.dataset.filter(basic_lv: level).or(medium_lv: level).or(hard_lv: level).all.size
   end
 
-  average = JSON.load(IO.read('average.dat'))['score_average']
+  @rival = Player.find(id: compare_id)
+  halt 404, "Cannot find the player ID: #{compare_id}" unless @rival
+  rival_scoreset = Scoreset.find(id: @rival.latest_scoreset_id)
+  halt 404, 'no scores for this player.' unless rival_scoreset
+  @rival_last_updated_at = rival_scoreset.registered_at
+  rival_scores = rival_scoreset.score
+
   # Calculate rank, average, difference from average
   scores.each do |s|
     name = s.music.name
@@ -236,13 +242,13 @@ get /^\/player\/([0-9]{1,6})(.json|.html)?$/ do
     stat_df[:played] += 1
     level = s.music.send(difficulty_key.to_s + '_lv')
     @stat[:levels][level][:played] += 1
-    ave = average[name][difficulty_key.to_s] if average[name]
-    ave_avail = average.has_key?(name) && ave[:count] != 0
+    rs = rival_scores.find{|r| r.music.name == s.music.name && r.difficulty == s.difficulty }
+    rs_avail = rs != nil
     tmp = { achieve: s.achieve, miss: s.miss, rank: rank,
-            achieve_diff: ave_avail ? s.achieve - ave['achieve'] : nil,
-            miss_diff: ave_avail ? s.miss - ave['miss'] : nil }
+            achieve_diff: rs_avail ? s.achieve - rs.achieve : nil,
+            miss_diff: rs_avail ? s.miss - rs.miss : nil }
     @song[name][DIFFICULTY[s.difficulty]][:score] = tmp
-    if ave_avail
+    if rs_avail
       if tmp[:achieve_diff] == 0.0
         stat_df[:achieve_vs][:draw] += 1
       elsif tmp[:achieve_diff] > 0.0

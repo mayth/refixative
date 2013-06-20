@@ -208,6 +208,10 @@
 
 %h3 スコアデータ
 %p 各列のヘッダをクリックすると、その列でソートできます。現在ソートしている列をクリックすると、ソート順を切り替えます。
+- if @rival.id == 0
+  %p 現在平均スコアと比較中です。
+- else
+  %p== 現在 #{@rival.name} (ID: #{@rival.id}) のスコアと比較中です。
 %table#score_data
   %colgroup.music_name{span: 1}
   %colgroup.basic{span: 4}

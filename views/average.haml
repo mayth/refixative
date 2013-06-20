@@ -55,7 +55,9 @@
   %tbody
     - miss_format = '%.1f'
     - ar_format = '%.2f'
-    - score_average.each do |name, score|
+    - score_average.each do |item|
+      - name = item['name']
+      - score = item['scores']
       %tr
         %td= CGI.escapeHTML(name)
         - if score['basic']['count'] != 0

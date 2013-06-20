@@ -32,7 +32,7 @@ class Scoreset < Sequel::Model
         raise MusicMismatchError.new(song_name, music ? music.name : nil)
       end
       DIFFICULTY.each do |diff|
-        if s[:scores][diff][:achieve]
+        if s[:scores][diff] && s[:scores][diff][:achieve]
           score = Score.new(
             music: music,
             scoreset: scoreset,
