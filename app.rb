@@ -64,7 +64,6 @@ helpers do
 
     data = CACHE.get("pls_#{player_id}_vs_#{compare_id}")
     if (!data || data[:last_updated_at] < last_updated_at || data[:rival_last_updated_at] < rival_last_updated_at)
-      puts "No cache available."
       musics = Music.order(Sequel.desc(:added_at))
       song = Hash.new
       musics.each do |m|
