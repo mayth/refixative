@@ -3,7 +3,7 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'logger'
 require 'securerandom'
-require 'memcache'
+require 'dalli'
 require 'pg'
 require 'sequel'
 require 'cgi/util'
