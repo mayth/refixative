@@ -30,16 +30,16 @@ configure do
   set :revision, `git show --format='%h' -s`.strip + `git diff --quiet HEAD || echo '+'`.strip
 end
 
-require 'music_mismatch_error.rb'
-require 'no_player_error.rb'
+require './music_mismatch_error.rb'
+require './no_player_error.rb'
 
-require 'helpers.rb'
+require './helpers.rb'
 
 # Routings
-require 'error_page.rb'
-require 'register.rb'
-require 'player_data.rb'
-require 'team_data.rb'
+require './error_page.rb'
+require './register.rb'
+require './player_data.rb'
+require './team_data.rb'
 
 get '/' do
   @player_num = Player.all.size
