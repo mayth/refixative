@@ -6,15 +6,18 @@ class Music < Sequel::Model
     time = Time.now
     ver = Version.find(name: 'colette')
     raise unless ver
-    new_musics.each do |m|
-      Music.new(
-        hash_id: m[:id],
-        name: m[:name],
-        basic_lv: m[:scores][:basic][:lv],
-        medium_lv: m[:scores][:medium][:lv],
-        hard_lv: m[:scores][:hard][:lv],
-        version: ver,
-        added_at: time).save
+    DB.transaction do
+      new_musics.each do |m|
+        next if Music.find(name: m[:name])
+        Music.new(
+          hash_id: m[:id],
+          name: m[:name],
+          basic_lv: m[:scores][:basic][:lv],
+          medium_lv: m[:scores][:medium][:lv],
+          hard_lv: m[:scores][:hard][:lv],
+          version: ver,
+          added_at: time).save
+      end
     end
   end
 end
