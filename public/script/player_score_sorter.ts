@@ -165,8 +165,8 @@ module Refixative
       }
     }
 
-    private sort_by(order?: Order = Order.Ascending, selector?: (value: any) => any) {
-      var rev = (order == Order.Ascending) ? -1 : 1;
+    private sort_by(order?: Order, selector?: (value: any) => any) {
+      var rev = (typeof order === 'undefined' || order == Order.Ascending) ? -1 : 1;
       return (a, b) => {
         var x, y;
         if (typeof selector === 'undefined') {
