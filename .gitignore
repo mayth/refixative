@@ -30,3 +30,6 @@ tmp
 .yardoc
 _yardoc
 doc/
+
+public/style.css
+public/script/player_score_sorter.js
