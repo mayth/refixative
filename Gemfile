@@ -10,4 +10,7 @@ gem 'nokogiri'
 gem 'haml'
 gem 'sass'
 gem 'json'
-gem 'sinatra-reloader'
+
+group :development do
+  gem 'sinatra-reloader'
+end
