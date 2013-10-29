@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mayth/refixative.png?branch=next)](https://travis-ci.org/mayth/refixative)
+
 Refixative
 ==========
 
