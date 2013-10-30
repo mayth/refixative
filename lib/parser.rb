@@ -40,6 +40,7 @@ module Parser
     end
 
     def self._parse_music(doc)
+      raise ArgumentError unless doc
       songs = Array.new
       doc.css('#music_table1 tbody tr').each do |row|
         next unless row.css('th').empty?
@@ -83,6 +84,8 @@ module Parser
           scores: scores
         }
       end
+      # If `songs` is empty, something might go wrong...
+      raise ArgumentError if songs.empty?
       songs
     end
   end # end colette module
