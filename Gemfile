@@ -21,6 +21,7 @@ gem 'sqlite3'
 group :production do
   gem 'pg'
 end
+gem 'nokogiri'
 
 # Test requirements
 gem 'mocha', :group => 'test', :require => false
