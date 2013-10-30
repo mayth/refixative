@@ -1,12 +1,12 @@
 class CreateScores < ActiveRecord::Migration
   def self.up
     create_table :scores do |t|
-      t.primarykey :id
-      t.references :music
-      t.references :scoreset
-      t.integer :difficulty
-      t.float :achieve
-      t.integer :miss
+      t.primary_key :id
+      t.references :music, null: false
+      t.references :scoreset, null: false
+      t.integer :difficulty, null: false
+      t.float :achieve, null: false
+      t.integer :miss, null: false
       t.timestamps
     end
   end

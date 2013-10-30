@@ -1,13 +1,13 @@
 class CreateMusics < ActiveRecord::Migration
   def self.up
     create_table :musics do |t|
-      t.primarykey :id
-      t.string :name
-      t.references :version
-      t.integer :basic_lv
-      t.integer :medium_lv
-      t.integer :hard_lv
-      t.date :added_at
+      t.primary_key :id
+      t.string :name, null: false
+      t.references :version, null: false
+      t.integer :basic_lv, null: false
+      t.integer :medium_lv, null: false
+      t.integer :hard_lv, null: false
+      t.date :added_at, null: false
       t.timestamps
     end
   end
