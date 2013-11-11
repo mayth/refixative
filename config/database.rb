@@ -27,7 +27,8 @@ ActiveRecord::Base.configurations[:production] = {
 
 ActiveRecord::Base.configurations[:test] = {
   :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'refixative_test.db')
+  :database => ':memory:'
+  # :database => Padrino.root('db', 'refixative_test.db')
 
 }
 
