@@ -1,8 +1,6 @@
 language: ruby
 rvm:
   - 2.0.0
-services:
-  - sqlite3
 script: bundle exec rake spec
 branches:
   only:
