@@ -2,10 +2,13 @@ PADRINO_ENV = 'test' unless defined?(PADRINO_ENV)
 require File.expand_path(File.dirname(__FILE__) + "/../config/boot")
 
 RSpec.configure do |conf|
+  conf.before :suite do
+    load File.join(Padrino.root, 'db', 'schema.rb')
+    load File.join(Padrino.root, 'db', 'seeds.rb')
+  end
+
   conf.mock_with :mocha
   conf.include Rack::Test::Methods
-  load File.join(Padrino.root, 'db', 'schema.rb')
-  load File.join(Padrino.root, 'db', 'seeds.rb')
 end
 
 # You can use this method to custom specify a Rack app
