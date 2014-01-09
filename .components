@@ -1,9 +1,0 @@
----
-:orm: activerecord
-:test: rspec
-:mock: mocha
-:script: jquery
-:renderer: haml
-:stylesheet: sass
-:namespace: Refixative
-:migration_format: number

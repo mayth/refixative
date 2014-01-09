@@ -9,63 +9,79 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 6) do
+ActiveRecord::Schema.define(version: 20140109061114) do
 
-  create_table "musics", :force => true do |t|
-    t.string   "name",       :null => false
-    t.integer  "version_id", :null => false
-    t.integer  "basic_lv",   :null => false
-    t.integer  "medium_lv",  :null => false
-    t.integer  "hard_lv",    :null => false
-    t.date     "added_at",   :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "musics", force: true do |t|
+    t.string   "name"
+    t.integer  "version_id"
+    t.integer  "basic_lv"
+    t.integer  "medium_lv"
+    t.integer  "hard_lv"
+    t.date     "added_at"
+    t.date     "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "players", :force => true do |t|
-    t.string   "name",           :limit => 8,  :null => false
-    t.string   "pseudonym",                    :null => false
-    t.string   "comment",        :limit => 16, :null => false
+  add_index "musics", ["version_id"], name: "index_musics_on_version_id"
+
+  create_table "players", id: false, force: true do |t|
+    t.integer  "id",             limit: 6, null: false
+    t.string   "name"
+    t.string   "pseudonym"
+    t.string   "comment"
     t.integer  "team_id"
-    t.integer  "play_count",                   :null => false
-    t.integer  "stamp",                        :null => false
-    t.integer  "onigiri",                      :null => false
-    t.datetime "last_play_date",               :null => false
-    t.string   "last_play_shop",               :null => false
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.integer  "play_count"
+    t.integer  "stamp"
+    t.integer  "onigiri"
+    t.datetime "last_play_date"
+    t.string   "last_play_shop"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "scores", :force => true do |t|
-    t.integer  "music_id",    :null => false
-    t.integer  "scoreset_id", :null => false
-    t.integer  "difficulty",  :null => false
-    t.float    "achieve",     :null => false
-    t.integer  "miss",        :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+  add_index "players", ["id"], name: "index_players_on_id", unique: true
+  add_index "players", ["team_id"], name: "index_players_on_team_id"
+
+  create_table "records", force: true do |t|
+    t.integer  "score_id"
+    t.float    "achievement"
+    t.integer  "miss_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "scoresets", :force => true do |t|
-    t.integer  "player_id",     :null => false
-    t.datetime "registered_at", :null => false
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+  add_index "records", ["score_id"], name: "index_records_on_score_id"
+
+  create_table "scores", force: true do |t|
+    t.integer  "player_id"
+    t.integer  "music_id"
+    t.integer  "difficulty"
+    t.integer  "latest_record_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "teams", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  add_index "scores", ["latest_record_id"], name: "index_scores_on_latest_record_id"
+  add_index "scores", ["music_id"], name: "index_scores_on_music_id"
+  add_index "scores", ["player_id"], name: "index_scores_on_player_id"
+
+  create_table "teams", id: false, force: true do |t|
+    t.integer  "id",         limit: 6
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "versions", :force => true do |t|
-    t.string   "name",        :null => false
-    t.datetime "released_at", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+  add_index "teams", ["id"], name: "index_teams_on_id", unique: true
+
+  create_table "versions", force: true do |t|
+    t.string   "name"
+    t.date     "released_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

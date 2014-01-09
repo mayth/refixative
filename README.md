@@ -11,11 +11,11 @@ Requirements
 ------------
 Refixative requires these softwares:
 
-* Ruby 2.0
+* Ruby 2.1
 * Bundler
-* PostgreSQL
+* PostgreSQL (for production)
+* SQLite3 (for development/testing)
 * memcached
 
-Any other required gems are installed by Bundler.
-
 In addition, version and musics data are required. They must be added to the database before this app runs. See migration files and models.
+

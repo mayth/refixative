@@ -1,40 +1,54 @@
 source 'https://rubygems.org'
 
-# Distribute your app as a gem
-# gemspec
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '4.0.2'
 
-# Server requirements
-gem 'thin' # or mongrel
-# gem 'trinidad', :platform => 'jruby'
+# Use sqlite3 as the database for Active Record
+gem 'sqlite3', group: [:development, :test]
+gem 'pg', group: :production
 
-# Optional JSON codec (faster performance)
-gem 'oj'
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 4.0.0'
 
-# Project requirements
-gem 'rake'
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
 
-# Component requirements
-gem 'sass'
-gem 'haml'
-gem 'activerecord', '>= 3.1', :require => 'active_record'
-gem 'sqlite3'
-group :production do
-  gem 'pg'
+# Use CoffeeScript for .js.coffee assets and views
+gem 'coffee-rails', '~> 4.0.0'
+
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+# gem 'therubyracer', platforms: :ruby
+
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
+
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 1.2'
+
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem 'sdoc', require: false
 end
-gem 'nokogiri'
 
-# Test requirements
-gem 'mocha', :group => 'test', :require => false
-gem 'rspec', :group => 'test'
-gem 'rack-test', :require => 'rack/test', :group => 'test'
+# Use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.1.2'
 
-# Padrino Stable Gem
-gem 'padrino', '0.11.4'
+# Use unicorn as the app server
+gem 'unicorn'
 
-# Or Padrino Edge
-# gem 'padrino', :github => 'padrino/padrino-framework'
+# Use Capistrano for deployment
+# gem 'capistrano', group: :development
 
-# Or Individual Gems
-# %w(core gen helpers cache mailer admin).each do |g|
-#   gem 'padrino-' + g, '0.11.4'
-# end
+# Use debugger
+# gem 'debugger', group: [:development, :test]
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'guard-rspec'
+  gem 'factory_girl_rails'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+end
