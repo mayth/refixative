@@ -15,8 +15,5 @@
 /log/*.log
 /tmp
 
-# Ignore database configuration
-config/database.yml
-
 # Ignore binstubs
 bin/
