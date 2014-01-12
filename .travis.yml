@@ -4,7 +4,7 @@ rvm:
 before_script:
   - RAILS_ENV=test bundle exec rake db:reset --trace
 script: 
-  - bundle exec rake spec
+  - RAILS_ENV=test bundle exec rake spec
 branches:
   only:
     - next
