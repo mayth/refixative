@@ -8,6 +8,7 @@ namespace :music do
     start_time = Time.now
     open(filepath, 'r:utf-8') do |io|
       json = JSON.load(io)
+      raise 'Empty file loaded, or failed to load JSON.' unless json
       Music.transaction do
         json.each do |m|
           ver = Version.find_by(name: m['version'])
