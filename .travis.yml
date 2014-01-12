@@ -2,10 +2,8 @@ language: ruby
 rvm:
   - 2.1.0
 before_script:
-  - psql -c 'create database refixative2_test;' -U postgres
+  - RAILS_ENV=test bundle exec rake db:reset --trace
 script: 
-  - bundle exec rake db:test:prepare --trace
-  - bundle exec rake db:seed --trace
   - bundle exec rake spec
 branches:
   only:
