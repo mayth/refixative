@@ -2,7 +2,7 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
+# require 'rspec/autorun'
 require 'factory_girl'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -43,5 +43,15 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     FactoryGirl.reload
+    DatabaseCleaner.clean_with(:truncation, {except: %w(versions)})
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
   end
 end
