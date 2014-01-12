@@ -1,17 +1,26 @@
 development:
-  adapter: sqlite3
-  database: db/development.sqlite3
+  adapter: postgresql
+  host: localhost
+  encoding: utf8
+  database: refixative2_development
   pool: 5
   timeout: 5000
+  username: refixative2
 
 test:
-  adapter: sqlite3
-  database: db/test.sqlite3
+  adapter: postgresql
+  host: localhost
+  encoding: utf8
+  database: refixative2_test
   pool: 5
   timeout: 5000
+  username: refixative2
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: postgresql
+  host: localhost
+  encoding: utf8
+  database: refixative2_production
   pool: 5
   timeout: 5000
+  username: refixative2
