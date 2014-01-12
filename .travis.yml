@@ -3,8 +3,8 @@ rvm:
   - 2.1.0
 before_script:
   - psql -c 'create database refixative2_test;' -U postgres
-  - RAILS_ENV=test bundle exec rake db:migrate
-  - RAILS_ENV=test bundle exec rake db:seed
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - RAILS_ENV=test bundle exec rake db:seed --trace
 script: bundle exec rake spec
 branches:
   only:
