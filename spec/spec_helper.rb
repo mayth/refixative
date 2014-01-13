@@ -5,6 +5,9 @@ require 'rspec/rails'
 # require 'rspec/autorun'
 require 'factory_girl'
 
+load "#{Rails.root}/db/schema.rb"
+load "#{Rails.root}/db/seeds.rb"
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }

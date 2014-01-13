@@ -7,13 +7,10 @@ development:
   timeout: 5000
 
 test:
-  adapter: postgresql
-  host: localhost
-  encoding: utf8
-  database: refixative2_test
+  adapter: sqlite3
+  database: ":memory:"
   pool: 5
   timeout: 5000
-  username: postgres
 
 production:
   adapter: postgresql
