@@ -1,0 +1,8 @@
+en:
+  view:
+    home:
+      about_head: About Refixative
+      about: Refixative is a web service to keep a record of your score and to aggregate the registered players' score for REFLEC BEAT colette. You can check the history of your score, compare with the other player's score, and see the average data.
+      score_reg_head: Score Registration
+      score_reg: Register Score
+      info_head: Information
