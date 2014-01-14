@@ -1,0 +1,36 @@
+!!! 5
+%html
+  %head
+    - if @title.present?
+      %title #{@title} | Refixative
+    - else
+      %title Refixative
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+    %nav#navbar-top-nav.navbar
+      .row
+        %a.toggle{href: '#', 'gumby-trigger' => '#top-nav > ul'}
+          %i.icon-menu
+        %p.three.columns.logo
+          %a{href: '#'} Refixative
+        %nav.eight.columns.pull_right
+          %ul#top-nav
+            %li
+              %a{href: '#'} Submit
+            %li
+              %a{href: '#'} Average
+
+    != yield
+
+    %footer
+      .row
+        #footer-info.six.columns
+          query at #{Time.now}
+        #footer-credit.six.columns
+          %p
+            Mei Akizuru - 
+            %a{href: 'https://twitter.com/maytheplic'} @maytheplic
+          %p
+            %a{href: 'https://github.com/mayth/refixative'} source code on github

@@ -1,0 +1,22 @@
+nav#navbar-top-nav {
+  p.logo a {
+    color: #fff;
+    font-size: 150%;
+  }
+  #top-nav {
+    float: right;
+  }
+}
+
+footer {
+  background-color: $navbar-color;
+  color: $white;
+  a { color: mix($header-link-color, $white); }
+  #footer-info {
+    text-align: left;
+  }
+
+  #footer-credit {
+    text-align: right;
+  }
+}

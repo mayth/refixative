@@ -8,7 +8,7 @@ gem 'pg', group: [:production, :development]
 gem 'sqlite3', group: :test
 
 # Use Haml for view template
-gem 'haml'
+gem 'haml-rails'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
