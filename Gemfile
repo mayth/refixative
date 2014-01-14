@@ -63,4 +63,7 @@ group :development, :test do
   gem 'spring-commands-rspec'
 end
 
+# HTML parser
 gem 'nokogiri'
+
+gem 'rails_12factor', group: :production
