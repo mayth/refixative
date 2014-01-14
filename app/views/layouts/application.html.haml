@@ -5,30 +5,33 @@
       %title #{@title} | Refixative
     - else
       %title Refixative
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0'}
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_include_tag 'vendor/modernizr', 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    %nav#navbar-top-nav.navbar
-      .row
-        %a.toggle{href: '#', 'gumby-trigger' => '#top-nav > ul'}
-          %i.icon-menu
-        %p.three.columns.logo
-          %a{href: '#'} Refixative
-        %nav.eight.columns.pull_right
-          %ul#top-nav
-            %li
-              %a{href: '#'} Submit
-            %li
-              %a{href: '#'} Average
+    %nav.top-bar{'data-topbar' => true}
+      %ul.title-area
+        %li.name
+          %h1
+            %a{href: '#'} Refixative
+        %li.toggle-topbar.menu-icon
+          %a{href: '#'} Menu
+      %section.top-bar-section
+        %ul.right
+          %li
+            %a{href: '#'} Submit
+          %li
+            %a{href: '#'} Average
 
-    != yield
+    #main-container
+      != yield
 
     %footer
       .row
-        #footer-info.six.columns
+        #footer-info.small-6.columns
           query at #{Time.now}
-        #footer-credit.six.columns
+        #footer-credit.small-6.columns.text-right
           %p
             Mei Akizuru - 
             %a{href: 'https://twitter.com/maytheplic'} @maytheplic

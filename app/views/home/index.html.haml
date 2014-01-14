@@ -1,12 +1,14 @@
-.row
-  %h1
-    Refixative
-    %br
-    %small Score Tool for REFLEC BEAT colette
-.row
-  .centered.four.columns
-    .xlarge.primary.btn.pretty
-      %a= t('view.home.score_reg')
+#home-banner
+  .row#home-title
+    %h1.small-12.columns
+      Refixative
+  .row#home-title-sub
+    %h1.small-12.columns
+      %small Score Tool for REFLEC BEAT colette
+  .row
+    .small-6.small-centered.columns
+      %div{style: 'text-align: center;'}
+        %a.large.primary.button= t('view.home.score_reg')
 .row
   %h1= t('view.home.about_head')
   %p= t('view.home.about')

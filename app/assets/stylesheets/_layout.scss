@@ -1,0 +1,11 @@
+$main-container-margin: 20px;
+
+#main-container {
+  margin: $main-container-margin auto;
+  .row:last-child {
+    @include line-bottom;
+  }
+}
+
+footer {
+}

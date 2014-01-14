@@ -10,10 +10,11 @@ gem 'sqlite3', group: :test
 # Use Haml for view template
 gem 'haml-rails'
 
+# Use Foundation for CSS Framework
+gem 'foundation-rails'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
-gem 'compass-rails'
-gem 'modular-scale'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'

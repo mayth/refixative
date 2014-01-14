@@ -1,0 +1,20 @@
+#home-banner {
+  // background-color: #A5DDF8;
+  background-color: $topbar-bg-color;
+  margin: (-$main-container-margin) 0 0 0;
+  padding-top: $main-container-margin;
+  #home-title {
+    text-align: center;
+    h1 {
+      color: #fff;
+      @include ts-black;
+    }
+  }
+  #home-title-sub {
+    text-align: center;
+    small {
+      color: #e0e0e0;
+      margin: 0;
+    }
+  }
+}
