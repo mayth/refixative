@@ -7,6 +7,9 @@ gem 'rails', '4.0.2'
 gem 'pg', group: [:production, :development]
 gem 'sqlite3', group: :test
 
+# Use Haml for view template
+gem 'haml'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
@@ -54,3 +57,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'
 end
+
+gem 'nokogiri'
