@@ -1,11 +1,11 @@
 $main-container-margin: 20px;
 
 #main-container {
-  margin: $main-container-margin auto;
-  .row:last-child {
-    @include line-bottom;
-  }
+  padding: $main-container-margin 0;
+  @include line-bottom;
 }
 
 footer {
+  padding-top: 20px;
+  background-color: lighten($body-bg, 2%);
 }

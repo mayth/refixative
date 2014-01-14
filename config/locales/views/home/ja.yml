@@ -6,3 +6,9 @@ ja:
       score_reg_head: スコア登録
       score_reg: スコア登録
       info_head: お知らせ
+      how_to_head: 使い方
+      how_to:
+        reg_head: 登録
+        reg: Refixativeのスコア登録は、一旦e-AMUSEMENT GATEのページをダウンロードして頂き、それをこのWebサイトにアップロードすることで行われます。
+        reg2: REFLEC BEAT coletteでは、GATEにおける楽曲データの閲覧に課金（月額315円）が必要です。
+        reg2_important: Refixative自体は無料で利用できますが、GATEへの課金は必要ですのでご了承ください。
