@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140111100945) do
+ActiveRecord::Schema.define(version: 20140115095541) do
 
   create_table "musics", force: true do |t|
     t.string   "name"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20140111100945) do
   create_table "records", force: true do |t|
     t.integer  "score_id"
     t.float    "achievement"
-    t.integer  "miss_count"
+    t.float    "miss_count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
