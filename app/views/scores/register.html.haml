@@ -1,2 +1,17 @@
-%h1 Scores#register
-%p Find me in app/views/scores/register.html.haml
+.row
+  .small-12.columns
+    %h1= t('view.scores.register.title')
+    = form_tag '/scores/register', multipart: true do
+      .row
+        .small-2.columns
+          = label_tag 'profile', t('view.scores.register.profile'), class: 'right inline'
+        .small-10.columns
+          = file_field_tag 'profile', accept: 'text/html'
+      .row
+        .small-2.columns
+          = label_tag 'music_data', t('view.scores.register.music_data'), class: 'right inline'
+        .small-10.columns
+          = file_field_tag 'music_data', accept: 'text/html'
+      .row
+        .small-2.columns
+          = submit_tag t('view.scores.register.submit'), class: 'small button right'
