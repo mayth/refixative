@@ -9,7 +9,7 @@
   .row
     .small-12.medium-6.medium-centered.columns
       %div{style: 'text-align: center;'}
-        %a.large.success.button= t('view.home.score_reg')
+        = link_to t('view.home.score_reg'), {controller: 'scores', action: 'register'}, class: 'large success button'
 .row
   .small-12.columns
     %h1= t('view.home.about_head')
