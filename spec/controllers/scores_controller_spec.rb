@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe ScoresController do
 
-  describe "GET 'register'" do
+  describe "GET 'new'" do
     it "returns http success" do
-      get 'register'
+      get 'new'
       response.should be_success
     end
   end
