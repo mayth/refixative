@@ -1,23 +1,15 @@
-#coding: utf-8
 require 'time'
 require 'cgi/util'
 require 'nokogiri'
 
 module Parser
-  class Colette
+  module Colette
     DIFFICULTY = [:basic, :medium, :hard]
 
+    module_function
     # html: String, or File
     def parse_profile(html)
-      _parse_profile(Nokogiri::HTML(html) {|config| config.nonet })
-    end
-
-    def parse_song(html)
-      _parse_song(Nokogiri::HTML(html) {|config| config.nonet })
-    end
-
-    private
-    def _parse_profile(doc)
+      doc = Nokogiri::HTML(html) {|config| config.nonet }
       player = {
         id: doc.at_css('#plofbox dl dd').text.strip,
         pseudonym: doc.at_css('#plofbox2').text.strip.gsub(/^(\S+)(.*)/, '\1'),
@@ -40,8 +32,9 @@ module Parser
       player
     end
 
-    def _parse_song(doc)
-      songs = Array.new
+    def parse_music(html)
+      doc = Nokogiri::HTML(html) {|config| config.nonet }
+      musics = Array.new
       doc.css('#music_table1 tbody tr').each do |row|
         next unless row.css('th').empty?
         scores = Hash.new
@@ -64,17 +57,17 @@ module Parser
             miss: miss
           }
         end
-        songs << {
-          id: CGI.unescape(row.at_css('img').attr('src').gsub(/(.+?)img=(.+)$/, '\2')),
+        musics << {
           name: Parser.name_normalize(row.at_css('img').attr('alt')),
           scores: scores
         }
       end
-      songs
+      musics 
     end
-  end # end class
+  end # end module
 
-  def self.name_normalize(name)
+  module_function
+  def name_normalize(name)
     name.gsub(/''/, '"')  # double single quote -> double quote
         .gsub(/　/, ' ')  # full-width space -> half-width space
         .gsub(/ +/, ' ')  # continuous half-width space -> single half-width space
@@ -87,14 +80,13 @@ module Parser
 end # end module
 
 if __FILE__ == $0
-  parser = Parser::Colette.new
   prof = nil
   open(ARGV[0], 'r:shift_jis') do |f|
-    prof = parser.parse_profile(f)
+    prof = ::Parser::Colette.parse_profile(f)
   end
   song = nil
   open(ARGV[1], 'r:shift_jis') do |f|
-    song = parser.parse_song(f)
+    song = ::Parser::Colette.parse_music(f)
   end
   p prof
   p song
