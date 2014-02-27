@@ -45,16 +45,17 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.before(:suite) do
-    FactoryGirl.reload
-    DatabaseCleaner.clean_with(:truncation, {except: %w(versions)})
-    DatabaseCleaner.strategy = :transaction
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
+    DatabaseRewinder.clean_with(except: %w(versions))
+    Rails.application.load_seed
   end
 
   config.after(:each) do
-    DatabaseCleaner.clean
+    DatabaseRewinder.clean
   end
+
+  config.before(:all) do
+    FactoryGirl.reload
+  end
+
+  config.include FactoryGirl::Syntax::Methods
 end
