@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.1'
+ruby '2.1.2'
 
 gem 'rails', '4.1.1'
 
@@ -36,6 +36,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'newrelic_rpm'
 gem 'foreman'
 gem 'figaro'
+gem 'mina'
 
 gem 'rb-readline'
 
