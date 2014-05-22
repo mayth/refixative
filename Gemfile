@@ -5,7 +5,7 @@ ruby '2.1.2'
 gem 'rails', '4.1.1'
 
 ### runtime / server
-gem 'therubyracer',  platforms: :ruby
+# gem 'therubyracer',  platforms: :ruby
 
 gem 'pg'
 
