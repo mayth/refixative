@@ -1,0 +1,5 @@
+test:
+  <<: *default
+  database: refixative
+  username: postgres
+  password:
