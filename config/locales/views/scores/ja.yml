@@ -1,8 +1,0 @@
-ja:
-  view:
-    scores:
-      register:
-        title: スコア登録
-        profile: プロフィール
-        music_data: 楽曲データ
-        submit: 送信

@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/mayth/refixative.png?branch=next)](https://travis-ci.org/mayth/refixative)
 
-Refixative-plus
+Refixative NEXT
 ===============
 
 REFLEC BEAT colette score tool next version.
@@ -11,39 +11,19 @@ Requirements
 ------------
 Refixative requires these softwares:
 
-* Ruby 2.1
+* Ruby 2.1.1
 * Bundler
-* PostgreSQL (for development/production)
-* SQLite3 (for testing)
-* memcached
+* PostgreSQL
 
 In addition, musics data is required. It must be added to the database before this app runs. 
 
 Setup
 -----
 
-Clone the repository and checkout `next` branch.
-
-    git clone git@github.com:mayth/refixative.git
-    git checkout next
-
-Next, install gems and make 'springified' binstubs. (See: [rails/spring](https://github.com/rails/spring) on github)
-
-    bundle install --path vendor/bundle
-    bundle exec spring binstub --all
-
-After that, modify `config/database.yml` to fit your environment. And, do
-
-    bin/rake RAILS_ENV=development db:create
-    bin/rake RAILS_ENV=development db:migrate
-    bin/rake RAILS_ENV=development db:seed
-    bin/rails s
-
-Open `http://localhost:3000` with the browser.
-
-Heroku
-------
-
-Set these environment variables:
-
-* `SECRET_KEY_BASE`
+1. Clone the repository and checkout `next` branch.
+2. Install gems
+3. Modify `config/database.yml` to fit your environment
+4.
+5. Setup DB (`bin/rake db:create db:migrate db:seed`)
+6. Start the Rails server
+7. Open `http://localhost:3000` with the browser.

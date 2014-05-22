@@ -3,10 +3,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 # require 'rspec/autorun'
-require 'factory_girl'
-
-load "#{Rails.root}/db/schema.rb"
-load "#{Rails.root}/db/seeds.rb"
+require 'factory_girl_rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -14,17 +11,9 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
-ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
+ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  # ## Mock Framework
-  #
-  # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
-  #
-  # config.mock_with :mocha
-  # config.mock_with :flexmock
-  # config.mock_with :rr
-
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -44,16 +33,15 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.before(:suite) do
-    DatabaseRewinder.clean_with(except: %w(versions))
-    Rails.application.load_seed
+  config.before :suite do
+    DatabaseRewinder.clean_all
   end
 
-  config.after(:each) do
+  config.after :each do
     DatabaseRewinder.clean
   end
 
-  config.before(:all) do
+  config.before :all do
     FactoryGirl.reload
   end
 

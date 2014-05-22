@@ -8,6 +8,7 @@
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0'}
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'vendor/modernizr', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
     %nav.top-bar{'data-topbar' => true}
@@ -24,6 +25,14 @@
           %li
             %a{href: '#'} Average
 
+    - if flash.any?
+      .flash-wrapper
+        .flash
+          - [:alert, :notice].each do |klass|
+            - if flash[klass].present?
+              %div{class: klass}
+                = flash[klass]
+
     #main-container
       != yield
 
@@ -37,6 +46,3 @@
             %a{href: 'https://twitter.com/maytheplic'} @maytheplic
           %p
             %a{href: 'https://github.com/mayth/refixative'} source code on github
-
-    -# This should be in 'head' by right...
-    = javascript_include_tag 'application'

@@ -1,100 +1,85 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.3'
+ruby '2.1.1'
 
-gem 'therubyracer', platforms: :ruby
+gem 'rails', '4.1.1'
+
+### runtime / server
+gem 'therubyracer',  platforms: :ruby
 
 gem 'pg'
 
-# stylesheets (sass)
-gem 'sass-rails', '~> 4.0.0'
+gem 'unicorn'
+
+### view
+gem 'sass-rails', '~> 4.0.3'
 gem 'yui-compressor'
-# javascript (coffeescript, jquery, ...)
+
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'turbolinks'
-gem 'jquery-turbolinks'
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder', '~> 2.0'
 gem 'uglifier', '>= 1.3.0'
-# view template (haml)
 gem 'haml-rails'
-# framework
+
+gem 'compass-rails'
 gem 'foundation-rails'
-# markdown
-gem 'redcarpet'
-gem 'showdown-rails'
-
-# monitor
-gem 'newrelic_rpm'
-
-# process manager
-gem 'foreman'
-# app configuration
-gem 'figaro'
-
-## view
-# automatically insert validation to views
-gem 'html5_validators'
-
-# authentication
-gem 'devise'
-
-# Use unicorn as the app server
-gem 'unicorn'
+gem 'zurui-sass-rails'
 
 gem 'nokogiri'
 
-### environment specific gems
+### utility
+gem 'devise'
+gem 'bcrypt', '~> 3.1.7'
+
+gem 'newrelic_rpm'
+gem 'foreman'
+gem 'figaro'
+
+gem 'rb-readline'
+
+group :doc do
+  gem 'sdoc', '~> 0.4.0'
+end
 
 group :development do
   gem 'erb2haml'
-end
 
-group :development, :test do
-  # preloader
   gem 'spring'
   gem 'spring-commands-rspec'
 
-  # suppress assets log!
   gem 'quiet_assets'
 
-  # pry
   gem 'pry-rails'
   gem 'pry-coolline'
   gem 'pry-byebug'
   gem 'pry-stack_explorer'
   gem 'pry-doc'
 
-  # pretty error messages
   gem 'better_errors'
   gem 'binding_of_caller'
 
-  # output highlighter/formatter
   gem 'hirb'
   gem 'hirb-unicode'
   gem 'awesome_print'
 
-  # RSpec
+  gem 'rubocop'
+end
+
+group :development, :test do
   gem 'rspec-rails'
   gem 'rake_shared_context'
+  gem 'fuubar'
 
-  # fixture-replacement
   gem 'factory_girl_rails'
 
-  # cleanup testing DB
   gem 'database_rewinder'
 
-  # Guard (automatic run tests)
   gem 'guard-rspec'
   gem 'guard-spring'
 end
 
 group :production do
   gem 'rails_12factor'
-end
-
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
 end
