@@ -1,5 +1,7 @@
 test:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: refixative
   username: postgres
   password:
