@@ -5,8 +5,8 @@ default: &default
 
 development:
   <<: *default
-  database: refixative_development
-  username: refixative
+  database: refxgroovin_development
+  username: refxgroovin
   password:
 
 # Warning: The database defined as "test" will be erased and
@@ -14,8 +14,8 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: refixative_test
-  username: refixative
+  database: refxgroovin_test
+  username: refxgroovin
   password:
 
 # As with config/secrets.yml, you never want to store sensitive information,
@@ -39,5 +39,5 @@ test:
 #
 production:
   <<: *default
-  database: refixative_production
-  password: <%= ENV['REFIXATIVE_DATABASE_PASSWORD'] %>
+  database: refxgroovin_production
+  password: <%= ENV['DATABASE_PASSWORD'] %>
