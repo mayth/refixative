@@ -40,4 +40,5 @@ test:
 production:
   <<: *default
   database: refxgroovin_production
+  username: refxgroovin
   password: <%= ENV['DATABASE_PASSWORD'] %>
