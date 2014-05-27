@@ -27,6 +27,7 @@ pickle-email-*.html
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/shared/pids
 
 # Ignore application configuration
 /config/application.yml
