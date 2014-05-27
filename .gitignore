@@ -15,7 +15,6 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
-config/secrets.yml
 
 # Ignore bundler config.
 /.bundle
