@@ -16,17 +16,6 @@ set :user, 'refxgroovin'
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-case ENV['to']
-when 'staging'
-  set :deploy_to, "/home/#{user}/refixative-staging"
-when 'production'
-  set :deploy_to, "/home/#{user}/refixative"
-when nil
-  fail 'specify `to`, deployment target'
-else
-  fail 'unknown deployment target'
-end
-
 set :domain, 'refxgroovin'
 set :repository, 'git@github.com:mayth/refixative.git'
 set :branch, 'next'
@@ -43,6 +32,17 @@ set :shared_paths, [
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
 task :environment do
+  case ENV['to']
+  when 'staging'
+    set :deploy_to, "/home/#{user}/refixative-staging"
+  when 'production'
+    set :deploy_to, "/home/#{user}/refixative"
+  when nil
+    fail 'specify `to`, deployment target'
+  else
+    fail 'unknown deployment target'
+  end
+
   # If you're using rbenv, use this to load the rbenv environment.
   # Be sure to commit your .rbenv-version to your repository.
   invoke :'rbenv:load'
@@ -88,9 +88,6 @@ task :deploy => :environment do
       queue %[sudo /etc/init.d/refxgroovin#{env} #{cmd}]
     end
   end
-end
-
-task :launch do
 end
 
 # For help in making your deploy script, see the Mina documentation:
