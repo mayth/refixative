@@ -3,6 +3,9 @@ timeout 15
 preload_app true
 GC.copy_on_write_friendly = true if GC.respond_to?(:copy_on_write_friendly=)
 
+stderr_path 'log/unicorn.log'
+stdout_path 'log/unicorn.log'
+
 before_fork do |server, worker|
   ActiveRecord::Base.connection.disconnect! if defined?(ActiveRecord::Base)
 end
