@@ -1,34 +1,20 @@
 #home-banner
   .row#home-title
     %h1.small-12.columns
-      Refixative
-      %sup{style: 'font-size: 50%;'} plus
+      Refixative groovin'!!
   .row#home-title-sub.hide-for-small-only
     %h1.small-12.columns
-      %small Score Tool for REFLEC BEAT colette
+      %small Score Tool for REFLEC BEAT groovin'!!
   .row
     .small-12.medium-6.medium-centered.columns
       %div{style: 'text-align: center;'}
-        = link_to t('view.home.score_reg'), '/'
-        -# = link_to t('view.home.score_reg') , {controller: 'scores', action: 'register'}, class: 'large success button'
-.row
-  .small-12.columns
-    %h1= t('view.home.about_head')
-    %p= t('view.home.about')
+        = link_to t('view.home.score_reg'), '/', class: 'large success button'
+
 .row
   .small-12.columns
     %h1= t('view.home.info_head')
     %p placeholder...
-.row
-  .small-12.columns
-    %h1= t('view.home.how_to_head')
-    .row
-      .small-12.columns
-        %h2= t('view.home.how_to.reg_head')
-        %p= t('view.home.how_to.reg')
-        %p
-          = t('view.home.how_to.reg2')
-          %strong= t('view.home.how_to.reg2_important')
+
 .row
   .small-12.large-6.columns
     #info_tweets
