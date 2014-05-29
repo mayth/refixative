@@ -38,6 +38,7 @@ gem 'newrelic_rpm'
 gem 'foreman'
 gem 'figaro'
 gem 'mina'
+gem 'migrant'
 
 gem 'rb-readline'
 
