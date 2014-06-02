@@ -3,6 +3,10 @@ class Difficulty
 
   AVAILABLE = %w(BASIC MEDIUM HARD SPECIAL)
 
+  def self.from_int(n)
+    new(AVAILABLE[n])
+  end
+
   def initialize(str)
     fail ArgumentError, 'unexpected value' unless AVAILABLE.include?(str)
     @str = str

@@ -1,6 +1,17 @@
 require 'spec_helper'
 
 describe Difficulty do
+  describe '.from_int' do
+    context 'with valid parameter' do
+      it 'returns difficulty value' do
+        expect(Difficulty.from_int(0)).to eq Difficulty::BASIC
+        expect(Difficulty.from_int(1)).to eq Difficulty::MEDIUM
+        expect(Difficulty.from_int(2)).to eq Difficulty::HARD
+        expect(Difficulty.from_int(3)).to eq Difficulty::SPECIAL
+      end
+    end
+  end
+
   describe '#more_difficult_than?' do
     let(:difficulty) { Difficulty::MEDIUM }
 
