@@ -12,15 +12,7 @@ class Level
   end
 
   def initialize(lv)
-    case lv
-    when Integer
-      @lv = lv
-    when String
-      @lv = self.from_string(lv)
-    else
-      fail TypeError
-    end
-
+    @lv = lv
     fail ArgumentError, 'out of range' unless (1..11).include?(@lv)
   end
 
