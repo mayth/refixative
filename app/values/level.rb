@@ -12,8 +12,9 @@ class Level
   end
 
   def initialize(lv)
+    fail ArgumentError, 'nil is not accepted' unless lv
+    fail ArgumentError, 'out of range' unless (1..11).include?(lv)
     @lv = lv
-    fail ArgumentError, 'out of range' unless (1..11).include?(@lv)
   end
 
   def to_s

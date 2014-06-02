@@ -8,7 +8,8 @@ class Difficulty
   end
 
   def initialize(str)
-    fail ArgumentError, 'unexpected value' unless AVAILABLE.include?(str)
+    fail ArgumentError, 'nil is not accepted' unless str
+    fail ArgumentError, 'invalid value as difficulty' unless AVAILABLE.include?(str)
     @str = str
   end
 

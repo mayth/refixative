@@ -11,9 +11,75 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20140602092843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "musics", force: true do |t|
+    t.integer  "version_id"
+    t.string   "name"
+    t.integer  "basic_lv"
+    t.integer  "medium_lv"
+    t.integer  "hard_lv"
+    t.integer  "special_lv"
+    t.datetime "added_at"
+    t.datetime "updated_at"
+    t.datetime "created_at"
+  end
+
+  add_index "musics", ["name"], name: "index_musics_on_name", using: :btree
+  add_index "musics", ["version_id"], name: "index_musics_on_version_id", using: :btree
+
+  create_table "players", force: true do |t|
+    t.integer  "team_id"
+    t.string   "pid"
+    t.string   "name"
+    t.datetime "last_play_datetime"
+    t.string   "last_play_place"
+    t.datetime "updated_at"
+    t.datetime "created_at"
+  end
+
+  add_index "players", ["pid"], name: "index_players_on_pid", unique: true, using: :btree
+  add_index "players", ["team_id"], name: "index_players_on_team_id", using: :btree
+
+  create_table "records", force: true do |t|
+    t.integer  "score_id"
+    t.float    "achieve"
+    t.integer  "miss"
+    t.datetime "updated_at"
+    t.datetime "created_at"
+  end
+
+  add_index "records", ["score_id"], name: "index_records_on_score_id", using: :btree
+
+  create_table "scores", force: true do |t|
+    t.integer  "player_id"
+    t.integer  "music_id"
+    t.integer  "difficulty"
+    t.datetime "updated_at"
+    t.datetime "created_at"
+  end
+
+  add_index "scores", ["music_id"], name: "index_scores_on_music_id", using: :btree
+  add_index "scores", ["player_id"], name: "index_scores_on_player_id", using: :btree
+
+  create_table "teams", force: true do |t|
+    t.string   "name"
+    t.datetime "updated_at"
+    t.datetime "created_at"
+  end
+
+  add_index "teams", ["name"], name: "index_teams_on_name", using: :btree
+
+  create_table "versions", force: true do |t|
+    t.string   "name"
+    t.datetime "released_at"
+    t.datetime "updated_at"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["name"], name: "index_versions_on_name", using: :btree
 
 end
