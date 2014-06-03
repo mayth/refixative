@@ -28,6 +28,10 @@ class Difficulty
     AVAILABLE.index(@str) + 1
   end
 
+  def inspect
+    to_s
+  end
+
   def more_difficult_than?(other)
     self > other
   end

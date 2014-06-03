@@ -100,6 +100,14 @@ describe Difficulty do
     end
   end
 
+  describe '#inspect' do
+    let(:difficulty) { Difficulty::MEDIUM }
+    subject { difficulty.inspect }
+    it 'returns the same value as #to_s' do
+      expect(subject).to eq difficulty.to_s
+    end
+  end
+
   describe '#more_difficult_than?' do
     let(:difficulty) { Difficulty::MEDIUM }
 
