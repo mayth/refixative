@@ -9,8 +9,15 @@ class Difficulty
 
   def initialize(str)
     fail ArgumentError, 'nil is not accepted' unless str
-    fail ArgumentError, 'invalid value as difficulty' unless AVAILABLE.include?(str)
-    @str = str
+    v = 
+      case str
+      when String
+        str.upcase
+      when Symbol
+        str.to_s.upcase
+      end
+    fail ArgumentError, 'invalid value as difficulty' unless AVAILABLE.include?(v)
+    @str = v
   end
 
   def to_s
