@@ -3,7 +3,7 @@ class Score < ActiveRecord::Base
   belongs_to :music, inverse_of: :scores
   has_many :records, inverse_of: :score, dependent: :destroy
   structure do
-    difficulty Difficulty::MEDIUM, validates: :presence
+    difficulty :integer, Difficulty::MEDIUM, validates: :presence
     timestamps
   end
 
@@ -17,17 +17,25 @@ class Score < ActiveRecord::Base
   end
 
   def difficulty=(val)
-    case val
-    when String
-      @difficulty = Difficulty.new(val)
-    when Integer
-      @difficulty = Difficulty.from_int(val)
-    when Difficulty
-      @difficulty = val
-    else
-      fail TypeError, 'unexpected value for difficulty'
-    end
+    @difficulty = 
+      case val
+      when Difficulty
+        val
+      when String
+        Difficulty.new(val)
+      when Integer
+        Difficulty.from_int(val)
+      else
+        if val.respond_to?(:to_s)
+          Difficulty.new(val.to_s)
+        elsif val.respond_to?(:to_i)
+          Difficulty.from_int(val.to_i)
+        else
+          fail ArgumentError, 'cannot convert the given value to a difficulty'
+        end
+      end
     self[:difficulty] = @difficulty.to_i
+    @difficulty
   end
 end
 

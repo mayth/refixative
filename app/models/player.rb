@@ -7,7 +7,7 @@ class Player < ActiveRecord::Base
       validates: [
         :presence,
         :uniqueness,
-        format: { with: /RB-[0-9]{4}-[0-9]{4} / }
+        format: { with: /\ARB-\d{4}-\d{4}\z/ }
       ]
     name    'ＰＬＡＹＥＲ', validates: :presence
     last_play_datetime Time.now
