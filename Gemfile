@@ -8,6 +8,8 @@ gem 'rails', '4.1.1'
 # gem 'therubyracer',  platforms: :ruby
 
 gem 'pg'
+# stores 'waiting for registering' data in memcached
+gem 'dalli'
 
 gem 'unicorn'
 

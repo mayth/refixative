@@ -60,6 +60,7 @@ GEM
       compass (>= 0.12.2)
       sprockets (<= 2.11.0)
     coolline (0.4.3)
+    dalli (2.7.2)
     database_rewinder (0.2.0)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
@@ -309,6 +310,7 @@ DEPENDENCIES
   binding_of_caller
   coffee-rails (~> 4.0.0)
   compass-rails
+  dalli
   database_rewinder
   devise
   erb2haml
