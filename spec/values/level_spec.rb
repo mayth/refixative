@@ -25,6 +25,35 @@ describe Level do
     end
   end
 
+  describe '#initialize' do
+    context 'with valid parameters' do
+      it 'initializes a new instance' do
+        expect(Level.new(5)).to be_instance_of Level
+      end
+    end
+
+    context 'with invalid parameters' do
+      context 'which is nil' do
+        it 'fails' do
+          expect { Level.new(nil) }.to raise_error
+        end
+      end
+
+      context 'which is higher or lower than max/min value' do
+        it 'fails' do
+          expect { Level.new(0) }.to raise_error
+          expect { Level.new(39) }.to raise_error
+        end
+      end
+
+      context 'which is not Integer' do
+        it 'fails' do
+          expect { Level.new('10+') }.to raise_error
+        end
+      end
+    end
+  end
+
   describe '#easier_than?' do
     let(:level) { Level.new(5) }
 
