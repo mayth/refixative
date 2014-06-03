@@ -1,7 +1,7 @@
 class Difficulty
   include Comparable
 
-  AVAILABLE = %w(BASIC MEDIUM HARD SPECIAL)
+  AVAILABLE = %w(BASIC MEDIUM HARD SPECIAL).map(&:freeze).freeze
 
   def self.from_int(n)
     new(AVAILABLE[n - 1])

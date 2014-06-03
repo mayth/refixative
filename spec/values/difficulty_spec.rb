@@ -1,6 +1,28 @@
 require 'spec_helper'
 
 describe Difficulty do
+  describe '::AVAILABLE' do
+    it 'contains String' do
+      expect(Difficulty::AVAILABLE.all? {|x| x.instance_of?(String)}).to be_true
+    end
+
+    it 'is frozen' do
+      expect(Difficulty::AVAILABLE).to be_frozen
+    end
+
+    it 'contains frozen elements' do
+      expect(Difficulty::AVAILABLE.all?(&:frozen?)).to be_true
+    end
+
+    it 'fails to modify' do
+      expect { Difficulty::AVAILABLE << 'ANOTHER' }.to raise_error
+    end
+
+    it 'fails to modify containing value' do
+      expect { Difficulty::AVAILABLE.first << 'test' }.to raise_error
+    end
+  end
+
   describe '.from_int' do
     context 'with valid parameter' do
       it 'returns difficulty value' do
