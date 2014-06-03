@@ -54,6 +54,14 @@ describe Level do
     end
   end
 
+  describe '#inspect' do
+    let(:level) { Level.new(5) }
+    subject { level.inspect }
+    it 'returns the same result as #to_s' do
+      expect(subject).to eq level.to_s
+    end
+  end
+
   describe '#easier_than?' do
     let(:level) { Level.new(5) }
 

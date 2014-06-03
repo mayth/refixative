@@ -29,6 +29,10 @@ class Level
     @lv
   end
 
+  def inspect
+    to_s
+  end
+
   def eql?(other)
     self.to_i == other.to_i
   end
