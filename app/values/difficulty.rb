@@ -4,7 +4,7 @@ class Difficulty
   AVAILABLE = %w(BASIC MEDIUM HARD SPECIAL)
 
   def self.from_int(n)
-    new(AVAILABLE[n])
+    new(AVAILABLE[n - 1])
   end
 
   def initialize(str)
@@ -25,7 +25,7 @@ class Difficulty
   end
 
   def to_i
-    AVAILABLE.index(@str)
+    AVAILABLE.index(@str) + 1
   end
 
   def more_difficult_than?(other)

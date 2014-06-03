@@ -4,10 +4,10 @@ describe Difficulty do
   describe '.from_int' do
     context 'with valid parameter' do
       it 'returns difficulty value' do
-        expect(Difficulty.from_int(0)).to eq Difficulty::BASIC
-        expect(Difficulty.from_int(1)).to eq Difficulty::MEDIUM
-        expect(Difficulty.from_int(2)).to eq Difficulty::HARD
-        expect(Difficulty.from_int(3)).to eq Difficulty::SPECIAL
+        expect(Difficulty.from_int(1)).to eq Difficulty::BASIC
+        expect(Difficulty.from_int(2)).to eq Difficulty::MEDIUM
+        expect(Difficulty.from_int(3)).to eq Difficulty::HARD
+        expect(Difficulty.from_int(4)).to eq Difficulty::SPECIAL
       end
     end
   end
@@ -68,6 +68,13 @@ describe Difficulty do
     subject { difficulty.to_i }
     it 'returns Integer instance' do
       expect(subject).to be_kind_of Integer
+    end
+
+    it 'returns correct Integer' do
+      expect(Difficulty::BASIC.to_i).to eq 1
+      expect(Difficulty::MEDIUM.to_i).to eq 2
+      expect(Difficulty::HARD.to_i).to eq 3
+      expect(Difficulty::SPECIAL.to_i).to eq 4
     end
   end
 
