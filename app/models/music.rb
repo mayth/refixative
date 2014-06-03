@@ -17,21 +17,33 @@ class Music < ActiveRecord::Base
     var = "#{difficulty}_lv"
     class_eval <<-RUBY
       def #{var}
-        @#{var} ||= Level.new(self[:#{var}])
+        @#{var} ||= self[:#{var}] ? Level.new(self[:#{var}]) : nil
       end
 
       def #{var}=(val)
-        case val
-        when Integer
-          @#{var} = Level.new(val)
-        when String
-          @#{var} = Level.from_string(val)
-        when Level
-          @#{var} = val
+        if val
+          @#{var} = 
+            case val
+            when Level
+              val
+            when String
+              Level.from_string(val)
+            when Integer
+              Level.new(val)
+            else
+              if val.respond_to?(:to_i)
+                Level.new(val.to_i)
+              elsif val.respond_to?(:to_s)
+                Level.from_string(val.to_s)
+              else
+                fail ArgumentError, 'cannot convert to Level value.'
+              end
+            end
+          self[:#{var}] = @#{var}.to_i
         else
-          fail TypeError, 'unexpected value for #{var}'
+          @#{var} = nil
+          self[:#{var}] = nil
         end
-        self[:#{var}] = @#{var}.to_i
         @#{var}
       end
     RUBY

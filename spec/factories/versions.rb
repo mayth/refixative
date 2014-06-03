@@ -1,6 +1,6 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
 FactoryGirl.define do
   factory :version do
+    name        'colette Winter'
+    released_at Time.new(2012, 11, 21, 10, 0, 0, '+09:00')
   end
 end
