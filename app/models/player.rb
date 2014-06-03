@@ -18,4 +18,3 @@ class Player < ActiveRecord::Base
 
   validates_associated :team
 end
-
