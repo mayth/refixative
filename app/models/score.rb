@@ -3,9 +3,14 @@ class Score < ActiveRecord::Base
   belongs_to :music, inverse_of: :scores
   has_many :records, inverse_of: :score, dependent: :destroy
   structure do
-    difficulty Difficulty::MEDIUM
+    difficulty Difficulty::MEDIUM, validates: :presence
     timestamps
   end
+
+  validates_associated :player
+  validates :player, presence: true
+  validates_associated :music
+  validates :music, presence: true
 
   def difficulty
     @difficulty ||= Difficulty.from_int(self[:difficulty])

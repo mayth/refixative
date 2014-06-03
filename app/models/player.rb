@@ -9,11 +9,13 @@ class Player < ActiveRecord::Base
         :uniqueness,
         format: { with: /RB-[0-9]{4}-[0-9]{4} / }
       ]
-    name    'ＰＬＡＹＥＲ'
+    name    'ＰＬＡＹＥＲ', validates: :presence
     last_play_datetime Time.now
     last_play_place 'ジャムジャムつくば店'
 
     timestamps
   end
+
+  validates_associated :team
 end
 
