@@ -37,5 +37,9 @@ class Score < ActiveRecord::Base
     self[:difficulty] = @difficulty.to_i
     @difficulty
   end
+
+  def latest
+    records.order(created_at: :desc).first
+  end
 end
 

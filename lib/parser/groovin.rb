@@ -30,6 +30,7 @@ module Parser
         last_play_date: doc.css('#profile_listcont div')[7].at_css('dl dd span').text.strip,
         team: nil
       }
+      player[:class] = nil if player[:class] == '-'
       #team = {
       #  name: doc.css('#profileL_box div')[0].at_css('dl dd').text.strip,
       #  id: doc.css('#profileR_box div')[0].at_css('dl dd').text.strip

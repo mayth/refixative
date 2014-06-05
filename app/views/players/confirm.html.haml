@@ -1,0 +1,101 @@
+.header
+  .row
+    %h1
+      Upload Your Score
+      %small Confirmation
+
+.content
+  - if is_new_player
+    .row
+      %p Welcome to Refixative groovin'!!
+
+  .row
+    %p Check your profile and musics data.
+    %p.notice Your data is not registered yet. This will be expired in 30 minutes. After that, you should upload the files again.
+
+  .row
+    = form_tag players_register_path do
+      = hidden_field_tag :register_token, @register_token
+      = submit_tag 'Confirm', class: 'button'
+
+  .row
+    %h2 Profile
+    %dl
+      %dt ID
+      %dd= profile[:id]
+      %dt Pseudonym
+      %dd= profile[:pseudonym]
+      %dt Name
+      %dd= profile[:name]
+      %dt Level
+      %dd= profile[:level]
+      %dt Class
+      %dd= profile[:class].presence || 'N/A'
+      %dt Comment
+      %dd= profile[:comment]
+      %dt Play Count
+      %dd= profile[:play_count]
+      %dt Refle
+      %dd #{profile[:refle]} Rf.
+      %dt Total Point
+      %dd #{profile[:total_point]} pts.
+      %dt Last Play Place
+      %dd= profile[:last_play_place]
+      %dt Last Play Date
+      %dd= profile[:last_play_date]
+
+  .row
+    %h2 Musics Data
+    %table
+      %colgroup.music_name{span: 1}
+      %colgroup.basic{span: 2}
+      %colgroup.medium{span: 2}
+      %colgroup.hard{span: 2}
+      %colgroup.special{span: 2}
+      %thead
+        %tr
+          %th{rowspan: 2} Name
+          %th{colspan: 2} BASIC
+          %th{colspan: 2} MEDIUM
+          %th{colspan: 2} HARD
+          %th{colspan: 2} SPECIAL
+        %tr
+          %th AR
+          %th MISS
+          %th AR
+          %th MISS
+          %th AR
+          %th MISS
+          %th AR
+          %th MISS
+      %tbody
+        - musics.each do |music|
+          %tr
+            %td= music[:name]
+            - music[:scores].each do |_, score|
+              - if score[:achieve]
+                - case score[:is_achieve_updated]
+                - when :true
+                  %td.updated #{score[:achieve]}%
+                - when :new_play
+                  %td.new_play #{score[:achieve]}%
+                - else
+                  %td #{score[:achieve]}%
+                - case score[:is_miss_count_updated]
+                - when :true
+                  - if score[:miss] == 0
+                    %td.updated FC
+                  - else
+                    %td.updated= score[:miss]
+                - when :new_play
+                  - if score[:miss] == 0
+                    %td.new_play FC
+                  - else
+                    %td.new_play= score[:miss]
+                - else
+                  - if score[:miss] == 0
+                    %td FC
+                  - else
+                    %td= score[:miss]
+              - else
+                %td.noplay{colspan: 2} NO PLAY
