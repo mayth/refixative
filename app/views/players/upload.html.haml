@@ -1,0 +1,19 @@
+.header
+  .row
+    %h1 Upload Your Score
+
+.content
+  .row
+    = form_tag players_upload_path, multipart: true do
+      .row
+        .small-4.columns
+          = label_tag 'player[profile]', 'Profile Page', class: 'right inline'
+        .small-8.columns
+          = file_field_tag 'player[profile]'
+      .row
+        .small-4.columns
+          = label_tag "player[musics]", "Music Pages", class: 'right inline'
+        .small-8.columns
+          = file_field_tag "player[musics]", name: 'player[musics][]', multiple: true
+      .row
+        = submit_tag 'Upload', class: 'button'

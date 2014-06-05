@@ -10,7 +10,7 @@
     = javascript_include_tag 'vendor/modernizr', 'data-turbolinks-track' => true
     = javascript_include_tag 'application'
     = csrf_meta_tags
-  %body
+  %body{id: @page_id.presence || "#{controller.controller_name}_#{controller.action_name}"}
     %nav.top-bar{'data-topbar' => true}
       %ul.title-area
         %li.name
