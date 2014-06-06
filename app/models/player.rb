@@ -50,22 +50,20 @@ class Player < ActiveRecord::Base
   #   { another music data }, ...
   # ]
   def check_updates(scores)
-    old_scores = latest_scores
-    if old_scores
-      scores.each do |score|
-        Difficulty::DIFFICULTIES.each do |difficulty|
-          next unless score[:scores][difficulty][:achievement]
+    scores.each do |score|
+      music = Music.find_by(name: score[:name])
+      Difficulty::DIFFICULTIES.each do |difficulty|
+        next if score[:scores][difficulty].nil? || score[:scores][difficulty][:achievement].nil?
+        old_score = self.scores.where(music: music).order(created_at: :desc).first
+        if old_score
           current_score = score[:scores][difficulty]
-          old_score = old_scores.find { |old| old.music.name == score[:name] }
-          if old_score
-            current_score[:is_achievement_updated] =
-              (old_score.achievement < current_score.achievement).to_s.to_sym
-            current_score[:is_miss_count_updated] =
-              (current_score[:miss] < old_score.miss).to_s.to_sym
-          else
-            current_score[:is_achievement_updated] = :new_play
-            current_score[:is_miss_count_updated] = :new_play
-          end
+          current_score[:is_achievement_updated] =
+            (old_score.achievement < current_score[:achievement]).to_s.to_sym
+          current_score[:is_miss_count_updated] =
+            (current_score[:miss_count] < old_score.miss_count).to_s.to_sym
+        else
+          current_score[:is_achievement_updated] = :new_play
+          current_score[:is_miss_count_updated] = :new_play
         end
       end
     end
