@@ -52,9 +52,10 @@ class Player < ActiveRecord::Base
   def check_updates(scores)
     scores.each do |score|
       music = Music.find_by(name: score[:name])
+      next unless music
       Difficulty::DIFFICULTIES.each do |difficulty|
         next if score[:scores][difficulty].nil? || score[:scores][difficulty][:achievement].nil?
-        old_score = self.scores.where(music: music).order(created_at: :desc).first
+        old_score = self.scores.order(created_at: :desc).find_by(music: music)
         if old_score
           current_score = score[:scores][difficulty]
           current_score[:is_achievement_updated] =
@@ -77,9 +78,8 @@ class Player < ActiveRecord::Base
       music_hash[:scores].each do |difficulty, new_score|
         next unless new_score[:achievement]
         current_score =
-          scores.where(music: music, difficulty: difficulty.to_i)
-                .order(created_at: :desc)
-                .first
+          scores.order(created_at: :desc)
+                .find_by(music: music, difficulty: difficulty.to_i)
         next unless current_score
         if current_score.achievement < new_score[:achievement] || 
            current_score.miss_count > new_score[:miss_count]

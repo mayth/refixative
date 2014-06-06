@@ -99,15 +99,11 @@ describe Player do
       end
 
       it 'updates the latest score' do
-        current_score = player.scores
-          .where(music: @music, difficulty: Difficulty::MEDIUM.to_i)
-          .order(created_at: :desc)
-          .first
+        current_score = player.scores.order(created_at: :desc)
+          .find_by(music: @music, difficulty: Difficulty::MEDIUM.to_i)
         player.update_score(@score_data)
-        new_score = player.scores
-          .where(music: @music, difficulty: Difficulty::MEDIUM.to_i)
-          .order(created_at: :desc)
-          .first
+        new_score = player.scores.order(created_at: :desc)
+          .find_by(music: @music, difficulty: Difficulty::MEDIUM.to_i)
         expect(new_score).not_to eq current_score
       end
     end
