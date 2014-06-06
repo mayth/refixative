@@ -45,7 +45,7 @@
           %th{colspan: 4} HARD
           %th{colspan: 4} SPECIAL
         %tr 
-          - cols = {'Lv' => 'lv', 'AR' => 'achieve', 'Miss' => 'miss', 'Rank' => 'rank'}
+          - cols = {'Lv' => 'lv', 'AR' => 'achievement', 'Miss' => 'miss', 'Rank' => 'rank'}
           - Difficulty::DIFFICULTIES.each do |difficulty|
             - cols.each do |name, sortkey|
               %th.sort_header{'data-difficulty' => difficulty.to_s.downcase, 'data-colname' => sortkey}= name

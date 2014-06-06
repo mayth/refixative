@@ -73,14 +73,14 @@
           %tr
             %td= music[:name]
             - music[:scores].each do |_, score|
-              - if score[:achieve]
-                - case score[:is_achieve_updated]
+              - if score[:achievement]
+                - case score[:is_achievement_updated]
                 - when :true
-                  %td.updated #{score[:achieve]}%
+                  %td.updated #{score[:achievement]}%
                 - when :new_play
-                  %td.new_play #{score[:achieve]}%
+                  %td.new_play #{score[:achievement]}%
                 - else
-                  %td #{score[:achieve]}%
+                  %td #{score[:achievement]}%
                 - case score[:is_miss_count_updated]
                 - when :true
                   - if score[:miss] == 0
