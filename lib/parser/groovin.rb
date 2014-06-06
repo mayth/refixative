@@ -22,7 +22,7 @@ module Parser
         name: doc.at_css('#plofbox2 p').text.strip,
         comment: doc.at_css('#comment dd').text.strip,
         play_count: doc.css('#profile_listcont div')[0].at_css('dl dd span').text.strip.to_i,
-        class: doc.css('#profile_listcont div')[1].at_css('dl dd span').text.strip,
+        grade: doc.css('#profile_listcont div')[1].at_css('dl dd span').text.strip,
         level: doc.css('#profile_listcont div')[2].at_css('dl dd span').text.strip.to_i,
         refle: doc.css('#profile_listcont div')[3].at_css('dl dd span').text.strip.to_i,
         total_point: doc.css('#profile_listcont div')[4].at_css('dl dd span').text.strip.to_i,
@@ -30,7 +30,7 @@ module Parser
         last_play_date: doc.css('#profile_listcont div')[7].at_css('dl dd span').text.strip,
         team: nil
       }
-      player[:class] = nil if player[:class] == '-'
+      player[:grade] = nil if player[:grade] == '-'
       #team = {
       #  name: doc.css('#profileL_box div')[0].at_css('dl dd').text.strip,
       #  id: doc.css('#profileR_box div')[0].at_css('dl dd').text.strip

@@ -1,10 +1,12 @@
 class Difficulty
   include Comparable
 
-  AVAILABLE = %w(BASIC MEDIUM HARD SPECIAL).map(&:freeze).freeze
+  AVAILABLES = %w(BASIC MEDIUM HARD SPECIAL).map(&:freeze).freeze
+  private_constant :AVAILABLES
 
   def self.from_int(n)
-    new(AVAILABLE[n - 1])
+    fail RangeError, "`n' should be positive integer." unless 0 < n
+    new(AVAILABLES[n - 1])
   end
 
   def initialize(str)
@@ -16,7 +18,7 @@ class Difficulty
       when Symbol
         str.to_s.upcase
       end
-    fail ArgumentError, 'invalid value as difficulty' unless AVAILABLE.include?(v)
+    fail ArgumentError, 'invalid value as difficulty' unless AVAILABLES.include?(v)
     @str = v
   end
 
@@ -25,7 +27,7 @@ class Difficulty
   end
 
   def to_i
-    AVAILABLE.index(@str) + 1
+    AVAILABLES.index(@str) + 1
   end
 
   def inspect
@@ -57,6 +59,7 @@ class Difficulty
     MEDIUM = Difficulty.new('MEDIUM').freeze
     HARD = Difficulty.new('HARD').freeze
     SPECIAL = Difficulty.new('SPECIAL').freeze
+    DIFFICULTIES = [BASIC, MEDIUM, HARD, SPECIAL].freeze
   end
 
   include Constant

@@ -1,9 +1,11 @@
 class Score < ActiveRecord::Base
   belongs_to :player, inverse_of: :scores
   belongs_to :music, inverse_of: :scores
-  has_many :records, inverse_of: :score, dependent: :destroy
   structure do
     difficulty :integer, Difficulty::MEDIUM, validates: :presence
+    achievement 90.0, validates: [:presence, :numericality]
+    miss_count  3, validates: [
+      :presence, numericality: { only_integer: true, greater_than_or_equal_to: 0 }]
     timestamps
   end
 
@@ -39,7 +41,6 @@ class Score < ActiveRecord::Base
   end
 
   def latest
-    records.order(created_at: :desc).first
   end
 end
 

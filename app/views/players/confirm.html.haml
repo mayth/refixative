@@ -14,7 +14,7 @@
     %p.notice Your data is not registered yet. This will be expired in 30 minutes. After that, you should upload the files again.
 
   .row
-    = form_tag players_register_path do
+    = form_tag register_players_path do
       = hidden_field_tag :register_token, @register_token
       = submit_tag 'Confirm', class: 'button'
 
@@ -29,8 +29,8 @@
       %dd= profile[:name]
       %dt Level
       %dd= profile[:level]
-      %dt Class
-      %dd= profile[:class].presence || 'N/A'
+      %dt Grade
+      %dd= profile[:grade].presence || 'N/A'
       %dt Comment
       %dd= profile[:comment]
       %dt Play Count

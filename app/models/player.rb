@@ -53,7 +53,7 @@ class Player < ActiveRecord::Base
     old_scores = latest_scores
     if old_scores
       scores.each do |score|
-        Difficulty::AVAILABLE.each do |difficulty|
+        Difficulty::DIFFICULTIES.each do |difficulty|
           next unless score[:scores][difficulty][:achieve]
           current_score = score[:scores][difficulty]
           old_score = old_scores.find { |old| old.music.name == score[:name] }
@@ -73,5 +73,30 @@ class Player < ActiveRecord::Base
 
   def latest_scores
     scores.map(&:latest)
+  end
+
+  def update_score(musics)
+    musics.each do |music_hash|
+      music = Music.find_by(name: music_hash[:name])
+      next unless music
+      music_hash[:scores].each do |difficulty, new_score|
+      end
+    end
+  end
+
+  def self.update_profile(profile)
+    Player.first_or_create(pid: profile[:pid]) do |player|
+      player.pid = profile[:id]
+      player.name = profile[:name]
+      player.pseudonym = profile[:pseudonym]
+      player.level = profile[:level]
+      player.grade = profile[:grade]
+      player.comment = profile[:comment]
+      player.play_count = profile[:play_count]
+      player.refle = profile[:refle]
+      player.total_point = profile[:total_point]
+      player.last_play_place = profile[:last_play_place]
+      player.last_play_datetime = profile[:last_play_date]
+    end
   end
 end

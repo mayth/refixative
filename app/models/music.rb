@@ -13,7 +13,7 @@ class Music < ActiveRecord::Base
 
   validates_associated :version
 
-  Difficulty::AVAILABLE.map(&:downcase).each do |difficulty|
+  Difficulty::DIFFICULTIES.map(&:to_s).map(&:downcase).each do |difficulty|
     var = "#{difficulty}_lv"
     class_eval <<-RUBY
       def #{var}

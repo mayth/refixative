@@ -1,7 +1,7 @@
 class PlayersController < ApplicationController
   require 'securerandom'
 
-  before_action :set_player, only: %i(show)
+  before_action :set_player, only: [:show]
 
   # GET upload
   def upload
@@ -33,6 +33,12 @@ class PlayersController < ApplicationController
 
   # POST register
   def register
+    stored_data = Rails.cache.read(register_params[:register_token])
+    fail 'stored data matched the given register token is not found.' unless stored_data
+    player = Player.update_profile(stored_data[:profile])
+    player.update_score(stored_data[:musics])
+    player.save
+    redirect_to player_path(id: player.pid)
   end
 
   def show
@@ -42,6 +48,10 @@ class PlayersController < ApplicationController
 
   def upload_params
     params.require(:player).permit(:profile, musics: [])
+  end
+
+  def register_params
+    params.permit(:register_token)
   end
 
   def set_player

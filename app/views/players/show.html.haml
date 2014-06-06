@@ -1,0 +1,54 @@
+.header
+  .row
+    %h1 Player Data for #{@player.name}
+
+.content
+  .row
+    %h2 Profile
+    %dl
+      %dt ID
+      %dd= @player.id
+      %dt Pseudonym
+      %dd= @player.pseudonym
+      %dt Name
+      %dd= @player.name
+      %dt Level
+      %dd= @player.level
+      %dt Grade
+      %dd= @player.grade.presence || 'N/A'
+      %dt Comment
+      %dd= @player.comment
+      %dt Play Count
+      %dd= @player.play_count
+      %dt Refle
+      %dd #{@player.refle} Rf.
+      %dt Total Point
+      %dd #{@player.total_point} pts.
+      %dt Last Play Place
+      %dd= @player.last_play_place
+      %dt Last Play Date
+      %dd= @player.last_play_datetime
+
+  .row
+    %h2 Music Data
+    %table
+      %colgroup.music_name{span: 1}
+      %colgroup.basic{span: 4}
+      %colgroup.medium{span: 4}
+      %colgroup.hard{span: 4}
+      %colgroup.special{span: 4}
+      %thead
+        %tr
+          %th.sort_header{'data-colname' => 'name', rowspan: 2} 楽曲名
+          %th{colspan: 4} BASIC
+          %th{colspan: 4} MEDIUM
+          %th{colspan: 4} HARD
+          %th{colspan: 4} SPECIAL
+        %tr 
+          - cols = {'Lv' => 'lv', 'AR' => 'achieve', 'Miss' => 'miss', 'Rank' => 'rank'}
+          - Difficulty::DIFFICULTIES.each do |difficulty|
+            - cols.each do |name, sortkey|
+              %th.sort_header{'data-difficulty' => difficulty.to_s.downcase, 'data-colname' => sortkey}= name
+      %tbody
+        %tr{'v-repeat' => 'musics'}
+          %td{rowspan: 2} {{name}}
