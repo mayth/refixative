@@ -120,4 +120,70 @@ describe Player do
       end
     end
   end
+
+  describe '#latest_score' do
+    let(:music) { create(:music) }
+    let(:difficulty) { Difficulty::MEDIUM }
+    before do
+      @scores =
+      [
+        player.scores.create(
+          music: music,
+          difficulty: Difficulty::BASIC,
+          achievement: 98.0,
+          miss_count: 0
+        ),
+        player.scores.create(
+          music: music,
+          difficulty: Difficulty::MEDIUM,
+          achievement: 95.0,
+          miss_count: 0
+        ),
+        player.scores.create(
+          music: music,
+          difficulty: Difficulty::HARD,
+          achievement: 94.5,
+          miss_count: 1
+        )
+      ]
+    end
+
+    describe 'with 1 parameter' do
+      subject { player.latest_score(music) }
+
+      it 'returns a hash' do
+        expect(subject).to be_instance_of Hash
+      end
+
+      it 'returns a hash with 4 items' do
+        expect(subject).to have(4).items
+      end
+
+      it 'returns a hash whose keys are difficulties' do
+        expect(subject.keys).to include(*Difficulty::DIFFICULTIES)
+      end
+
+      it 'returns the latest score data' do
+        expect(subject[difficulty].music).to eq music
+        expect(subject[difficulty].difficulty).to eq difficulty
+        expect(subject[difficulty].achievement).to eq 95.0
+        expect(subject[difficulty].miss_count).to eq 0
+      end
+    end
+
+    describe 'with 2 parameter' do
+      subject { player.latest_score(music, difficulty) }
+
+      it 'returns an instance of Score class' do
+        expect(subject).to be_instance_of Score
+      end
+
+      it 'returns the latest score data' do
+        expect(subject.music).to eq music
+        expect(subject.difficulty).to eq difficulty
+        expect(subject.achievement).to eq 95.0
+        expect(subject.miss_count).to eq 0
+      end
+    end
+  end
 end
