@@ -71,8 +71,7 @@ class Player < ActiveRecord::Base
   end
 
   def update_score(musics)
-    updated_score = []
-    musics.each do |music_hash|
+    musics.each_with_object([]) do |music_hash, updated_score|
       music = Music.find_by(name: music_hash[:name])
       next unless music
       music_hash[:scores].each do |difficulty, new_score|

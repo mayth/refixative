@@ -106,6 +106,18 @@ describe Player do
           .find_by(music: @music, difficulty: Difficulty::MEDIUM.to_i)
         expect(new_score).not_to eq current_score
       end
+
+      it 'returns updated score data array' do
+        expect(player.update_score(@score_data)).to be_instance_of Array
+      end
+
+      it 'returns updated score data' do
+        result = player.update_score(@score_data).first
+        expect(result.music).to eq @music
+        expect(result.difficulty).to eq Difficulty::MEDIUM
+        expect(result.achievement).to eq 90.0
+        expect(result.miss_count).to eq 1
+      end
     end
   end
 end
