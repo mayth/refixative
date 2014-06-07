@@ -85,7 +85,6 @@ class Player < ActiveRecord::Base
       music_hash[:scores].each do |difficulty, new_score|
         next unless new_score[:achievement]
         current_score = latest_score(music, difficulty)
-        p new_score
         if current_score
           if current_score.achievement < new_score[:achievement] || 
              current_score.miss_count > new_score[:miss_count]
