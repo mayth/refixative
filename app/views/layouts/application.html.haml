@@ -23,15 +23,14 @@
           %li
             %a{href: '#'}= t('dictionary.average')
 
-    - if flash.any?
-      .flash-wrapper
-        .flash
-          - [:alert, :notice].each do |klass|
-            - if flash[klass].present?
-              %div{class: klass}
-                = flash[klass]
-
     #main-container
+      - if flash.any?
+        .flash-wrapper
+          .flash
+            - [:alert, :notice].each do |klass|
+              - if flash[klass].present?
+                %div{class: klass}
+                  = flash[klass]
       != yield
 
     %footer

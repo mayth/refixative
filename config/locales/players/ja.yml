@@ -25,6 +25,9 @@ ja:
       last_play_datetime: 最終プレイ日時
       music_data: 楽曲データ
       music_name: 楽曲名
+    register:
+      flash:
+        success: 登録しました
     show:
       title: '%{name}のプレイヤーデータ'
       profile: プロフィール

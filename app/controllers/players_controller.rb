@@ -38,7 +38,8 @@ class PlayersController < ApplicationController
     player = Player.update_profile(stored_data[:profile])
     updated_scores = player.update_score(stored_data[:musics])
     if updated_scores.all?(&:valid?)
-      redirect_to player_path(id: player.pid)
+      redirect_to player_path(id: player.pid),
+        notice: I18n.t('players.register.flash.success')
     else
       redirect_to upload_players_path,
         alert: updated_scores.reject(&:valid?).map(&:errors).map(&:full_messages)

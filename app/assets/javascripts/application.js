@@ -16,6 +16,7 @@
 //= require turbolinks
 //= require vue
 //= require purl
+//= require layout
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
