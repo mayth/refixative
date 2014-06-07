@@ -164,10 +164,18 @@ describe Player do
       end
 
       it 'returns the latest score data' do
-        expect(subject[difficulty].music).to eq music
-        expect(subject[difficulty].difficulty).to eq difficulty
-        expect(subject[difficulty].achievement).to eq 95.0
-        expect(subject[difficulty].miss_count).to eq 0
+        expect(subject[Difficulty::BASIC].music).to eq music
+        expect(subject[Difficulty::BASIC].difficulty).to eq Difficulty::BASIC
+        expect(subject[Difficulty::BASIC].achievement).to eq 98.0
+        expect(subject[Difficulty::BASIC].miss_count).to eq 0
+        expect(subject[Difficulty::MEDIUM].music).to eq music
+        expect(subject[Difficulty::MEDIUM].difficulty).to eq Difficulty::MEDIUM
+        expect(subject[Difficulty::MEDIUM].achievement).to eq 95.0
+        expect(subject[Difficulty::MEDIUM].miss_count).to eq 0
+        expect(subject[Difficulty::HARD].music).to eq music
+        expect(subject[Difficulty::HARD].difficulty).to eq Difficulty::HARD
+        expect(subject[Difficulty::HARD].achievement).to eq 94.5
+        expect(subject[Difficulty::HARD].miss_count).to eq 1
       end
     end
 
