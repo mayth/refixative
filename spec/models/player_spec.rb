@@ -194,4 +194,118 @@ describe Player do
       end
     end
   end
+
+  describe '#latest_scores' do
+    let(:player) { create(:player) }
+    before do
+      @musics = create_list(:music, 5)
+    end
+
+    describe 'without compaction' do
+      subject { player.latest_scores(false) }
+
+      context 'if the player has any scores' do
+        before do
+          @musics.each do |music|
+            player.scores << create(:score,
+              player: player, music: music,
+              difficulty: Difficulty::BASIC, achievement: 98.0, miss_count: 0)
+            player.scores << create(:score,
+              player: player, music: music,
+              difficulty: Difficulty::HARD, achievement: 90.0, miss_count: 2)
+          end
+          player.scores << create(:score,
+            player: player, music: @musics[0],
+            difficulty: Difficulty::MEDIUM, achievement: 95.0, miss_count: 1)
+        end
+        it 'returns a hash' do
+          expect(subject).to be_instance_of Hash
+        end
+
+        it 'returns a hash which has (Music count) items' do
+          expect(subject.size).to eq Music.count
+        end
+
+        it 'returns a hash with score data' do
+          @musics.each do |music|
+            expect(subject[music][Difficulty::BASIC].achievement).to eq 98.0
+            expect(subject[music][Difficulty::BASIC].miss_count).to eq 0
+            expect(subject[music][Difficulty::HARD].achievement).to eq 90.0
+            expect(subject[music][Difficulty::HARD].miss_count).to eq 2
+          end
+        end
+
+        it 'returns a hash which has an entry of not played difficulty' do
+          @musics.each do |music|
+            expect(subject[music]).to have_key(Difficulty::MEDIUM)
+          end
+        end
+      end
+
+      context 'if the player has no scores' do
+        it 'returns a hash' do
+          expect(subject).to be_instance_of Hash
+        end
+
+        it 'returns a hash whose player records are empty' do
+          expect(subject.values.all? {|s| s.values.all?(&:nil?)}).to be_true
+        end
+      end
+    end
+
+    describe 'with compaction' do
+      subject { player.latest_scores(true) }
+      context 'if the player has any scores' do
+        before do
+          @musics.each do |music|
+            player.scores << create(:score,
+              player: player, music: music,
+              difficulty: Difficulty::BASIC, achievement: 98.0, miss_count: 0)
+            player.scores << create(:score,
+              player: player, music: music,
+              difficulty: Difficulty::HARD, achievement: 90.0, miss_count: 2)
+          end
+          player.scores << create(:score,
+            player: player, music: @musics[0],
+            difficulty: Difficulty::MEDIUM, achievement: 95.0, miss_count: 1)
+        end
+        it 'returns a hash' do
+          expect(subject).to be_instance_of Hash
+        end
+
+        it 'returns a hash which has (Music count) items' do
+          expect(subject.size).to eq Music.count
+        end
+
+        it 'returns a hash with score data' do
+          @musics.each do |music|
+            expect(subject[music][Difficulty::BASIC].achievement).to eq 98.0
+            expect(subject[music][Difficulty::BASIC].miss_count).to eq 0
+            expect(subject[music][Difficulty::HARD].achievement).to eq 90.0
+            expect(subject[music][Difficulty::HARD].miss_count).to eq 2
+          end
+        end
+
+        it 'returns a hash which does not have an entry of not played difficulty' do
+          @musics.drop(1).each do |music|
+            expect(subject[music]).not_to have_key(Difficulty::MEDIUM)
+          end
+        end
+      end
+
+      context 'if the player has no scores' do
+        it 'returns a hash' do
+          expect(subject).to be_instance_of Hash
+        end
+
+        it 'returns a hash which has (Music count) items' do
+          expect(subject.size).to eq Music.count
+        end
+
+        it 'returns a hash whose values are empty' do
+          expect(subject.all? {|k, v| v.empty?}).to be_true
+        end
+      end
+    end
+  end
 end

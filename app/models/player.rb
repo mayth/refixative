@@ -103,6 +103,16 @@ class Player < ActiveRecord::Base
     end
   end
 
+  def latest_scores(compaction = false)
+    Music.all.each_with_object({}) do |music, result|
+      current_scores = latest_score(music)
+      if compaction
+        current_scores.reject! {|difficulty, score| score.nil? }
+      end
+      result[music] = current_scores
+    end
+  end
+
   def self.update_profile(profile)
     Player.first_or_create(pid: profile[:pid]) do |player|
       player.pid = profile[:id]
