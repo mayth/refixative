@@ -36,9 +36,13 @@ class PlayersController < ApplicationController
     stored_data = Rails.cache.read(register_params[:register_token])
     fail 'stored data matched the given register token is not found.' unless stored_data
     player = Player.update_profile(stored_data[:profile])
-    player.update_score(stored_data[:musics])
-    player.save
-    redirect_to player_path(id: player.pid)
+    updated_scores = player.update_score(stored_data[:musics])
+    if updated_scores.all?(&:valid?)
+      redirect_to player_path(id: player.pid)
+    else
+      redirect_to upload_players_path,
+        alert: updated_scores.reject(&:valid?).map(&:errors).map(&:full_messages)
+    end
   end
 
   def show

@@ -44,11 +44,16 @@
           %th{colspan: 4} MEDIUM
           %th{colspan: 4} HARD
           %th{colspan: 4} SPECIAL
-        %tr 
+        %tr
           - cols = {'Lv' => 'lv', 'AR' => 'achievement', 'Miss' => 'miss', 'Rank' => 'rank'}
           - Difficulty::DIFFICULTIES.each do |difficulty|
             - cols.each do |name, sortkey|
               %th.sort_header{'data-difficulty' => difficulty.to_s.downcase, 'data-colname' => sortkey}= name
       %tbody
         %tr{'v-repeat' => 'musics'}
-          %td{rowspan: 2} {{name}}
+          %td{'v-cloak' => true} {{name}}
+          - Difficulty::DIFFICULTIES.map(&:to_s).map(&:downcase).each do |difficulty|
+            %td{'v-cloak' => true} {{#{difficulty}_lv | level}}
+            %td{'v-cloak' => true} {{scores.#{difficulty}.achievement | achievement}}
+            %td{'v-cloak' => true} {{scores.#{difficulty}.miss_count | fullcombo}}
+            %td{'v-cloak' => true} {{scores.#{difficulty}.achievement | rank }}

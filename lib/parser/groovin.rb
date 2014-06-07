@@ -78,8 +78,8 @@ module Parser
         end
         [
           Difficulty.from_int(i), {
-            achivement: achieve,
-            miss: miss,
+            achievement: achieve,
+            miss_count: miss,
             rating: rating
           }
         ]
