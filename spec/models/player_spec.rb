@@ -125,27 +125,30 @@ describe Player do
     let(:music) { create(:music) }
     let(:difficulty) { Difficulty::MEDIUM }
     before do
-      @scores =
-      [
-        player.scores.create(
-          music: music,
-          difficulty: Difficulty::BASIC,
-          achievement: 98.0,
-          miss_count: 0
-        ),
-        player.scores.create(
-          music: music,
-          difficulty: Difficulty::MEDIUM,
-          achievement: 95.0,
-          miss_count: 0
-        ),
-        player.scores.create(
-          music: music,
-          difficulty: Difficulty::HARD,
-          achievement: 94.5,
-          miss_count: 1
-        )
-      ]
+      player.scores.create(
+        music: music,
+        difficulty: Difficulty::BASIC,
+        achievement: 98.0,
+        miss_count: 0
+      )
+      player.scores.create(
+        music: music,
+        difficulty: Difficulty::MEDIUM,
+        achievement: 95.0,
+        miss_count: 0
+      )
+      player.scores.create(
+        music: music,
+        difficulty: Difficulty::HARD,
+        achievement: 94.5,
+        miss_count: 1
+      )
+      player.scores.create(
+        music: music,
+        difficulty: Difficulty::HARD,
+        achievement: 95.5,
+        miss_count: 1
+      )
     end
 
     describe 'with 1 parameter' do
@@ -174,7 +177,7 @@ describe Player do
         expect(subject[Difficulty::MEDIUM].miss_count).to eq 0
         expect(subject[Difficulty::HARD].music).to eq music
         expect(subject[Difficulty::HARD].difficulty).to eq Difficulty::HARD
-        expect(subject[Difficulty::HARD].achievement).to eq 94.5
+        expect(subject[Difficulty::HARD].achievement).to eq 95.5
         expect(subject[Difficulty::HARD].miss_count).to eq 1
       end
     end
