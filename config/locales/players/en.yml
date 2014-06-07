@@ -5,6 +5,8 @@ en:
       profile_page: Profile Page
       music_pages: Music Pages
       upload: Upload
+    confirm:
+      upload_score: Upload Your Score
       confirm: Confirmation
       new_player: Welcome to Refixative groovin'!!
       check_your_data: Check your profile and music data.
@@ -21,5 +23,29 @@ en:
       total_point: Total Point
       last_play_place: Last Play Place
       last_play_datetime: Last Play Datetime
+      music_data: Music Data
+      difficulty: Difficulty
+      new_plays: New Records
+      new_plays_count: '%{count} tunes'
+      updates: Updated Records
+      updates_count: '%{count} tunes'
+      music_name: Name
+    register:
+      flash:
+        success: Registration succeeded.
+    show:
+      title: 'Player Data for %{name}'
+      profile: Profile
+      pseudonym: Pseudonym
+      player_name: Name
+      level: Level
+      grade: Grade
+      comment: Comment
+      play_count: Play Count
+      refle: Refle
+      total_point: Total Point
+      last_play_place: Last Play Place
+      last_play_datetime: Last Play Datetime
+      updated_at: Last Updated at
       music_data: Music Data
       music_name: Name
