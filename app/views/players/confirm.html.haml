@@ -45,6 +45,59 @@
 
   .row
     %h2= t('.music_data')
+    .row
+      - if new_plays.present?
+        %div{class: (updates.present? ? 'large-6 columns' : 'large-12 columns' )}
+          %h3
+            = t('.new_plays')
+            %small= t('.new_plays_count', count: new_plays.size)
+          %table
+            %thead
+              %tr
+                %th= t('.music_name')
+                %th= t('.difficulty')
+                %th AR
+                %th Miss
+            %tbody
+              - new_plays.each do |x|
+                %tr
+                  %td= x[:music].name
+                  %td= x[:difficulty]
+                  %td #{x[:score][:achievement]} %
+                  %td
+                    - if x[:score][:miss_count] == 0
+                      FC
+                    - else
+                      = x[:score][:miss_count]
+      - if updates.present?
+        %div{class: (new_plays.present? ? 'large-6 columns' : 'large-12 columns' )}
+          %h3
+            = t('.updates')
+            %small= t('.updates_count', count: updates.size)
+          %table
+            %thead
+              %tr
+                %th= t('.music_name')
+                %th= t('.difficulty')
+                %th AR
+                %th Miss
+            %body
+              - updates.each do |old, new|
+                %tr
+                  %td= old.music.name
+                  %td= old.difficulty
+                  - if old.achievement != new[:achievement]
+                    %td.updated
+                      #{old.achievement}% -> #{new[:achievement]}%
+                      (+#{(new[:achievement] - old.achievement).round(1)}%)
+                  - else
+                    %td old.achievement
+                  - if old.miss_count != new[:miss_count]
+                    %td.updated
+                      #{old.miss_count} -> #{new[:miss_count]}
+                      (-#{old.miss_count - new[:miss_count]})
+                  - else
+                    %td= old.miss_count
     %table
       %colgroup.music_name{span: 1}
       %colgroup.basic{span: 2}

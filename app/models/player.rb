@@ -50,6 +50,8 @@ class Player < ActiveRecord::Base
   #   { another music data }, ...
   # ]
   def check_updates(scores)
+    updates = {}
+    new_plays = []
     scores.each do |score|
       music = Music.find_by(name: score[:name])
       next unless music
@@ -58,16 +60,22 @@ class Player < ActiveRecord::Base
         old_score = latest_score(music, difficulty)
         current_score = score[:scores][difficulty]
         if old_score
-          current_score[:is_achievement_updated] =
-            (old_score.achievement < current_score[:achievement]).to_s.to_sym
-          current_score[:is_miss_count_updated] =
-            (current_score[:miss_count] < old_score.miss_count).to_s.to_sym
+          if old_score.achievement < current_score[:achievement]
+            current_score[:is_achievement_updated] = :true
+            updates[old_score] = current_score
+          end
+          if current_score[:miss_count] < old_score.miss_count
+            current_score[:is_miss_count_updated] = :true
+            updates[old_score] = current_score
+          end
         else
           current_score[:is_achievement_updated] = :new_play
           current_score[:is_miss_count_updated] = :new_play
+          new_plays << { music: music, difficulty: difficulty, score: current_score }
         end
       end
     end
+    [updates, new_plays]
   end
 
   def update_score(musics)

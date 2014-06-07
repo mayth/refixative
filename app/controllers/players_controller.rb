@@ -21,10 +21,14 @@ class PlayersController < ApplicationController
       expires_in: 30.minutes
     )
     player = Player.find_by(pid: profile[:id])
-    player.check_updates musics if player
+    updates, new_plays = player.check_updates musics if player
     is_new_player = player.nil?
     render :confirm,
-      locals: { profile: profile, musics: musics, is_new_player: is_new_player }
+      locals: {
+        profile: profile,
+        musics: musics, updates: updates, new_plays: new_plays,
+        is_new_player: is_new_player
+      }
   end
 
   # GET confirm

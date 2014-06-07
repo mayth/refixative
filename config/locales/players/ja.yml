@@ -24,6 +24,11 @@ ja:
       last_play_place: 最終プレイ店舗
       last_play_datetime: 最終プレイ日時
       music_data: 楽曲データ
+      difficulty: 難易度
+      new_plays: 新規プレー楽曲
+      new_plays_count: '%{count}曲'
+      updates: スコア更新楽曲
+      updates_count: '%{count}曲'
       music_name: 楽曲名
     register:
       flash:
