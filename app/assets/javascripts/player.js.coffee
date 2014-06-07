@@ -39,6 +39,27 @@ Vue.filter('fullcombo', (value) ->
   else
     null
 )
+Vue.filter('datetime', (value) ->
+  if value?
+    t = new Date(value)
+    pad = (val) -> ("00#{val}").slice(-2)
+    offset = t.getTimezoneOffset()
+    if offset < 0
+      offsetHours = pad(-offset / 60)
+    else
+      offsetHours = pad(offset / 60)
+    offsetMinutes = pad(offset % 60)
+    result = "#{t.getFullYear()}-#{pad(t.getMonth() + 1)}-#{pad(t.getDate())}" +
+      " #{pad(t.getHours())}:#{pad(t.getMinutes())}:#{pad(t.getSeconds())}"
+    if offset == 0
+      result + " UTC"
+    else if offset > 0
+      result + " -#{offsetHours}:#{offsetMinutes}"
+    else
+      result + " +#{offsetHours}:#{offsetMinutes}"
+  else
+    null
+)
 
 $ ->
   page_id = $('body').attr('id')

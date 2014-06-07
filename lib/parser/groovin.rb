@@ -27,7 +27,7 @@ module Parser
         refle: doc.css('#profile_listcont div')[3].at_css('dl dd span').text.strip.to_i,
         total_point: doc.css('#profile_listcont div')[4].at_css('dl dd span').text.strip.to_i,
         last_play_place: doc.css('#profile_listcont div')[6].at_css('dl dd span').text.strip,
-        last_play_date: doc.css('#profile_listcont div')[7].at_css('dl dd span').text.strip,
+        last_play_datetime: doc.css('#profile_listcont div')[7].at_css('dl dd span').text.strip,
         team: nil
       }
       player[:grade] = nil if player[:grade] == '-'

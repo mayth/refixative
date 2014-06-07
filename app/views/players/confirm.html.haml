@@ -1,51 +1,50 @@
 .header
   .row
     %h1
-      Upload Your Score
-      %small Confirmation
+      = t('.upload_score')
+      %small= t('.confirm')
 
 .content
   - if is_new_player
     .row
-      %p Welcome to Refixative groovin'!!
+      %p= t('.new_player')
 
   .row
-    %p Check your profile and musics data.
-    %p.notice Your data is not registered yet. This will be expired in 30 minutes. After that, you should upload the files again.
-
+    %p= t('.check_your_data')
+    %p.notice= t('.expiration_notice')
   .row
     = form_tag register_players_path do
       = hidden_field_tag :register_token, @register_token
-      = submit_tag 'Confirm', class: 'button'
+      = submit_tag t('.confirm_button'), class: 'button'
 
   .row
-    %h2 Profile
+    %h2= t('.profile')
     %dl
       %dt ID
       %dd= profile[:id]
-      %dt Pseudonym
+      %dt= t('.pseudonym')
       %dd= profile[:pseudonym]
-      %dt Name
+      %dt= t('.player_name')
       %dd= profile[:name]
-      %dt Level
+      %dt= t('.level')
       %dd= profile[:level]
-      %dt Grade
+      %dt= t('.grade')
       %dd= profile[:grade].presence || 'N/A'
-      %dt Comment
+      %dt= t('.comment')
       %dd= profile[:comment]
-      %dt Play Count
+      %dt= t('.play_count')
       %dd= profile[:play_count]
-      %dt Refle
+      %dt= t('.refle')
       %dd #{profile[:refle]} Rf.
-      %dt Total Point
+      %dt= t('.total_point')
       %dd #{profile[:total_point]} pts.
-      %dt Last Play Place
+      %dt= t('.last_play_place')
       %dd= profile[:last_play_place]
-      %dt Last Play Date
-      %dd= profile[:last_play_date]
+      %dt= t('.last_play_datetime')
+      %dd= profile[:last_play_datetime]
 
   .row
-    %h2 Musics Data
+    %h2= t('.music_data')
     %table
       %colgroup.music_name{span: 1}
       %colgroup.basic{span: 2}
@@ -54,7 +53,7 @@
       %colgroup.special{span: 2}
       %thead
         %tr
-          %th{rowspan: 2} Name
+          %th{rowspan: 2}= t('.music_name')
           %th{colspan: 2} BASIC
           %th{colspan: 2} MEDIUM
           %th{colspan: 2} HARD
@@ -83,19 +82,19 @@
                   %td #{score[:achievement]}%
                 - case score[:is_miss_count_updated]
                 - when :true
-                  - if score[:miss] == 0
+                  - if score[:miss_count] == 0
                     %td.updated FC
                   - else
-                    %td.updated= score[:miss]
+                    %td.updated= score[:miss_count]
                 - when :new_play
-                  - if score[:miss] == 0
+                  - if score[:miss_count] == 0
                     %td.new_play FC
                   - else
-                    %td.new_play= score[:miss]
+                    %td.new_play= score[:miss_count]
                 - else
-                  - if score[:miss] == 0
+                  - if score[:miss_count] == 0
                     %td FC
                   - else
-                    %td= score[:miss]
+                    %td= score[:miss_count]
               - else
                 %td.noplay{colspan: 2} NO PLAY

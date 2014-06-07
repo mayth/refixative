@@ -134,7 +134,7 @@ class Player < ActiveRecord::Base
       player.refle = profile[:refle]
       player.total_point = profile[:total_point]
       player.last_play_place = profile[:last_play_place]
-      player.last_play_datetime = profile[:last_play_date]
+      player.last_play_datetime = profile[:last_play_datetime]
     end
   end
 end

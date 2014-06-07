@@ -1,4 +1,8 @@
 ja:
+  dictionary:
+    upload: スコア登録
+    average: 平均スコア
+    author: 秋弦めい
   date:
     abbr_day_names:
     - 日

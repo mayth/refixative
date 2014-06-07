@@ -1,37 +1,39 @@
 .header
   .row
-    %h1 Player Data for #{@player.name}
+    %h1= t('.title', name: @player.name)
 
 .content
   .row
-    %h2 Profile
-    %dl
+    %h2= t('.profile')
+    %dl{'v-cloak' => true}
       %dt ID
-      %dd= @player.id
-      %dt Pseudonym
-      %dd= @player.pseudonym
-      %dt Name
-      %dd= @player.name
-      %dt Level
-      %dd= @player.level
-      %dt Grade
-      %dd= @player.grade.presence || 'N/A'
-      %dt Comment
-      %dd= @player.comment
-      %dt Play Count
-      %dd= @player.play_count
-      %dt Refle
-      %dd #{@player.refle} Rf.
-      %dt Total Point
-      %dd #{@player.total_point} pts.
-      %dt Last Play Place
-      %dd= @player.last_play_place
-      %dt Last Play Date
-      %dd= @player.last_play_datetime
+      %dd {{profile.id}}
+      %dt= t('.pseudonym')
+      %dd {{profile.pseudonym}}
+      %dt= t('.player_name')
+      %dd {{profile.name}}
+      %dt= t('.level')
+      %dd {{profile.level}}
+      %dt= t('.grade')
+      %dd {{profile.grade ? profile.grade : 'N/A'}}
+      %dt= t('.comment')
+      %dd {{profile.comment}}
+      %dt= t('.play_count')
+      %dd {{profile.play_count}}
+      %dt= t('.refle')
+      %dd {{profile.refle}} Rf.
+      %dt= t('.total_point')
+      %dd {{profile.total_point}} pts.
+      %dt= t('.last_play_place')
+      %dd {{profile.last_play_place}}
+      %dt= t('.last_play_datetime')
+      %dd {{profile.last_play_datetime | datetime}}
+      %dt= t('.updated_at')
+      %dd {{profile.updated_at | datetime}}
 
   .row
-    %h2 Music Data
-    %table
+    %h2= t('.music_data')
+    %table{'v-cloak' => true}
       %colgroup.music_name{span: 1}
       %colgroup.basic{span: 4}
       %colgroup.medium{span: 4}
@@ -39,7 +41,7 @@
       %colgroup.special{span: 4}
       %thead
         %tr
-          %th.sort_header{'data-colname' => 'name', rowspan: 2} 楽曲名
+          %th.sort_header{'data-colname' => 'name', rowspan: 2}= t('.music_name')
           %th{colspan: 4} BASIC
           %th{colspan: 4} MEDIUM
           %th{colspan: 4} HARD
@@ -51,9 +53,9 @@
               %th.sort_header{'data-difficulty' => difficulty.to_s.downcase, 'data-colname' => sortkey}= name
       %tbody
         %tr{'v-repeat' => 'musics'}
-          %td{'v-cloak' => true} {{name}}
+          %td {{name}}
           - Difficulty::DIFFICULTIES.map(&:to_s).map(&:downcase).each do |difficulty|
-            %td{'v-cloak' => true} {{#{difficulty}_lv | level}}
-            %td{'v-cloak' => true} {{scores.#{difficulty}.achievement | achievement}}
-            %td{'v-cloak' => true} {{scores.#{difficulty}.miss_count | fullcombo}}
-            %td{'v-cloak' => true} {{scores.#{difficulty}.achievement | rank }}
+            %td {{#{difficulty}_lv | level}}
+            %td {{scores.#{difficulty}.achievement | achievement}}
+            %td {{scores.#{difficulty}.miss_count | fullcombo}}
+            %td {{scores.#{difficulty}.achievement | rank }}

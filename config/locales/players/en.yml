@@ -1,0 +1,25 @@
+en:
+  players:
+    upload:
+      upload_score: Upload Your Score
+      profile_page: Profile Page
+      music_pages: Music Pages
+      upload: Upload
+      confirm: Confirmation
+      new_player: Welcome to Refixative groovin'!!
+      check_your_data: Check your profile and music data.
+      expiration_notice: Your data is not registered yet. This will be expired in 30 minutes. After that, you should upload the files again.
+      confirm_button: Confirm
+      profile: Profile
+      pseudonym: Pseudonym
+      player_name: Name
+      level: Level
+      grade: Grade
+      comment: Comment
+      play_count: Play Count
+      refle: Refle
+      total_point: Total Point
+      last_play_place: Last Play Place
+      last_play_datetime: Last Play Datetime
+      music_data: Music Data
+      music_name: Name

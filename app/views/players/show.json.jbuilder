@@ -1,9 +1,13 @@
+require 'time'
+
 json.set! :profile do
   json.id         @player.pid
   json.(@player,
     :name, :pseudonym, :level, :grade, :comment, :play_count,
-    :refle, :total_point, :last_play_datetime, :last_play_place,
-    :created_at, :updated_at)
+    :refle, :total_point, :last_play_place)
+  json.last_play_datetime @player.last_play_datetime.rfc2822
+  json.created_at @player.created_at.rfc2822
+  json.updated_at @player.updated_at.rfc2822
 end
 
 json.set! :musics do

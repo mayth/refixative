@@ -1,19 +1,19 @@
 .header
   .row
-    %h1 Upload Your Score
+    %h1= t('.upload_score')
 
 .content
   .row
     = form_tag upload_players_path, multipart: true do
       .row
         .small-4.columns
-          = label_tag 'player[profile]', 'Profile Page', class: 'right inline'
+          = label_tag 'player[profile]', t('.profile_page'), class: 'right inline'
         .small-8.columns
           = file_field_tag 'player[profile]'
       .row
         .small-4.columns
-          = label_tag "player[musics]", "Music Pages", class: 'right inline'
+          = label_tag "player[musics]", t('.music_pages'), class: 'right inline'
         .small-8.columns
           = file_field_tag "player[musics]", name: 'player[musics][]', multiple: true
       .row
-        = submit_tag 'Upload', class: 'button'
+        = submit_tag t('.upload'), class: 'button'

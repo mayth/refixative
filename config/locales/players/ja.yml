@@ -1,0 +1,43 @@
+ja:
+  players:
+    upload:
+      upload_score: スコア登録
+      profile_page: プロフィールページ
+      music_pages: 楽曲データページ（複数）
+      upload: 送信
+    confirm:
+      upload_score: スコア登録
+      confirm: 確認
+      new_player: Refixative groovin'!! へようこそ
+      check_your_data: プロフィールと楽曲データを確認してください。
+      expiration_notice: データはまだ登録されていません。30分が過ぎるとこの内容は無効になります。その場合はもう一度登録フォームからデータを送信してください。
+      confirm_button: 登録
+      profile: プロフィール
+      pseudonym: 通り名
+      player_name: プレイヤー名
+      level: レベル
+      grade: 段位
+      comment: コメント
+      play_count: プレイ回数
+      refle: リフレ
+      total_point: 総ポイント
+      last_play_place: 最終プレイ店舗
+      last_play_datetime: 最終プレイ日時
+      music_data: 楽曲データ
+      music_name: 楽曲名
+    show:
+      title: '%{name}のプレイヤーデータ'
+      profile: プロフィール
+      pseudonym: 通り名
+      player_name: プレイヤー名
+      level: レベル
+      grade: 段位
+      comment: コメント
+      play_count: プレイ回数
+      refle: リフレ
+      total_point: 総ポイント
+      last_play_place: 最終プレイ店舗
+      last_play_datetime: 最終プレイ日時
+      updated_at: Refixative 最終更新日時
+      music_data: 楽曲データ
+      music_name: 楽曲名

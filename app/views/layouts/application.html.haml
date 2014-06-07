@@ -19,9 +19,9 @@
           %a{href: '#'} Menu
       %section.top-bar-section
         %ul.right
-          %li= link_to 'Submit', upload_players_path
+          %li= link_to t('dictionary.upload'), upload_players_path
           %li
-            %a{href: '#'} Average
+            %a{href: '#'}= t('dictionary.average')
 
     - if flash.any?
       .flash-wrapper
@@ -40,7 +40,6 @@
           query at #{Time.now}
         #footer-credit.small-6.columns.text-right
           %p
-            Mei Akizuru - 
-            %a{href: 'https://twitter.com/maytheplic'} @maytheplic
+            #{t('dictionary.author')} (<a href="https://twitter.com/maytheplic">@maytheplic</a>)
           %p
             %a{href: 'https://github.com/mayth/refixative'} source code on github
