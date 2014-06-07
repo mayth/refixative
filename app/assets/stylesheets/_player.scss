@@ -1,3 +1,13 @@
-[v-cloak] {
-  display: none
+#players_show, #players_parse {
+  dl {
+    dt {
+      clear: left;
+      float: left;
+      margin: 0 0 0.5em;
+      width: 8em;
+    }
+    dd {
+      margin: 0 0 0.5em;
+    }
+  }
 }

@@ -9,3 +9,7 @@ footer {
   padding-top: 20px;
   background-color: lighten($body-bg, 2%);
 }
+
+[v-cloak] {
+  display: none
+}
