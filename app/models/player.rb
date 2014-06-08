@@ -78,8 +78,9 @@ class Player < ActiveRecord::Base
     [updates, new_plays]
   end
 
-  def update_score(musics)
-    musics.each_with_object([]) do |music_hash, updated_score|
+  def update_score(musics, updated_at = Time.now)
+    Score.record_timestamps = false
+    retval = musics.each_with_object([]) do |music_hash, updated_score|
       music = Music.find_by(name: music_hash[:name])
       next unless music
       music_hash[:scores].each do |difficulty, new_score|
@@ -92,7 +93,9 @@ class Player < ActiveRecord::Base
               music: music,
               difficulty: difficulty,
               achievement: [current_score.achievement, new_score[:achievement]].max,
-              miss_count: [current_score.miss_count, new_score[:miss_count]].min
+              miss_count: [current_score.miss_count, new_score[:miss_count]].min,
+              updated_at: updated_at,
+              created_at: updated_at
             )
           end
         else
@@ -100,11 +103,16 @@ class Player < ActiveRecord::Base
             music: music,
             difficulty: difficulty,
             achievement: new_score[:achievement],
-            miss_count: new_score[:miss_count]
+            miss_count: new_score[:miss_count],
+            updated_at: updated_at,
+            created_at: updated_at
           )
         end
       end
     end
+    retval
+  ensure
+    Score.record_timestamps = true
   end
 
   def latest_score(music, difficulty = nil)
@@ -129,8 +137,9 @@ class Player < ActiveRecord::Base
     end
   end
 
-  def self.update_profile(profile)
-    Player.first_or_create(pid: profile[:pid]) do |player|
+  def self.update_profile(profile, updated_at = nil)
+    Player.record_timestamps = false if updated_at.present?
+    pl = Player.first_or_create(pid: profile[:pid]) do |player|
       player.pid = profile[:id]
       player.name = profile[:name]
       player.pseudonym = profile[:pseudonym]
@@ -142,6 +151,11 @@ class Player < ActiveRecord::Base
       player.total_point = profile[:total_point]
       player.last_play_place = profile[:last_play_place]
       player.last_play_datetime = profile[:last_play_datetime]
+      player.created_at ||= updated_at
+      player.updated_at = updated_at if updated_at.present?
     end
+    pl
+  ensure
+    Player.record_timestamps = true if updated_at.present?
   end
 end

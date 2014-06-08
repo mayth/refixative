@@ -39,8 +39,9 @@ class PlayersController < ApplicationController
   def register
     stored_data = Rails.cache.read(register_params[:register_token])
     fail 'stored data matched the given register token is not found.' unless stored_data
-    player = Player.update_profile(stored_data[:profile])
-    updated_scores = player.update_score(stored_data[:musics])
+    update_time = Time.now
+    player = Player.update_profile(stored_data[:profile], update_time)
+    updated_scores = player.update_score(stored_data[:musics], update_time)
     if updated_scores.all?(&:valid?)
       redirect_to player_path(id: player.pid),
         notice: I18n.t('players.register.flash.success')
