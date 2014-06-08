@@ -10,7 +10,7 @@
     = javascript_include_tag 'vendor/modernizr', 'data-turbolinks-track' => true
     = javascript_include_tag 'application'
     = csrf_meta_tags
-  %body{id: @page_id.presence || "#{controller.controller_name}_#{controller.action_name}"}
+  %body{id: @page_id.presence || "#{controller.kind_of?(Admin::ApplicationController) ? 'admin_' : ''}#{controller.controller_name}_#{controller.action_name}"}
     %nav.top-bar{'data-topbar' => true}
       %ul.title-area
         %li.name
@@ -18,6 +18,10 @@
         %li.toggle-topbar.menu-icon
           %a{href: '#'} Menu
       %section.top-bar-section
+        - if admin_signed_in?
+          %ul.left
+            %li= link_to 'Admin', admin_root_path
+            %li= link_to 'Sign out', destroy_admin_session_path, method: :delete
         %ul.right
           %li= link_to t('dictionary.upload'), upload_players_path
           %li

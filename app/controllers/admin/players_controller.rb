@@ -2,11 +2,9 @@ class Admin::PlayersController < Admin::ApplicationController
   before_action :set_player, only: %i(show edit update destroy)
 
   def index
-    @page_id += '_players_index'
   end
 
   def new
-    @page_id += '_players_new'
     @player = Player.new
   end
 
@@ -24,14 +22,12 @@ class Admin::PlayersController < Admin::ApplicationController
   end
 
   def show
-    @page_id += '_players_show'
     respond_to do |format|
       format.html { render 'show' }
     end
   end
 
   def edit
-    @page_id += '_players_edit'
   end
 
   def update
