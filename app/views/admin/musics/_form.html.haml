@@ -1,4 +1,4 @@
-= form_for @music, url: (@music.new_record? ? admin_musics_path : admin_music_path(@music)), method: :patch do |f|
+= form_for @music, @music.new_record? ? { url: admin_musics_path, method: :post } : { url: admin_music_path(@music), method: :patch } do |f|
   .row
     .small-2.columns
       = f.label :name, class: 'right inline'

@@ -34,4 +34,4 @@
             %td= music.added_at.try(:strftime, '%F')
             %td= link_to 'Show', admin_music_path(music)
             %td= link_to 'Edit', edit_admin_music_path(music)
-            %td= link_to 'Destroy', admin_music_path(music), confirm: true
+            %td= link_to 'Destroy', admin_music_path(music), method: :delete, data: { confirm: 'Are you sure?' }

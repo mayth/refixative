@@ -11,4 +11,4 @@
     .large-4.columns.end
       %h2 Players
       %p #{pluralize(Player.count, 'player')}
-      = link_to 'Manage', '#', class: 'button'
+      = link_to 'Manage', admin_players_path, class: 'button'

@@ -1,0 +1,27 @@
+.header
+  .row
+    %h1 Players
+
+.content
+  .row
+    = link_to 'New Player', new_admin_player_path
+
+  .row
+    %table
+      %thead
+        %tr
+          %th ID
+          %th RbID
+          %th Name
+          %th
+          %th
+          %th
+      %tbody
+        - Player.order(id: :desc).each do |player|
+          %tr
+            %td= player.id
+            %td= player.pid
+            %td= player.name
+            %td= link_to 'Show', admin_player_path(player)
+            %td= link_to 'Edit', edit_admin_player_path(player)
+            %td= link_to 'Destroy', admin_player_path(player), method: :delete, data: { confirm: 'Are you sure?' }

@@ -1,0 +1,36 @@
+.header
+  .row
+    %h1= @player.name
+
+.content
+  .row
+    %dl
+      %dt ID
+      %dd= @player.id
+      %dt Player ID
+      %dd= @player.pid
+      %dt Pseudonym
+      %dd= @player.pseudonym
+      %dt Level
+      %dd= @player.level
+      %dt Grade
+      %dd= @player.grade
+      %dt Comment
+      %dd= @player.comment
+      %dt Play Count
+      %dd= @player.play_count
+      %dt Refle
+      %dd #{@player.refle} Rf.
+      %dt Total Point
+      %dd #{@player.total_point} pts.
+      %dt Last Play Datetime
+      %dd= @player.last_play_datetime
+      %dt Last Play Place
+      %dd= @player.last_play_place
+      %dt Created at
+      %dd= @player.created_at
+      %dt Updated at
+      %dd= @player.updated_at
+
+  .row
+    = link_to 'Back', admin_players_path

@@ -1,0 +1,60 @@
+= form_for @player, @player.new_record? ? { url: admin_players_path, method: :post } : { url: admin_player_path(@player), method: :patch } do |f|
+  .row
+    .small-2.columns
+      = f.label :pid, 'Player ID', class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :pid, required: true
+  .row
+    .small-2.columns
+      = f.label :name, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :name, required: true
+  .row
+    .small-2.columns
+      = f.label :pseudonym, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :pseudonym, required: true
+  .row
+    .small-2.columns
+      = f.label :level, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :level, required: true, type: :number
+  .row
+    .small-2.columns
+      = f.label :grade, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :grade
+  .row
+    .small-2.columns
+      = f.label :comment, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :comment
+  .row
+    .small-2.columns
+      = f.label :play_count, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :play_count, required: true, type: :number
+  .row
+    .small-2.columns
+      = f.label :refle, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :refle, required: true, type: :number
+  .row
+    .small-2.columns
+      = f.label :total_point, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :total_point, required: true, type: :number
+  .row
+    .small-2.columns
+      = f.label :last_play_datetime, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :last_play_datetime, required: true, type: 'datetime-local', value: @player.last_play_datetime.try(:strftime, '%FT%T')
+  .row
+    .small-2.columns
+      = f.label :last_play_place, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :last_play_place, required: true
+
+  .row
+    .small-6.small-offset-2.columns
+      = f.submit 'Submit', class: 'button'

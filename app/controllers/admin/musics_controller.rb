@@ -1,5 +1,4 @@
-class Admin::MusicsController < ApplicationController
-  before_action :authenticate_admin!
+class Admin::MusicsController < Admin::ApplicationController
   before_action :set_music, only: %i(show edit update destroy)
 
   def index

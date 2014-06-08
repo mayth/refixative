@@ -1,0 +1,12 @@
+.header
+  .row
+    %h1
+      = @player.name
+      %small Editing
+
+.content
+  .row
+    = render 'form'
+
+  .row
+    = link_to 'Back', admin_player_path(@player)
