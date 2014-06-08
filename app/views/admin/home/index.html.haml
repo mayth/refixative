@@ -1,0 +1,14 @@
+.header
+  .row
+    %h1 Admin Dashboard
+
+.content
+  .row
+    .large-4.columns
+      %h2 Musics
+      %p #{pluralize(Music.count, 'music')}
+      = link_to 'Manage', admin_musics_path, class: 'button'
+    .large-4.columns.end
+      %h2 Players
+      %p #{pluralize(Player.count, 'player')}
+      = link_to 'Manage', '#', class: 'button'

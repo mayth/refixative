@@ -1,0 +1,37 @@
+.header
+  .row
+    %h1 Musics
+
+.content
+  .row
+    = link_to 'New Music', new_admin_music_path
+
+  .row
+    %table
+      %thead
+        %tr
+          %th ID
+          %th Name
+          %th BASIC Lv.
+          %th MEDIUM Lv.
+          %th HARD Lv.
+          %th SPECIAL Lv.
+          %th Version
+          %th Added at
+          %th
+          %th
+          %th
+      %tbody
+        - Music.includes(:version).order(:id).each do |music|
+          %tr
+            %td= music.id
+            %td= music.name
+            %td= music.basic_lv
+            %td= music.medium_lv
+            %td= music.hard_lv
+            %td= music.special_lv.presence || ''
+            %td= music.version.name
+            %td= music.added_at.try(:strftime, '%F')
+            %td= link_to 'Show', admin_music_path(music)
+            %td= link_to 'Edit', edit_admin_music_path(music)
+            %td= link_to 'Destroy', admin_music_path(music), confirm: true

@@ -1,0 +1,12 @@
+.header
+  .row
+    %h1
+      = @music.name
+      %small Editing
+
+.content
+  .row
+    = render 'form'
+
+  .row
+    = link_to 'Back', admin_music_path(@music)

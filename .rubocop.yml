@@ -1,0 +1,12 @@
+AllCops:
+  Include:
+    - Rakefile
+    - config.ru
+  Exclude:
+    - db/**
+    - config/**
+    - bin/**
+    - vendor/bundle/**
+  RunRailsCops: true
+
+# inherit_from: rubocop-todo.yml

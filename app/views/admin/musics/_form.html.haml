@@ -1,0 +1,27 @@
+= form_for @music, url: (@music.new_record? ? admin_musics_path : admin_music_path(@music)), method: :patch do |f|
+  .row
+    .small-2.columns
+      = f.label :name, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :name, required: true
+  .row
+    .small-6.small-offset-2.columns
+      %fieldset
+        %legend Levels
+        - Difficulty::DIFFICULTIES.each do |diff|
+          .small-3.columns
+            = f.label "#{diff.to_s.downcase}_lv", diff.to_s
+            = f.text_field "#{diff.to_s.downcase}_lv", type: :number
+  .row
+    .small-2.columns
+      = f.label :added_at, class: 'right inline'
+    .small-6.columns.end
+      = f.text_field :added_at, value: (@music.added_at ? @music.added_at : Time.now).strftime('%F'), type: 'date', required: true
+  .row
+    .small-2.columns
+      = f.label :version_id, class: 'right inline'
+    .small-6.columns.end
+      = f.select :version_id, options_for_select(Version.order(id: :desc).pluck(:name, :id), @music.version ? @music.version.id : 0), required: true
+  .row
+    .small-offset-2.columns
+      = f.submit 'Update', class: 'button'

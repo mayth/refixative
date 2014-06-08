@@ -1,0 +1,31 @@
+.header
+  .row
+    %h1 Sign in
+
+.content
+  .row
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      .row
+        .small-4.columns
+          = f.label :email
+        .small-8.columns
+          = f.email_field :email, required: true, autofocus: true, class: 'right inline'
+
+      .row
+        .small-4.columns
+          = f.label :password
+        .small-8.columns
+          = f.password_field :password, required: true, autocomplete: 'off', class: 'right inline'
+
+      - if devise_mapping.rememberable?
+        .row
+          .small-8.small-offset-4.columns
+            = f.label :remember_me do
+              = f.check_box :remember_me
+              Remember me
+
+      .row
+        .small-8.small-offset-4.columns
+          = f.submit 'Sign in', class: 'button'
+
+  = render 'devise/shared/links'

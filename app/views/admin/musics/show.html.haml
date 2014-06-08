@@ -1,0 +1,27 @@
+.header
+  .row
+    %h1= @music.name
+
+.content
+  .row
+    %h2 Basics
+    %table
+      %thead
+        %tr
+          %th Difficulty
+          %th Level
+      %tbody
+        - Difficulty::DIFFICULTIES.each do |difficulty|
+          %tr
+            %td= difficulty.to_s
+            %td= @music.send("#{difficulty.to_s.downcase}_lv".to_sym)
+    %dl
+      %dt Added at
+      %dd= @music.added_at
+      %dt Version
+      %dd= @music.version.name
+
+  .row
+    = link_to 'Edit', edit_admin_music_path(@music)
+    |
+    = link_to 'Back', admin_musics_path

@@ -22,7 +22,7 @@ class Music < ActiveRecord::Base
 
       def #{var}=(val)
         if val
-          @#{var} = 
+          @#{var} =
             case val
             when Level
               val
@@ -49,4 +49,3 @@ class Music < ActiveRecord::Base
     RUBY
   end
 end
-
