@@ -55,8 +55,10 @@ class Admin::MusicsController < Admin::ApplicationController
   end
 
   def music_params
-    params.require(:music).permit(
+    x = params.require(:music).permit(
       :name, :basic_lv, :medium_lv, :hard_lv, :special_lv,
       :added_at, :version_id)
+    x[:special_lv] = nil if x[:special_lv].blank?
+    x
   end
 end
