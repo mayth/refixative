@@ -58,7 +58,7 @@ class Admin::MusicsController < Admin::ApplicationController
     x = params.require(:music).permit(
       :name, :basic_lv, :medium_lv, :hard_lv, :special_lv,
       :added_at, :version_id)
-    x[:special_lv] = nil if x[:special_lv].blank?
+    x.delete(:special_lv) if x[:special_lv].blank?
     x
   end
 end
