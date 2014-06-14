@@ -14,7 +14,7 @@
     %p.notice= t('.expiration_notice')
   .row
     = form_tag register_players_path do
-      = hidden_field_tag :register_token, @register_token
+      = hidden_field_tag 'register[token]', @register_token
       = submit_tag t('.confirm_button'), class: 'button'
 
   .row

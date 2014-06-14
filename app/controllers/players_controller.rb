@@ -37,7 +37,7 @@ class PlayersController < ApplicationController
 
   # POST register
   def register
-    stored_data = Rails.cache.read(register_params[:register_token])
+    stored_data = Rails.cache.read(register_params[:token])
     fail 'stored data matched the given register token is not found.' unless stored_data
     update_time = Time.now
     player = Player.update_profile(stored_data[:profile], update_time)
@@ -61,7 +61,7 @@ class PlayersController < ApplicationController
   end
 
   def register_params
-    params.permit(:register_token)
+    params.require(:register).permit(:token)
   end
 
   def set_player
