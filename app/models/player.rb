@@ -59,20 +59,7 @@ class Player < ActiveRecord::Base
         next if score[:scores][difficulty].nil? || score[:scores][difficulty][:achievement].nil?
         old_score = latest_score(music, difficulty)
         current_score = score[:scores][difficulty]
-        if old_score
-          if old_score.achievement < current_score[:achievement]
-            current_score[:is_achievement_updated] = :true
-            updates[old_score] = current_score
-          end
-          if current_score[:miss_count] < old_score.miss_count
-            current_score[:is_miss_count_updated] = :true
-            updates[old_score] = current_score
-          end
-        else
-          current_score[:is_achievement_updated] = :new_play
-          current_score[:is_miss_count_updated] = :new_play
-          new_plays << { music: music, difficulty: difficulty, score: current_score }
-        end
+        check_update(current_score, old_score, updates, new_plays)
       end
     end
     [updates, new_plays]
@@ -86,31 +73,11 @@ class Player < ActiveRecord::Base
       music_hash[:scores].each do |difficulty, new_score|
         next unless new_score[:achievement]
         current_score = latest_score(music, difficulty)
-        if current_score
-          if current_score.achievement < new_score[:achievement] || 
-             current_score.miss_count > new_score[:miss_count]
-            updated_score << scores.create(
-              music: music,
-              difficulty: difficulty,
-              achievement: [current_score.achievement, new_score[:achievement]].max,
-              miss_count: [current_score.miss_count, new_score[:miss_count]].min,
-              updated_at: updated_at,
-              created_at: updated_at
-            )
-          end
-        else
-          updated_score << scores.create(
-            music: music,
-            difficulty: difficulty,
-            achievement: new_score[:achievement],
-            miss_count: new_score[:miss_count],
-            updated_at: updated_at,
-            created_at: updated_at
-          )
-        end
+        updated_score << create_updated_score(
+          music, difficulty, current_score, new_score, updated_at)
       end
     end
-    retval
+    retval.compact
   ensure
     Score.record_timestamps = true
   end
@@ -157,5 +124,39 @@ class Player < ActiveRecord::Base
     pl
   ensure
     Player.record_timestamps = true if updated_at.present?
+  end
+
+  private
+
+  def create_updated_score(music, difficulty, current_score, new_score, updated_at)
+    return nil if
+      current_score.present? && !score_updated?(current_score, new_score)
+    achievement = [current_score.try(:achievement) || -Float::INFINITY, new_score[:achievement]].max
+    miss_count = [current_score.try(:miss_count) || Float::INFINITY, new_score[:miss_count]].min
+    scores.create(music: music, difficulty: difficulty,
+                  achievement: achievement, miss_count: miss_count,
+                  updated_at: updated_at, created_at: updated_at)
+  end
+
+  def check_update(current_score, old_score, updates, new_plays)
+    if old_score
+      if old_score.achievement < current_score[:achievement]
+        current_score[:is_achievement_updated] = :true
+        updates[old_score] = current_score
+      end
+      if current_score[:miss_count] < old_score.miss_count
+        current_score[:is_miss_count_updated] = :true
+        updates[old_score] = current_score
+      end
+    else
+      current_score[:is_achievement_updated] = :new_play
+      current_score[:is_miss_count_updated] = :new_play
+      new_plays << { music: music, difficulty: difficulty, score: current_score }
+    end
+  end
+
+  def score_updated?(current_score, new_score)
+    current_score.achievement < new_score[:achievement] ||
+      current_score.miss_count > new_score[:miss_count]
   end
 end
