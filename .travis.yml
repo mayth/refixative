@@ -7,9 +7,10 @@ addons:
   postgresql: "9.3"
 before_script:
   - cp config/database.travis.yml config/database.yml
+  - cp config/application.yml.sample config/application.yml
   - psql -c 'create database refxgroovin;' -U postgres
   - bundle exec rake db:reset
-script: 
+script:
   - bundle exec rake spec
 branches:
   only:
