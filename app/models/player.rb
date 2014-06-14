@@ -59,7 +59,10 @@ class Player < ActiveRecord::Base
         next if score[:scores][difficulty].nil? || score[:scores][difficulty][:achievement].nil?
         old_score = latest_score(music, difficulty)
         current_score = score[:scores][difficulty]
-        check_update(current_score, old_score, updates, new_plays)
+        check_update(
+          music, difficulty,
+          current_score, old_score,
+          updates, new_plays)
       end
     end
     [updates, new_plays]
@@ -106,7 +109,7 @@ class Player < ActiveRecord::Base
 
   def self.update_profile(profile, updated_at = nil)
     Player.record_timestamps = false if updated_at.present?
-    pl = Player.first_or_create(pid: profile[:pid]) do |player|
+    pl = Player.first_or_create(pid: profile[:id]) do |player|
       player.pid = profile[:id]
       player.name = profile[:name]
       player.pseudonym = profile[:pseudonym]
@@ -138,7 +141,7 @@ class Player < ActiveRecord::Base
                   updated_at: updated_at, created_at: updated_at)
   end
 
-  def check_update(current_score, old_score, updates, new_plays)
+  def check_update(music, difficulty, current_score, old_score, updates, new_plays)
     if old_score
       if old_score.achievement < current_score[:achievement]
         current_score[:is_achievement_updated] = :true
