@@ -2,12 +2,12 @@ class Music < ActiveRecord::Base
   has_many :scores, inverse_of: :music, dependent: :restrict_with_error
   belongs_to :version, inverse_of: :musics
   structure do
-    name        'ツキミチヌ', validates: :presence
-    basic_lv    2, validates: :presence
-    medium_lv   5, validates: :presence
-    hard_lv     8, validates: :presence
-    special_lv  :integer
-    added_at    Time.new(2011, 11, 16, 10, 0, 0, '+09:00')
+    name 'ツキミチヌ', validates: :presence
+    basic_lv 2, validates: :presence
+    medium_lv 5, validates: :presence
+    hard_lv 8, validates: :presence
+    special_lv :integer
+    added_at Time.new(2011, 11, 16, 10, 0, 0, '+09:00')
     timestamps
   end
 

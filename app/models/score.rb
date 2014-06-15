@@ -4,7 +4,7 @@ class Score < ActiveRecord::Base
   structure do
     difficulty :integer, Difficulty::MEDIUM, validates: :presence
     achievement 90.0, validates: [:presence, :numericality]
-    miss_count  3, validates: [
+    miss_count 3, validates: [
       :presence, numericality: { only_integer: true, greater_than_or_equal_to: 0 }]
     timestamps
   end

@@ -3,25 +3,25 @@ class Player < ActiveRecord::Base
   belongs_to :team, inverse_of: :players
 
   structure do
-    pid     'RB-1234-5678',
+    pid 'RB-1234-5678',
       validates: [
         :presence,
         :uniqueness,
         format: { with: /\ARB-\d{4}-\d{4}\z/ }
       ]
-    name    'ＰＬＡＹＥＲ', validates: :presence
+    name 'ＰＬＡＹＥＲ', validates: :presence
     pseudonym '期待の新鋭', validates: :presence
-    level     2, validates: [
+    level 2, validates: [
       :presence,
       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
     ]
-    grade      '師範代'
-    comment    '小傘ちゃんかわいい'
-    play_count  1, validates: [
+    grade '師範代'
+    comment '小傘ちゃんかわいい'
+    play_count 1, validates: [
       :presence,
       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
     ]
-    refle       1550, validates: [
+    refle 1550, validates: [
       :presence,
       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
     ]

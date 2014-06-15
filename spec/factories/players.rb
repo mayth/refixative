@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :player do
-    pid     'RB-1234-5678'
-    name    'ＰＬＡＹＥＲ'
+    pid 'RB-1234-5678'
+    name 'ＰＬＡＹＥＲ'
     pseudonym '期待の新鋭'
     level 2
     grade '師範代'
