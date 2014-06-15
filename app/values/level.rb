@@ -34,7 +34,7 @@ class Level
   end
 
   def eql?(other)
-    self.to_i == other.to_i
+    to_i == other.to_i
   end
 
   def hash
@@ -42,7 +42,7 @@ class Level
   end
 
   def <=>(other)
-    self.to_i <=> other.to_i
+    to_i <=> other.to_i
   end
 
   def easier_than?(other)

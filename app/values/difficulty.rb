@@ -43,7 +43,7 @@ class Difficulty
   end
 
   def <=>(other)
-    self.to_i <=> other.to_i
+    to_i <=> other.to_i
   end
 
   def hash
@@ -51,7 +51,7 @@ class Difficulty
   end
 
   def eql?(other)
-    self.to_s == other.to_s
+    to_s == other.to_s
   end
 
   module Constant

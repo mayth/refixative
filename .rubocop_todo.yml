@@ -50,11 +50,6 @@ ParameterLists:
 ParenthesesAsGroupedExpression:
   Enabled: false
 
-# Offense count: 4
-# Cop supports --auto-correct.
-RedundantSelf:
-  Enabled: false
-
 # Offense count: 25
 # Cop supports --auto-correct.
 SingleSpaceBeforeFirstArg:
