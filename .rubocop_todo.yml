@@ -28,11 +28,6 @@ Documentation:
   Enabled: false
 
 # Offense count: 1
-# Configuration parameters: MinBodyLength.
-GuardClause:
-  Enabled: false
-
-# Offense count: 1
 # Configuration parameters: MaxLineLength.
 IfUnlessModifier:
   Enabled: false

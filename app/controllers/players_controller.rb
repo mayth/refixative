@@ -65,11 +65,7 @@ class PlayersController < ApplicationController
   end
 
   def set_player
-    @player = Player.find_by(id: params[:id])
-    # find with PlayerID ('RB-XXXX-XXXX')
-    unless @player
-      @player = Player.find_by(pid: params[:id].upcase)
-      fail ActiveRecord::RecordNotFound unless @player
-    end
+    @player = Player.find_by(id: params[:id]) || Player.find_by(pid: params[:id].upcase)
+    fail ActiveRecord::RecordNotFound unless @player
   end
 end
