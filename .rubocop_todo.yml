@@ -50,12 +50,6 @@ ParameterLists:
 ParenthesesAsGroupedExpression:
   Enabled: false
 
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-TrailingBlankLines:
-  Enabled: false
-
 # Offense count: 6
 # Cop supports --auto-correct.
 TrailingWhitespace:

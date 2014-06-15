@@ -6,4 +6,3 @@ class Version < ActiveRecord::Base
     timestamps
   end
 end
-

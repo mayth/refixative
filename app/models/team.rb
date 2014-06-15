@@ -5,4 +5,3 @@ class Team < ActiveRecord::Base
     timestamps
   end
 end
-

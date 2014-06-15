@@ -40,4 +40,3 @@ class Score < ActiveRecord::Base
     @difficulty
   end
 end
-
