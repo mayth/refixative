@@ -100,7 +100,7 @@ module Parser
 end # end module
 
 # rubocop:disable Output
-if __FILE__ == $0
+if __FILE__ == $PROGRAM_NAME
   parser = Parser::Colette.new
   prof = nil
   open(ARGV[0], 'r:shift_jis') do |f|
