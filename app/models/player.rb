@@ -109,8 +109,7 @@ class Player < ActiveRecord::Base
 
   def self.update_profile(profile, updated_at = nil)
     Player.record_timestamps = false if updated_at.present?
-    pl = Player.first_or_create(pid: profile[:id]) do |player|
-      player.pid = profile[:id]
+    pl = Player.find_or_create_by(pid: profile[:id]) do |player|
       player.name = profile[:name]
       player.pseudonym = profile[:pseudonym]
       player.level = profile[:level]
