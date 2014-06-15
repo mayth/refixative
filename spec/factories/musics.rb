@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :music do
-    sequence (:name) {|n| "music #{n}" }
+    sequence (:name) { |n| "music #{n}" }
     basic_lv Level.new(2)
     medium_lv Level.new(5)
     hard_lv Level.new(8)

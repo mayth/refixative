@@ -98,7 +98,7 @@ class Player < ActiveRecord::Base
   def latest_scores(compaction = false)
     Music.all.each_with_object({}) do |music, result|
       current_scores = latest_score(music)
-      current_scores.reject! {|difficulty, score| score.nil? } if compaction
+      current_scores.reject! { |difficulty, score| score.nil? } if compaction
       result[music] = current_scores
     end
   end

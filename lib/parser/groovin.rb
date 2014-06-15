@@ -6,11 +6,11 @@ module Parser
   class Groovin
     # html: String, or File
     def parse_profile(html)
-      _parse_profile(Nokogiri::HTML(html) {|config| config.nonet })
+      _parse_profile(Nokogiri::HTML(html) { |config| config.nonet })
     end
 
     def parse_music(html)
-      _parse_music(Nokogiri::HTML(html) {|config| config.nonet })
+      _parse_music(Nokogiri::HTML(html) { |config| config.nonet })
     end
 
     private

@@ -6,11 +6,11 @@ module Parser
   class Colette
     # html: String, or File
     def parse_profile(html)
-      _parse_profile(Nokogiri::HTML(html) {|config| config.nonet })
+      _parse_profile(Nokogiri::HTML(html) { |config| config.nonet })
     end
 
     def parse_song(html)
-      _parse_song(Nokogiri::HTML(html) {|config| config.nonet })
+      _parse_song(Nokogiri::HTML(html) { |config| config.nonet })
     end
 
     private

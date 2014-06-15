@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Difficulty do
   describe '::DIFFICULTIES' do
     it 'contains String' do
-      expect(Difficulty::DIFFICULTIES.all? {|x| x.instance_of?(Difficulty)}).to be_true
+      expect(Difficulty::DIFFICULTIES.all? { |x| x.instance_of?(Difficulty) }).to be_true
     end
 
     it 'is frozen' do

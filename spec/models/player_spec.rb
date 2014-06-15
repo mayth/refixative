@@ -251,7 +251,7 @@ describe Player do
         end
 
         it 'returns a hash whose player records are empty' do
-          expect(subject.values.all? {|s| s.values.all?(&:nil?)}).to be_true
+          expect(subject.values.all? { |s| s.values.all?(&:nil?) }).to be_true
         end
       end
     end
@@ -306,7 +306,7 @@ describe Player do
         end
 
         it 'returns a hash whose values are empty' do
-          expect(subject.all? {|k, v| v.empty?}).to be_true
+          expect(subject.all? { |k, v| v.empty? }).to be_true
         end
       end
     end
