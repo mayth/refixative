@@ -49,8 +49,3 @@ ParameterLists:
 # Offense count: 1
 ParenthesesAsGroupedExpression:
   Enabled: false
-
-# Offense count: 2
-# Cop supports --auto-correct.
-UnusedBlockArgument:
-  Enabled: false

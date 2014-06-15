@@ -306,7 +306,7 @@ describe Player do
         end
 
         it 'returns a hash whose values are empty' do
-          expect(subject.all? { |k, v| v.empty? }).to be_true
+          expect(subject.all? { |_, v| v.empty? }).to be_true
         end
       end
     end
