@@ -11,7 +11,7 @@ class Difficulty
 
   def initialize(str)
     fail ArgumentError, 'nil is not accepted' unless str
-    v = 
+    v =
       case str
       when String
         str.upcase

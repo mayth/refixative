@@ -19,7 +19,7 @@ class Score < ActiveRecord::Base
   end
 
   def difficulty=(val)
-    @difficulty = 
+    @difficulty =
       case val
       when Difficulty
         val

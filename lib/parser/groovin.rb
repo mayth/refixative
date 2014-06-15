@@ -66,7 +66,7 @@ module Parser
             else
               values_node.at_css('.fch').text.strip.to_i
             end
-          rating = 
+          rating =
             case achieve
             when 0...50  then 0 # C
             when 50...70 then 1 # B
@@ -95,7 +95,7 @@ module Parser
         .gsub(/−/, '—')  # full-width hyphen -> full-width dash
         .gsub(/—+/, '—')  # continuous full-width dash -> single full-width dash
         .gsub(/[\uff5e]/, "\u301c")  # full-width tilde -> full-width wave dash
-        .gsub(/[\u2012\u2013\u2015\u2212\uff0d]/, "\u2014")  # hyphen and dashes 
+        .gsub(/[\u2012\u2013\u2015\u2212\uff0d]/, "\u2014")  # hyphen and dashes
         .strip
   end
 end # end module
