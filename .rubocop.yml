@@ -3,10 +3,14 @@ AllCops:
     - Rakefile
     - config.ru
   Exclude:
-    - db/**
-    - config/**
-    - bin/**
-    - vendor/bundle/**
+    - db/**/*
+    - config/**/*
+    - bin/**/*
+    - vendor/bundle/**/*
   RunRailsCops: true
 
-# inherit_from: rubocop-todo.yml
+inherit_from: .rubocop_todo.yml
+
+AlignParameters:
+  Enabled: true
+  EnforcedStyle: with_fixed_indentation
