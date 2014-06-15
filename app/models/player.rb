@@ -12,23 +12,23 @@ class Player < ActiveRecord::Base
     name    'ＰＬＡＹＥＲ', validates: :presence
     pseudonym '期待の新鋭', validates: :presence
     level     2, validates: [
-        :presence,
-        numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-      ]
+      :presence,
+      numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+    ]
     grade      '師範代'
     comment    '小傘ちゃんかわいい'
     play_count  1, validates: [
-        :presence,
-        numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-      ]
+      :presence,
+      numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+    ]
     refle       1550, validates: [
-        :presence,
-        numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-      ]
+      :presence,
+      numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+    ]
     total_point 6670, validates: [
-        :presence,
-        numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-      ]
+      :presence,
+      numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+    ]
     last_play_datetime Time.now
     last_play_place 'ジャムジャムつくば店'
 

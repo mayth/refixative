@@ -29,11 +29,6 @@ Documentation:
 
 # Offense count: 4
 # Cop supports --auto-correct.
-IndentArray:
-  Enabled: false
-
-# Offense count: 4
-# Cop supports --auto-correct.
 LeadingCommentSpace:
   Enabled: false
 
