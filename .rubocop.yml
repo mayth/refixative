@@ -12,5 +12,7 @@ AllCops:
 inherit_from: .rubocop_todo.yml
 
 AlignParameters:
-  Enabled: true
   EnforcedStyle: with_fixed_indentation
+
+ClassAndModuleChildren:
+  EnforcedStyle: compact

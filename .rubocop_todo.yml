@@ -14,11 +14,6 @@ AsciiComments:
 AssignmentInCondition:
   Enabled: false
 
-# Offense count: 4
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-ClassAndModuleChildren:
-  Enabled: false
-
 # Offense count: 1
 # Configuration parameters: CountComments.
 ClassLength:
