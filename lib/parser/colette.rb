@@ -99,6 +99,7 @@ module Parser
   end
 end # end module
 
+# rubocop:disable Output
 if __FILE__ == $0
   parser = Parser::Colette.new
   prof = nil

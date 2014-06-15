@@ -41,10 +41,6 @@ LineLength:
 MethodLength:
   Max: 32
 
-# Offense count: 4
-Output:
-  Enabled: false
-
 # Offense count: 1
 # Configuration parameters: CountKeywordArgs.
 ParameterLists:
