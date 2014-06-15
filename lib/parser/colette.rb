@@ -39,7 +39,7 @@ module Parser
     end
 
     def _parse_song(doc)
-      songs = Array.new
+      songs = []
       doc.css('#music_table1 tbody tr').each do |row|
         next unless row.css('th').empty?
         scores = get_scores(row)

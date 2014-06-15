@@ -27,11 +27,6 @@ CyclomaticComplexity:
 Documentation:
   Enabled: false
 
-# Offense count: 2
-# Cop supports --auto-correct.
-EmptyLiteral:
-  Enabled: false
-
 # Offense count: 1
 # Configuration parameters: MinBodyLength.
 GuardClause:

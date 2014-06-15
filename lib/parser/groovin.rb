@@ -43,7 +43,7 @@ module Parser
     end
 
     def _parse_music(doc)
-      musics = Array.new
+      musics = []
       doc.css('#music_table1 tbody td').each_slice(5) do |cols|
         scores = get_scores(cols)
         musics << {
