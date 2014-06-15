@@ -27,11 +27,6 @@ CyclomaticComplexity:
 Documentation:
   Enabled: false
 
-# Offense count: 1
-# Configuration parameters: MaxLineLength.
-IfUnlessModifier:
-  Enabled: false
-
 # Offense count: 4
 # Cop supports --auto-correct.
 IndentArray:
