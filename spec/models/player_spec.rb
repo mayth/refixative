@@ -15,14 +15,14 @@ describe Player do
     end
 
     context 'if there is an update for achievement rate' do
-      let(:score_data) {
+      let(:score_data) do
         [{
           name: @music.name,
           scores: {
             Difficulty::MEDIUM => { achievement: 90.0, miss_count: 3 }
           }
         }]
-      }
+      end
 
       it 'marks as "updated"' do
         expect { player.check_updates(score_data) }
@@ -32,14 +32,14 @@ describe Player do
     end
 
     context 'if there is an update for miss count' do
-      let(:score_data) {
+      let(:score_data) do
         [{
           name: @music.name,
           scores: {
             Difficulty::MEDIUM => { achievement: 80.0, miss_count: 1 }
           }
         }]
-      }
+      end
 
       it 'marks as "updated"' do
         expect { player.check_updates(score_data) }
@@ -49,14 +49,14 @@ describe Player do
     end
 
     context 'if there are updates for achievement rate and miss count' do
-      let(:score_data) {
+      let(:score_data) do
         [{
           name: @music.name,
           scores: {
             Difficulty::MEDIUM => { achievement: 90.0, miss_count: 1 }
           }
         }]
-      }
+      end
 
       it 'marks as "updated" for achievement rate' do
         expect { player.check_updates(score_data) }

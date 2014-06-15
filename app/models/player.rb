@@ -91,9 +91,7 @@ class Player < ActiveRecord::Base
         .order(created_at: :desc)
         .find_by(music: music, difficulty: difficulty.to_i)
     else
-      Difficulty::DIFFICULTIES.map {|d|
-        [d, latest_score(music, d)]
-      }.to_h
+      Difficulty::DIFFICULTIES.map { |d| [d, latest_score(music, d)] }.to_h
     end
   end
 

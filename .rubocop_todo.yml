@@ -15,11 +15,6 @@ AssignmentInCondition:
   Enabled: false
 
 # Offense count: 4
-# Cop supports --auto-correct.
-Blocks:
-  Enabled: false
-
-# Offense count: 4
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 ClassAndModuleChildren:
   Enabled: false
