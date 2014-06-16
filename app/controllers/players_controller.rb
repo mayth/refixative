@@ -1,5 +1,6 @@
 class PlayersController < ApplicationController
   require 'securerandom'
+  require 'parser/groovin'
 
   before_action :set_player, only: [:show]
 
@@ -9,7 +10,7 @@ class PlayersController < ApplicationController
 
   # POST upload
   def parse
-    parser = Parser::Groovin.new
+    parser = ::GroovinParser.new
     profile = parser.parse_profile(upload_params[:profile].read)
     musics = upload_params[:musics].map do |x|
       parser.parse_music(x.read)
