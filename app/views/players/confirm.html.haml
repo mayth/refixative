@@ -91,7 +91,7 @@
                       #{old.achievement}% -> #{new[:achievement]}%
                       (+#{(new[:achievement] - old.achievement).round(1)}%)
                   - else
-                    %td old.achievement
+                    %td #{old.achievement}%
                   - if old.miss_count != new[:miss_count]
                     %td.updated
                       #{old.miss_count} -> #{new[:miss_count]}
