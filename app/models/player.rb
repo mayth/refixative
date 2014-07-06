@@ -105,21 +105,21 @@ class Player < ActiveRecord::Base
 
   def self.update_profile(profile, updated_at = nil)
     Player.record_timestamps = false if updated_at.present?
-    pl = Player.find_or_create_by(pid: profile[:id]) do |player|
-      player.name = profile[:name]
-      player.pseudonym = profile[:pseudonym]
-      player.level = profile[:level]
-      player.grade = profile[:grade]
-      player.comment = profile[:comment]
-      player.play_count = profile[:play_count]
-      player.refle = profile[:refle]
-      player.total_point = profile[:total_point]
-      player.last_play_place = profile[:last_play_place]
-      player.last_play_datetime = profile[:last_play_datetime]
-      player.created_at ||= updated_at
-      player.updated_at = updated_at if updated_at.present?
-    end
-    pl
+    player = Player.find_by(pid: profile[:id]) || Player.create(pid: profile[:id])
+    player.name = profile[:name]
+    player.pseudonym = profile[:pseudonym]
+    player.level = profile[:level]
+    player.grade = profile[:grade]
+    player.comment = profile[:comment]
+    player.play_count = profile[:play_count]
+    player.refle = profile[:refle]
+    player.total_point = profile[:total_point]
+    player.last_play_place = profile[:last_play_place]
+    player.last_play_datetime = profile[:last_play_datetime]
+    player.created_at ||= updated_at
+    player.updated_at = updated_at if updated_at.present?
+    player.save
+    player
   ensure
     Player.record_timestamps = true if updated_at.present?
   end
